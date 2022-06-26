@@ -1,0 +1,139 @@
+.break1 {
+    clear: both;
+    height: 110px;
+}
+
+.break2 {
+    clear: both;
+    height: 10px;
+}
+
+.break3 {
+    clear: both;
+    height: 2px;
+}
+
+.outer-cont {
+    display: flex;
+    min-height: 76.5vh;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.footer {
+    margin-top: auto;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    align-content: center;
+    flex-wrap: wrap;
+}
+
+.order-history-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 250px;
+    min-height: 180px;
+    margin: 0px 50px 30px 30px;
+    padding-bottom: 10px;
+}
+
+.list-proper {
+    list-style: none;
+    font-family: poppinsmedium;
+    font-size: 18px;
+    line-height: 35px;
+    margin-left: 35px;
+    margin-top: 0px;
+}
+
+.order-history-nav { 
+    margin: 10px 10px 10px 0px;
+    padding-left: 15px;
+    padding-right: 15px;
+    color: black;
+    text-decoration: none;
+}
+
+.order-history-nav:hover {
+    cursor: pointer;
+    background-color: #C93020;
+    border-radius: 10px;
+    color: white;
+}
+
+.details-content {
+    min-width: 50%;
+    min-height: 250px;
+    padding: 10px 30px 30px 30px;
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0px 4px 4px 5px rgb(0,0,0,0.25);
+    margin: 0px 50px 30px 30px;
+}
+
+.det-header {
+    min-width: 60%;
+    height: 48px;
+    margin-left: 20px;
+    font-family: poppinsbold;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 48px;
+    color: black;
+}
+
+#order-header {
+    min-width: 50%;
+    height: 48px;
+    font-family: poppinsbold;
+    font-size: 30px;
+    margin-top: 15px;
+    line-height: 40px;
+    color: black;
+    white-space: nowrap;
+}
+
+.order-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    align-content: center;
+    flex-wrap: wrap;
+    margin: 5px;
+}
+
+.order-proper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.order-text {
+    font-family: intermedium;
+    font-size: 20px;
+}
+
+.delivery-details {
+    font-size: 14px;
+    margin: 5px;
+}
+
+.inclusions {
+    font-size: 16px;
+    padding-left: 35px;
+}
+
+.total-price {
+    font-family: interbold;
+    font-size: 23px;
+}
+
+.line-break {
+    border: 1px solid black;
+    background-color: black;
+}

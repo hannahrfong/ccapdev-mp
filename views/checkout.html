@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>The Hungry Sibs</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="navbar2.css">    
+  <link rel="stylesheet" href="font.css">
+  <link rel="stylesheet" href="footer.css">
+  <link rel="stylesheet" href="bag.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js" type="text/javascript"></script>
+  <script src="bag.js"></script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <style>
+      .btn:active, .btn:focus  {
+        outline: none;
+        box-shadow: none;
+      }
+
+    .form-check-label  {
+      font-size: larger;
+    }
+
+    .card-title {
+      font-size: x-large;
+    }
+
+    #placeorder {
+      width: 15rem;
+      font-size: 20px;
+      border: 1px #888888; 
+      box-shadow: 1px 1px 1px 1px #888888;
+    }
+
+    #ordersummary   {
+        width: 17.3rem; 
+        height: 21.5rem; 
+        border: 7px solid #F8C922; 
+        border-radius: 25px; 
+        background-color: white;
+        box-shadow: 1px 1px 2px 2px #888888;
+    }
+    
+    .form-control   {
+        background-color: #ECECEC;
+    }
+   
+    #orders {
+        border-top: 3px solid black;
+        border-bottom: 3px solid black;
+        min-height: 9rem;
+    }
+  </style>
+</head>
+
+<body>
+    <nav class="navbar2">
+        <ul class="left">
+            <li class="left-list-item containter-icon">
+                <a class="icon" href="index.html"><img class="primary-icon" src="images/logo.png"></a>
+            </li>
+            <li class="left-list-item">
+                <div id="searchbar">
+                    <input type="text" placeholder="Search for your favorite dish">
+                    <img src="images/search.png" id="searchicon" width="18" height="18">
+                </div>
+            </li>
+        </ul>
+    
+        <ul class="right" id="right">
+            <div class="right-text-container" id="right-text-container">
+                <li class="right-list-item text">
+                    <a class="text" href="menu.html">Menu</a>
+                </li>
+                <li class="right-list-item text">
+                    <a class="text" href="orderhistory.html">Orders</a>
+                </li>
+                <li class="right-list-item text">
+                    <a class="text" href="about.html">About</a>
+                </li>
+                <li class="right-list-item text">
+                    <a class="text" href="contact.html">Contact</a>
+                </li>
+                <li class="right-list-item text">
+                    <a class="text" href="profile.html">My Account</a>
+                </li>
+            </div>
+            <div class="right-list-item bag-icon">
+                <div class="icon bag" id="bag-icon"><img class="primary-icon" src="images/bag.png"></div>
+            </div>
+        </ul>
+    
+        <div class="menu" id="toggle-button">
+            <div class="menu-line"></div>
+            <div class="menu-line"></div>
+            <div class="menu-line"></div>
+        </div>
+    </nav>
+
+    <div class="bag-container hide" id="bag-container">
+        <div class="bag-item-container">
+            <div class="header">My Bag</div>
+            <div class="list-container">
+                <div class="order-container 1">
+                    <div class="quantity-container">
+                        <button class="minus"><img src="images/minus.png" width="18" height="18"></button>
+                        <div class="quantity">1</div>
+                        <button class="plus"><img src="images/plus.png" width="18" height="18"></button>
+                    </div>
+
+                    <div class="detail-container">
+                        <div class="product-name">Party Combo (Medium)</div>
+                        <div class="product-inclusion">x1 Premium Medium Lasagna</div>
+                        <div class="product-inclusion">x12 Garlic Parmesan Wings</div>
+                        <div class="product-inclusion">x6 Garlic Bread</div>
+                        <div class="product-inclusion">x4 Houseblend Iced Tea</div>
+                        <a href="AddToBag.html" class="edit">Edit</a> | 
+                        <button class="delete 1">Delete</button>
+                    </div>
+
+                    <div class="price-container">
+                        ₱ 1495.00 
+                    </div>
+                </div>
+
+                <div class="order-container 2">
+                    <div class="quantity-container">
+                        <button class="minus"><img src="images/minus.png" width="18" height="18"></button>
+                        <div class="quantity">1</div>
+                        <button class="plus"><img src="images/plus.png" width="18" height="18"></button>
+                    </div>
+
+                    <div class="detail-container">
+                        <div class="product-name">Cheesy Bacon Baked Potatoes (Large)</div>
+                        <div class="product-inclusion">x1 Extra Bacon</div>
+                        <div class="product-inclusion">x1 Extra Cheese</div>
+                        <a href="AddToBag.html" class="edit">Edit</a> | 
+                        <button class="delete 2">Delete</button>
+                    </div>
+
+                    <div class="price-container">
+                        ₱ 1340.00 
+                    </div>
+                </div>
+
+                <div class="order-container 3">
+                    <div class="quantity-container">
+                        <button class="minus"><img src="images/minus.png" width="18" height="18"></button>
+                        <div class="quantity">2</div>
+                        <button class="plus"><img src="images/plus.png" width="18" height="18"></button>
+                    </div>
+
+                    <div class="detail-container">
+                        <div class="product-name">Belgian Chocolate Cake</div>
+                        <div class="product-inclusion"></div>
+                        <a href="AddToBag.html" class="edit">Edit</a> | 
+                        <button class="delete 3">Delete</button>
+                    </div>
+
+                    <div class="price-container">
+                        ₱ 1390.00 
+                    </div>
+                </div>
+
+                <div class="order-container 4">
+                    <div class="quantity-container">
+                        <button class="minus"><img src="images/minus.png" width="18" height="18"></button>
+                        <div class="quantity">1</div>
+                        <button class="plus"><img src="images/plus.png" width="18" height="18"></button>
+                    </div>
+
+                    <div class="detail-container">
+                        <div class="product-name">Chocolate Crinkles (10 pcs.)</div>
+                        <div class="product-inclusion"></div>
+                        <a href="AddToBag.html" class="edit">Edit</a> | 
+                        <button class="delete 4">Delete</button>
+                    </div>
+
+                    <div class="price-container">
+                        ₱ 250.00 
+                    </div>
+                </div>
+
+                <div class="order-container 5">
+                    <div class="quantity-container">
+                        <button class="minus"><img src="images/minus.png" width="18" height="18"></button>
+                        <div class="quantity">3</div>
+                        <button class="plus"><img src="images/plus.png" width="18" height="18"></button>
+                    </div>
+
+                    <div class="detail-container">
+                        <div class="product-name">Calamnsi Juice</div>
+                        <div class="product-inclusion"></div>
+                        <a href="AddToBag.html" class="edit">Edit</a> | 
+                        <button class="delete 5">Delete</button>
+                    </div>
+
+                    <div class="price-container">
+                        ₱ 180.00 
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="payment-container">
+            <div class="subtotal-container">
+                <div class="sub">Subtotal</div>
+                <div class="sub">₱ 4225.00</div>
+            </div>
+
+            <div class="delivery-fee-container">
+                <div class="sub">Delivery Fee</div>
+                <div class="sub">₱ 50.00</div>
+            </div>
+
+            <div class="total-container">
+                <div class="main">Total</div>
+                <div class="main">₱ 4275.00</div>
+            </div>
+
+            <div class="checkout-button"><a href="checkout.html">Proceed to Checkout</a></div>
+        </div>
+    </div>
+
+    <div class="break"></div>
+
+    <div class="container overflow-hidden"> 
+        <form class="row justify-content-center mb-5" action="Confirmation.html">
+
+            <div class="col-sm-auto col-md-auto col-lg-6" >
+                <div class="card mt-5 ms-4 border-dark" style="border: 1px #888888; border-radius: 25px; box-shadow: 2px 2px 2px 2px #888888; background-color: white">
+                    <div class="card-body mx-4 my-4">
+                        
+                        <h5 class="card-title fw-bold mb-3">Contact Details</h5>
+                        <div class="row g-2">
+                            <div class="col-md me-4">
+                              <div class="form-floating">
+                                   <input type="text" class="form-control" id="floatingInputGrid1" placeholder="firstNameEx" value="Ibrahim" required>
+                                   <label for="floatingInputGrid1">First Name</label>
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="floatingInputGrid2" placeholder="lastNameEx" value="Kahil" required>
+                                    <label for="floatingInputGrid2">Last Name</label>
+                                </div>
+                            </div>
+                        </div>    
+
+                        <div class="row g-2">
+                            <div class="col-md mt-5">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="floatingInputGrid3" placeholder="MobileNoEx" value="09274877316" required>
+                                    <label for="floatingInputGrid3">Mobile Number</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-2">
+                            <div class="col-md mt-5">
+                                <div class="form-floating">
+                                    <input type="email" class="form-control" id="floatingInputGrid4" placeholder="EmailEx" value="ibrahimdkahil@gmail.com" required>
+                                    <label for="floatingInputGrid4">Email Address</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mt-5 ms-4 border-dark" style="border: 1px #888888; border-radius: 25px; box-shadow: 2px 2px 2px 2px #888888; background-color: white">
+                    <div class="card-body mx-4 my-4">
+                        
+                        <h5 class="card-title fw-bold mb-3">Delivery Address</h5>
+                        <div class="row g-2">
+                            <div class="col-md">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="floatingInputGrid5" placeholder="AddressEx" value="17-2 Sandico St." required>
+                                    <label for="floatingInputGrid5">Address (Floor, Unit No., Street, Barangay</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-2 mt-4 mb-4">
+                            <div class="col-md me-4">
+                              <div class="form-floating">
+                                   <input type="text" class="form-control" id="floatingInputGrid6" placeholder="CityEx" value="Angeles City" required>
+                                   <label for="floatingInputGrid6">City</label>
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="floatingInputGrid7" placeholder="ProvinceEx" value="Pampanga" required>
+                                    <label for="floatingInputGrid7">Province</label>
+                                </div>
+                            </div>
+                        </div> 
+
+                        <div class="row g-2 mt-5">
+                            <div class="col-md">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="floatingInputGrid8" placeholder="NotesEx" value="">
+                                    <label for="floatingInputGrid8">Special Requests / Notes to Rider</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                
+                <div class="card mt-5 ms-4 border-dark" style="border: 1px #888888; border-radius: 25px; box-shadow: 2px 2px 2px 2px #888888; background-color: white">
+                    <div class="card-body mx-4 my-4">
+                        
+                        <h5 class="card-title fw-bold mb-3">Discounts</h5>
+                        <div class="row g-2 mt-3">
+                            <div class="col-md">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="floatingInputGrid9" placeholder="SCIDEx" value="">
+                                    <label for="floatingInputGrid9">Senior Citizen ID</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-2 mt-3">
+                            <div class="col-md">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="floatingInputGrid10" placeholder="PWDIDEx" value="">
+                                    <label for="floatingInputGrid10">PWD ID</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="card mt-5 ms-4 border-dark" style="border: 1px #888888; border-radius: 25px; box-shadow: 2px 2px 2px 2px #888888; background-color: white">
+                    <div class="card-body mx-4 my-4 mb-4">
+                        
+                        <h5 class="card-title fw-bold mb-3">Payment Method</h5>
+                        
+                        <div class="row g-2">
+                            <div class="col-md">
+                                <div class="form-check mt-3">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                                    <label class="form-check-label" for="flexRadioDefault2">
+                                    Cash on Delivery
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <div class="form-floating">
+                                    <input type="number" class="form-control" id="floatingInputGrid11" placeholder="AmountEx" value="">
+                                    <label for="floatingInputGrid11">Change for</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-2 mt-4">
+                            <div class="col-md">
+                                <div class="form-check mt-3">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                                    <label class="form-check-label" for="flexRadioDefault2">
+                                    Credit Card
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <div class="form-floating">
+                                    <input type="number" class="form-control" id="floatingInputGrid11" placeholder="AmountEx" value="">
+                                    <label for="floatingInputGrid11">Card No</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-sm-auto col-md-auto col-lg-3" >
+                <div class="card mt-5 ms-3" id="ordersummary">
+                    
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col ">
+                                <h5 class="card-title fw-bold text-center">Order Summary</h5>
+                            </div>
+                        </div>
+                        <div class="row mx-1 my-2" id="orders">
+                            <div class="col-8 my-2 text-start">
+                                <p>x1 Twister Fries with Dip</p>
+                            </div>
+                            <div class="col-4 my-2 text-end">
+                                <p>₱180</p>
+                                
+                            </div>
+                        </div>
+
+                        <div class="row mx-1 mt-3" style=" height: 2rem;">
+                            <div class="col text-start">
+                                <p>Subtotal</p>
+                            </div>
+                            <div class="col text-end">
+                                <p>₱180</p>
+                                
+                            </div>
+                        </div>
+
+                        <div class="row mx-1" style=" height: 2rem;">
+                            <div class="col text-start">
+                                <p>Delivery Fee</p>
+                            </div>
+                            <div class="col text-end">
+                                <p>₱50</p>
+                                
+                            </div>
+                        </div>
+
+                        <div class="row mx-1">
+                            <div class="col">
+                                <h4 class="text-start fw-bold">Total</h4>
+                            </div>
+                            <div class="col">
+                                <h4 class="text-end fw-bold">₱230</h4>
+                                
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row mt-4" style="width: 21rem;">
+                    <div class="col text-center">
+                        <input href="confirmation.html" type="submit" value="Place Order" class="btn btn-danger mt-1 mb-2 fw-bold rounded-pill" id="placeorder"></input>
+                    </div>
+                </div>
+                
+            </div>
+        </form>
+    </div>
+
+    <div class="footer">
+        <div class="tabs-container">
+            <a href="menu.html" class="tab">Menu</a>
+            <a href="orderhistory.html" class="tab">Orders</a>
+            <a href="about.html" class="tab">About</a>
+            <a href="contact.html" class="tab">Contact</a>
+        </div>
+    
+        <a href="index.html" class="logo"><img src="images/logo.png" width="60" height="60"></a>
+    
+        <div class="follow-us-container">
+            <div class="label">Follow us for updates:</div>
+            <div class="socmed-icon-container">
+                <a href="https://www.facebook.com/TheHungrySibs" class="socmed-icon"><img src="images/fb-w.png" width="40" height="40"></a>
+                <a href="https://www.instagram.com/thehungrysibsph/" class="socmed-icon"><img src="images/instagram-w.png" width="40" height="40"></a>
+                <a href="https://twitter.com/thehungrysibs" class="socmed-icon"><img src="images/twitter-w.png" width="40" height="40"></a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const toggleButton = document.getElementById("toggle-button");
+        const naviList = document.getElementById("right-text-container");
+        
+        toggleButton.addEventListener("click", ()=>{
+            naviList.classList.toggle("active");
+        })
+    </script> 
+    
+    <script>
+      const icon = document.getElementById("bag-icon");
+      const  bag = document.getElementById("bag-container");
+        
+      icon.addEventListener("click", ()=>{
+           bag.classList.toggle("hide");
+      })
+    </script>
+    
+    <script>
+            let slideIndex = 1;
+            showSlides(slideIndex);
+    
+            function plusSlides(n){
+                showSlides(slideIndex += n);
+            }
+    
+            function currentSlide(n){
+                showSlides(slideIndex = n);
+            }
+    
+            function showSlides(n){
+                let i;
+                let slides = document.getElementsByClassName("slide");
+                
+                if (n > slides.length){slideIndex = 1}
+    
+                if (n < 1){slideIndex = slides.length}
+    
+                 for (i=0; i < slides.length; i++){
+                     slides[i].style.display="none";
+                 }
+    
+                slides[slideIndex-1].style.display = "block";
+            }
+    </script>
+  
+
+</body>
+</html>

@@ -1,0 +1,136 @@
+.contact-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title{
+    position: relative;
+    margin-top: 54px;
+    margin-bottom: -70px;
+}
+
+.body-container{
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
+    z-index: 1;
+}
+
+.contact-container .left{
+    display: flex;
+    flex-direction: column;
+    padding: 60px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0px 4px 5px rgb(165, 165, 165);
+    width: 60%;
+}
+
+.contact-container .right{
+    display: flex;
+    flex-direction: column;
+    padding: 60px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0px 4px 5px rgb(165, 165, 165);
+    width: 37%;
+    height: fit-content;
+}
+
+.contact-container .left .statement, .contact-container .right .header{
+    font-family: poppinsbold;
+    font-size: 25px;
+    color: #c93020;
+    margin-bottom: 20px;
+}
+
+.contact-container .label{
+    font-family: poppins;
+    font-size: 20px;
+    color: black;
+    margin-bottom: 2px;
+}
+
+.contact-container input{
+    margin-bottom: 15px;
+    height: 25px;
+    width: 100%;
+    border-radius: 5px;;
+    border: 1px solid lightgray;
+    padding: 20px 10px;
+}
+
+.contact-container textarea{
+    margin-bottom: 44px;
+    width: 100%;
+    border-radius: 5px;;
+    border: 1px solid lightgray;
+    padding: 10px 10px;
+    resize: vertical;
+    min-height: 100px;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.contact-container ::placeholder{
+    font-family: poppins;
+}
+
+.contact-container .left .fields-container{
+    width: 100%;
+}
+
+.contact-container button{
+    width: 180px;
+    height: 40px;
+    font-family: worksansbold;
+    font-size: 20px;
+    background-color:#C93020;
+    color: white;
+    border-radius: 35px;
+    border: 1px solid rgba(0, 0, 0, 0.596);
+}
+
+.contact-container button:hover{
+    background-color:#aa291b;
+    cursor:pointer;
+}
+
+.contact-details-container{
+    width: 100%;
+}
+
+.contact-container .follow-us-container{
+    width: 100%;
+}
+
+.contact-container .right .content-container{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 25px;
+}
+
+.contact-container .right .content{
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.contact-container .content .text
+{
+    font-family: poppins;
+    font-size: 15px;
+    color: black;
+    text-decoration: none;
+    margin-left: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.contact-container .content .no-space{
+    word-break: break-word;
+}
+
+.contact-container a{
+    text-decoration: none;
+}

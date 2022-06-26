@@ -1,0 +1,50 @@
+.footer{
+    position: relative;
+    top: 70px;
+    bottom: 0px;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: #c93020;
+    height: fit-content;
+}
+
+.logo{
+    margin: 6px;
+}
+
+.footer .follow-us-container{
+    display: flex;
+    width: 280px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer .socmed-icon-container{
+    display: flex;   
+}
+
+.footer .socmed-icon-container .socmed-icon
+{
+    margin: 0px 5px;
+}
+
+.footer .tabs-container a{
+    font-size: 20px;
+    font-family: bernier;
+    color: white;
+    text-decoration: none;
+    padding: 16px;
+}
+
+.footer .socmed-icon-container .socmed-icon:hover{
+    cursor: pointer;
+}
+
+.footer .follow-us-container .label{
+    font-family: poppinsbold;
+    font-size: 15px;
+    width: 100px;
+    color: white;
+}

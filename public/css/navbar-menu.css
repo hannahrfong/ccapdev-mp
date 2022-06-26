@@ -1,0 +1,181 @@
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+.navbar{
+    position: relative;
+    max-width: 100%;
+    background-color: #c93020;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 20px;
+    font-family: bernier;
+} 
+
+.right, .left{
+    display: flex;
+    align-items: center;
+}
+
+.bag{
+    display: flex;
+    align-self: flex-end;
+}
+
+.right, .left{
+    list-style-type: none;
+}
+
+.right .right-list-item, .left .left-list-item{
+    display: inline-block;
+}
+
+.navbar a.text{
+    padding: 16px 16px 16px 16px;
+    color: white;
+    text-decoration: none;
+}
+
+#searchbar{
+    padding: 14px;
+}
+
+.navbar .icon{
+    padding: 3px 16px 3px 16px;
+    color: white;
+    text-decoration: none;
+}
+
+.navbar a:hover, .navbar .icon:hover{
+    color:#c93020;
+    background-color: white;
+    cursor: pointer;
+}
+
+.primary-icon{
+    height: 50px;
+}
+
+.icon{
+    display: block;
+}
+
+.navbar input{
+    outline: none;
+    width: 280px;
+    height: 28px;
+    padding: 7px 31px;
+    border-radius: 8px;
+    border: 1px solid;
+    box-shadow: 0px 2px 2px #a9a9a9 inset;
+}
+
+.navbar ::placeholder
+{
+    font-family: poppins;
+    font-size: 14px;
+}
+#searchicon
+{
+    position: absolute;
+    left: 105px;
+    top: 19px;
+}
+
+.menu-line{
+    width: 20px;
+    height: 3px;
+    background-color: white;
+    margin-bottom: 4px;
+    border-radius: 3px;
+}
+
+.menu{
+    display: none;
+    
+}
+
+@media all and (max-width: 924px){
+    .navbar{
+        flex-direction: column;
+    }
+
+    .menu{
+        display: block;
+        position: absolute;
+        padding: 19px;
+        top: 1;
+        margin: auto;
+        right: 0px;
+    }
+
+    .right{
+        width: 100%;
+    }
+
+    .right-text-container{
+        width: 100%;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .right .text{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .left{
+        width: 100%;
+    }
+
+    .bag-icon{
+        position: absolute;
+        margin: auto;
+        top: 0px;
+        right: 60px;
+    }
+
+    #searchbar input{
+        width: 230px;
+    }
+
+    .navbar ::placeholder
+    {
+        font-size: 11.5px;
+    }           
+
+    .navbar a.text{
+        width: 100%;
+    padding: 10px;
+    display: flex;
+    color: white;
+    text-decoration: none;
+    }
+
+    .navbar a.bag{
+    padding: 10px;
+    display: block;
+    color: white;
+    text-decoration: none;
+    }
+    .navbar a:hover, .navbar .icon:hover{
+    color:#c93020;
+    background-color: white;
+    cursor: pointer;
+    }
+
+    .menu:hover{
+        cursor: pointer;
+    }
+
+    .active{
+        display: flex;
+    }
+}

@@ -1,0 +1,137 @@
+.topbar-container{
+   position: relative;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-wrap: wrap;
+   align-content:space-between;
+   background-color: #f2f2f2;
+ }
+
+.topbar-item{
+   font-size: 16px;
+   text-decoration: none;
+   color: black;
+   font-family: poppinsbold;
+   text-align: center;
+   padding: 11px 30px 11px 30px;
+   margin: 0px 30px;
+  }
+
+.category-container{
+   background-color: white;
+   position: relative;
+   padding-top: 120px;
+   display: flex;
+   flex-direction: column;               
+}
+
+.main-container{
+    display: flex;
+    flex-direction: column;
+}
+
+h1.header{
+    font-size: 40px;
+    color: #C93020;
+    font-family: bernier;
+    padding: 20px 0px 0px 12%;
+}
+
+h6.product-name{
+    font-size: 18px;
+    line-height: 20px;;
+    margin: 0;
+    padding-top: 15px;
+    height: 50px;
+    color: black;
+    text-align: left;
+    text-decoration: none;
+    font-family: poppinsbold;
+}
+
+h6.product-price{
+    font-size: 18px;
+    margin-top: 15px;
+    margin-bottom: 8px;
+    height: 18px;
+    color: #C93020;
+    text-align: left;
+    text-decoration: none;
+    font-family: interbold;
+}
+
+.main-container{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin-left: 12%;
+    margin-top: 10px;
+    width: 88%;
+    align-self: center;
+}
+
+.product-container{
+    border-radius: 8px;
+    width: 230px;
+    height: 350px;
+    background-color: #FFC700;
+    box-shadow: 0px 4px 5px rgb(165, 165, 165);
+    margin-right: 20px;
+    margin-bottom: 20px;
+    flex-shrink: 0;
+}
+
+.caption-container{
+    position: relative;
+    margin: 0px 15px; 
+}
+
+img{
+    border-radius: 8px;
+}
+
+.caption-container a{
+    text-decoration: none;
+    color: white;
+}
+
+.category-container .order-button{
+    width: 200px;
+    height: 30px;
+    font-family: worksansbold;
+    background-color:#C93020;
+    color: white;
+    border-radius: 35px;
+    border: 1px solid rgba(0, 0, 0, 0.596);
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.category-container .order-button:hover{
+    background-color:#aa291b;
+    cursor: pointer;
+}
+
+.header-container{
+    flex-shrink: 0;
+}
+
+.topbar-item:hover{
+    background-color: white;
+}
+
+.fixed-div{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 2;
+}
+
+.hide{
+    display:none;
+}

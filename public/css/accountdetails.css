@@ -1,0 +1,133 @@
+.break1 {
+    clear: both;
+    height: 110px;
+}
+
+.break2 {
+    clear: both;
+    height: 10px;
+}
+
+.outer-cont {
+    display: flex;
+    min-height: 76.5vh;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.footer {
+    margin-top: auto;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    align-content: center;
+    flex-wrap: wrap;
+}
+
+.acc-details-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 250px;
+    min-height: 180px;
+    margin: 0px 50px 30px 30px;
+    padding-bottom: 10px;
+}
+
+#mini-header {
+    width: 60%;
+    height: 48px;
+    margin-left: 20px;
+    font-family: poppinsbold;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 48px;
+    color: black;
+}
+
+.list-proper {
+    list-style: none;
+    font-family: poppinsmedium;
+    font-size: 18px;
+    line-height: 35px;
+    margin-left: 35px;
+    margin-top: 0px;
+}
+
+.account-details-nav { 
+    margin: 10px 10px 10px 0px;
+    padding-left: 15px;
+    padding-right: 15px;
+    color: black;
+    text-decoration: none;
+}
+
+.account-details-nav:hover {
+    cursor: pointer;
+    background-color: #C93020;
+    border-radius: 10px;
+    color: white;
+}
+
+.details-content {
+    min-width: 50%;
+    min-height: 292px;
+    padding-bottom: 30px;
+    background-color: #ffc700;
+    border: 5px solid #C93020;
+    border-radius: 16px;
+    box-shadow: 0px 4px 5px rgb(165, 165, 165);
+    margin: 0px 50px 30px 30px;
+}
+
+.det-header {
+    min-width: 50%;
+    min-height: 65px;
+    font-family: bernier;
+    font-size: 43px;
+    line-height: 65px;
+    color: white;
+    background-color: #c93020;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    white-space: wrap;
+    text-align: center;
+}
+
+.line-break {
+    border: 1.75px solid #C93020;
+    background-color: #C93020;
+}
+
+.field {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 20px;
+    flex-wrap: wrap;
+}
+
+.field-value {
+    display: flex;
+    background-color: #f4f2f2;
+    flex-grow: 1;
+    height: 52px;
+    font-family: poppins;
+    font-size: 20px;
+    border-radius: 6px;
+    align-items: center;
+    padding: 25px;
+}
+
+button:hover {
+    cursor: pointer;
+    background-color: black;
+}
+
+button:disabled {
+    cursor: auto;
+    background-color: gray;
+}

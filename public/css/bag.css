@@ -1,0 +1,158 @@
+.bag-container{
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    right: 0;
+    flex-shrink: 0;
+    width: 360px;
+    height: 85vh;
+    z-index: 2;
+    top: 0px;
+    margin-top: 56px;
+    background-color: white;
+    border: 1px solid lightgray;
+    border-top: none;
+    padding: 20px
+}
+
+.bag-container .bag-item-container{
+    height: 60vh;
+    border-bottom: 1px solid black;
+    margin-bottom: 15px;
+}
+
+.bag-container .bag-item-container .header{
+    text-align: center;
+    font-family: interbold;
+    font-size: 20px;
+    padding: 0px 0px 10px 0px;
+}
+
+.bag-container .list-container{
+    height: 52vh;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.bag-container .order-container{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.bag-container .quantity-container{
+    display: flex;
+}
+
+.bag-container .quantity-container button{
+    background-color: white;
+    border: none;
+}
+
+.bag-container .payment-container button:hover{
+    background-color:#aa291b;
+}
+
+.bag-container button:hover{
+    cursor: pointer;
+}
+
+.bag-container .quantity{
+    margin: 0px 12px;
+    font-family: interregular;
+    font-size: 12px;
+}
+
+.bag-container .detail-container{
+    width: 150px;
+}
+
+.bag-container .detail-container .product-name{
+    font-family: intermedium;
+    font-size: 12px;
+    margin-bottom: 2px;
+}
+
+.bag-container .payment-container .sub{
+    font-family: intermedium;
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.bag-container .payment-container .main{
+    font-family: interbold;
+    font-size: 16px;
+    margin-bottom: 25px;
+}
+
+.bag-container .detail-container .product-inclusion{
+    font-family: intermedium;
+    font-size: 10px;
+    margin-bottom: 5px;
+    color: rgb(91, 91, 91);
+}
+
+.bag-container .detail-container .edit{
+    font-family: interbold;
+    font-size: 10px;
+    text-decoration: none;
+    color: #FFC700;
+}
+
+.bag-container .detail-container .delete{
+    border: none;
+    color: #FFC700;
+    font-family: interbold;
+    font-size: 10px;
+    background-color: white;
+}
+
+.bag-container .price-container{
+    font-family: intermedium;
+    font-size: 12px;
+}
+
+.bag-container .payment-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.bag-container .subtotal-container{
+    display: flex;
+    justify-content: space-between;
+}
+
+.bag-container .delivery-fee-container{
+    display: flex;
+    justify-content: space-between;
+}
+
+.bag-container .total-container{
+    display: flex;
+    justify-content: space-between;
+}
+
+.bag-container .payment-container a{
+    text-decoration: none;
+    color: white;
+}
+
+.bag-container .payment-container .checkout-button{
+    width: 200px;
+    height: 30px;
+    font-family: worksansbold;
+    background-color:#C93020;
+    color: white;
+    border-radius: 35px;
+    border: 1px solid rgba(0, 0, 0, 0.596);
+    margin-top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+}
+
+.hide{
+    display:none;
+}
