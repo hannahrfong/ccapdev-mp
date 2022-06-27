@@ -24,5 +24,8 @@ const app = express();
 app.get('/', controller.getIndex);
 app.get('/menu', controller.getMenu);
 app.get('/contact', controller.getContact);
+app.get('/orderhistory', controller.getOrderHistory);
+app.get('/about', controller.getAbout);
+app.get('/profile', controller.getProfile);
 
 module.exports = app;

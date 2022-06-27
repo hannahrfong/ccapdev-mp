@@ -48,6 +48,10 @@
     border-radius: 50%;
 }
 
+.container {
+    padding: 100px;
+}
+
 #welcome {
     color: white;
     font-family: poppinsbold;
