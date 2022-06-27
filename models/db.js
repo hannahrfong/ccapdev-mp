@@ -1,9 +1,9 @@
 
 const mongoose = require('mongoose');
 
-const TransactionModel = require('./TransactionModel.js');
+const ProductModel = require('./ProductModel.js');
 
-const url = 'mongodb://localhost:27017/ccapdev-mc03';
+const url = 'mongodb://localhost:27017/ccapdev-mp';
 
 const options = {
     useUnifiedTopology: true,

@@ -1,39 +1,39 @@
 @font-face{
-    src: url("fonts/BERNIERRegular-Regular.ttf");
+    src: url("../fonts/BERNIERRegular-Regular.ttf");
     font-family: bernier;
 }
 
 @font-face{
-    src: url("fonts/Poppins-Bold.ttf");
+    src: url("../fonts/Poppins-Bold.ttf");
     font-family: poppinsbold;
 }
 
 @font-face{
-    src: url("fonts/Inter-Bold.ttf");
+    src: url("../fonts/Inter-Bold.ttf");
     font-family: interbold;
 }
 
 @font-face{
-    src: url("fonts/WorkSans-Bold.ttf");
+    src: url("../fonts/WorkSans-Bold.ttf");
     font-family: worksansbold;
 }
 
 @font-face{
-    src: url("fonts/Inter-Regular.ttf");
+    src: url("../fonts/Inter-Regular.ttf");
     font-family: interregular;
 }
 
 @font-face{
-    src: url("fonts/Inter-Medium.ttf");
+    src: url("../fonts/Inter-Medium.ttf");
     font-family: intermedium;
 }
 
 @font-face{
-    src: url(fonts/Poppins-Regular.ttf);
+    src: url("../fonts/Poppins-Regular.ttf");
     font-family: poppins;
 }
 
 @font-face{
-    src: url(fonts/Poppins-Medium.ttf);
+    src: url("../fonts/Poppins-Medium.ttf");
     font-family: poppinsmedium;
 }
