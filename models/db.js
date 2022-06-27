@@ -1,8 +1,6 @@
 
 const mongoose = require('mongoose');
 
-const ProductModel = require('./ProductModel.js');
-
 const url = 'mongodb://localhost:27017/ccapdev-mp';
 
 const options = {
@@ -29,8 +27,10 @@ const database = {
 
     insertMany: function(model, docs, callback) {
         model.insertMany(docs, function(error, result) {
-            if(error) return callback(false);
-            console.log('Added ' + result);
+            if(error) {
+                console.log("ERROR " + error);
+                return callback(false);
+            }console.log('Added ' + result);
             return callback(true);
         });
     },

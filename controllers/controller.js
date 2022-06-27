@@ -1,3 +1,6 @@
+const db = require("../models/db.js");
+const Product = require("../models/ProductModel.js");
+
 const controller = {
 
     getFavicon: function (req, res) {
@@ -5,12 +8,49 @@ const controller = {
     },
 
     getIndex: function (req, res) {
-        const data = {
-            style: ["navbar", "index"],
-            script: ["index"],
-        }
 
-        res.render("index", data);
+        db.findMany(Product, {}, '', function(products) {
+            var main = {
+                    id: 'main',
+                    category: 'MAIN DISHES',
+                    products: []
+                };
+                
+            var snack ={
+                id: 'snack',
+                category: 'SNACKS',
+                products: []
+            };
+
+            var dnd ={
+                id: 'dnd',
+                category: 'DESSERTS & DRINKS',
+                products: []
+            };
+
+            var bundle ={
+                id: 'bundle',
+                category: 'BUNDLE MEALS',
+                products: []
+            };
+
+            for (var i = 0; i < products.length; i++)
+            {
+                switch (products[i].category){
+                    case 'main': main.products.push(products[i]); break;
+                    case 'snack': snack.products.push(products[i]); break;
+                    case 'dnd': dnd.products.push(products[i]); break;
+                    case 'bundle': bundle.products.push(products[i]); 
+                }
+            }
+            
+            const data  = {
+                style: ["navbar", "index"],
+                script: ["index"],
+                category: [main, snack, dnd, bundle]
+            }
+            res.render('index', data);
+        });
     },
 
     getMenu: function (req, res) {
