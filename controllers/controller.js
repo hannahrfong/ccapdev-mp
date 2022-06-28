@@ -4,6 +4,14 @@ const controller = {
         res.status(204);
     },
 
+    getSignIn: function (req, res) {
+        res.render("sign-in");
+    },
+
+    getRegister: function (req, res) {
+        res.render("register");
+    },
+
     getIndex: function (req, res) {
         const data = {
             style: ["navbar", "index"],

@@ -21,8 +21,10 @@ const controller = require('../controllers/controller.js');
 
 const app = express();
 
-app.get('/', controller.getIndex);
+app.get('/', controller.getSignIn);
+app.get('/register', controller.getRegister);
 app.get('/menu', controller.getMenu);
+app.get('/home', controller.getIndex);
 app.get('/contact', controller.getContact);
 app.get('/orderhistory', controller.getOrderHistory);
 app.get('/about', controller.getAbout);
