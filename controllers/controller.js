@@ -26,27 +26,6 @@ const controller = {
             style: ["navbar", "contact"]
         }
         res.render("contact", data);
-    },
-
-    getOrderHistory: function (req, res) {
-        const data = {
-            style: ["navbar", "orderhistory"]
-        }
-        res.render("orderhistory", data);
-    },
-
-    getAbout: function (req, res) {
-        const data = {
-            style: ["navbar", "about"]
-        }
-        res.render("about", data);
-    },
-
-    getProfile: function (req, res) {
-        const data = {
-            style: ["navbar", "accountdetails", "profile"]
-        }
-        res.render("profile", data);
     }
 }
 
