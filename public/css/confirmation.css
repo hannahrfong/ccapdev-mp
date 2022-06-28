@@ -1,0 +1,21 @@
+.btn:active, .btn:focus  {
+    outline: none;
+    box-shadow: none;
+  }
+
+.form-check-label  {
+  font-size: larger;
+}
+
+.card-title {
+  font-size: x-large;
+}
+
+#orders {
+    border-bottom: 3px solid black;
+    min-height: 9rem;
+}
+
+.break {
+    height: 5.5rem;
+}

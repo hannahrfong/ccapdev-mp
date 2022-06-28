@@ -27,5 +27,8 @@ app.get('/contact', controller.getContact);
 app.get('/orderhistory', controller.getOrderHistory);
 app.get('/about', controller.getAbout);
 app.get('/profile', controller.getProfile);
+app.get('/addtobag', controller.getAddToBag)
+app.get('/checkout', controller.getCheckout)
+app.get('/confirmation', controller.getConfirmation)
 
 module.exports = app;

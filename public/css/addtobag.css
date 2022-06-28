@@ -1,0 +1,50 @@
+.btn:active, .btn:focus  {
+    outline: none;
+    box-shadow: none;
+  }   
+
+.form-check-label  {
+  font-size: larger;
+}
+
+.card-title {
+  font-size: x-large;
+}
+
+#addtobag {
+  width: 14rem;
+  font-family: worksansbold;
+  background-color:#C93020;
+  color: white;
+  border-radius: 35px;
+  border: 1px solid rgba(0, 0, 0, 0.596);
+}
+
+#backtomenu {
+  width: 14rem;
+  font-family: worksansbold;
+  color: black;
+  border-radius: 35px;
+  border: 1px solid rgba(0, 0, 0, 0.596);
+}
+
+#addtobag:hover{
+  background-color:#aa291b;
+  cursor: pointer;
+}
+
+#addbtn {
+  width: 2rem;
+  height: 2rem;
+  background: url('../images/circle-plus-solid.svg') no-repeat;  
+}
+
+#subtractbtn{
+  width: 2rem;
+  height: 2rem;
+  background: url('../images/circle-minus-solid.svg') no-repeat;
+}
+
+.break {
+    height: 5.5rem;
+}
