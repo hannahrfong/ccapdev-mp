@@ -1,5 +1,7 @@
 const db = require("../models/db.js");
 const Product = require("../models/ProductModel.js");
+const Feedback = require("../models/FeedbackModel.js");
+//db.products.createIndex({name: "text"});
 
 const controller = {
 
@@ -18,7 +20,7 @@ const controller = {
     getIndex: function (req, res) {
         const data = {
             style: ["navbar", "index"],
-            script: ["index"],
+            script: ["index"]
         }
 
         res.render("index", data);
@@ -77,7 +79,8 @@ const controller = {
 
     getContact: function (req, res) {
         const data = {
-            style: ["navbar", "contact"]
+            style: ["navbar", "contact"],
+            script: ["contact"]
         }
         res.render("contact", data);
     },
@@ -125,6 +128,48 @@ const controller = {
             script: ["bootstrap"]
         }
         res.render("confirmation", data);
+    },
+
+    getSearch: function (req, res){
+        db.findMany(Product, {name: {$regex: req.query.search, $options: 'i'}}, "", function (results) {
+            const data = {
+                style: ["navbarMenu", "search"],
+                search: req.query.search, 
+                nResults: results.length,
+                results: []
+            }
+    
+            console.log(data.search);
+            console.log(data.nResults);
+
+            for (var i = 0; i < results.length; i++)
+            {
+                var productObj = {
+                    name: results[i].name,
+                    price: results[i].price,
+                    image: results[i].image
+                };
+                data.results.push(productObj);
+                console.log(data.results[i]);
+            }
+            
+            res.render("search", data);
+        });
+    },
+
+    getAddFeedback: function(req, res){
+        var userid = req.query.userid;
+        var subject = req.query.subject;
+        var message = req.query.message;
+        var id = 0;
+        
+        db.getNewId(Feedback, function(result){
+            id = result;
+        });
+
+        db.insertOne(Feedback, {userid: userid, id: id, subject: subject, message: message}, function(flag){
+            res.send(flag);
+        })
     }
 }
 

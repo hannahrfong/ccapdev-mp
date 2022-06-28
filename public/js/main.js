@@ -24,4 +24,14 @@ $(document).ready(function(){
     icon.addEventListener("click", ()=>{
         bag.classList.toggle("hide");
     })
+
+    $("#searchbar-input").keypress(function(event){
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        
+        //if enter key was pressed
+        if(keycode == '13'){
+            var search = $("#searchbar-input").val();
+            window.location.href = "http://localhost:3000/search?search=" + search;
+        }
+    })
 });

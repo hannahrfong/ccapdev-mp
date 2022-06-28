@@ -33,4 +33,7 @@ app.get('/addtobag', controller.getAddToBag)
 app.get('/checkout', controller.getCheckout)
 app.get('/confirmation', controller.getConfirmation)
 
+app.get('/search', controller.getSearch);
+app.get('/addfeedback', controller.getAddFeedback);
+
 module.exports = app;
