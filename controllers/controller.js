@@ -163,13 +163,13 @@ const controller = {
         var message = req.query.message;
         var id = 0;
         
-        db.getNewId(Feedback, function(result){
-            id = result;
-        });
+        db.findMany(Feedback, {}, "", function(result){
+            id = result.length;
 
-        db.insertOne(Feedback, {userid: userid, id: id, subject: subject, message: message}, function(flag){
-            res.send(flag);
-        })
+            db.insertOne(Feedback, {userid: userid, id: id, subject: subject, message: message}, function(flag){
+                res.send(flag);
+            })
+        });
     }
 }
 

@@ -49,25 +49,6 @@ const database = {
         });
     },
 
-    customComparator: function(a, b){
-        return a.id - b.id;
-    },
-
-    getNewId: function(model, callback) {
-        model.find({}, "", function(error, result) {
-            if(error) return callback(false);
-            
-            else 
-            {
-                result.sort(customComparator);
-                var lastId = result.reverse().limit(1);
-                if (lastId === undefined)
-                    return 0;
-                return callback(lastId++);
-            }
-        });    
-    },
-
     updateOne: function(model, filter, update, callback) {
         model.updateOne(filter, update, function(error, result) {
             if(error) return callback(false);
