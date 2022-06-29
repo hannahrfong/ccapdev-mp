@@ -10,7 +10,7 @@ var OrderItemSchema = new mongoose.Schema({
         required:true
     },
 
-    Size: {
+    size: {
         type: String
     },
 
@@ -18,7 +18,7 @@ var OrderItemSchema = new mongoose.Schema({
         type: String
     },
 
-    addons: [{
+    addOns: [{
         type: String
     }],
 

@@ -107,11 +107,38 @@ const controller = {
     },
 
     getAddToBag: function (req, res) {
+        
+        var query = {name: req.params.name};
+        var projection = 'name image price';
+
+        db.findOne(Product, query, projection, function(result) {
+            var productdetails = {
+                name: result.name,
+                image: result.image,
+                price: result.price
+            };
+
+            const data = {
+                style: ["bootstrap", "navbar", "addtobag"],
+                script: ["bootstrap", "addtobag"],
+                productdetails: productdetails
+            }
+    
+            res.render("addtobag", data);
+        });
+
+        
+        /*
         const data = {
             style: ["bootstrap", "navbar", "addtobag"],
             script: ["bootstrap", "addtobag"]
         }
+
         res.render("addtobag", data);
+        */
+
+
+        
     },
 
     getCheckout: function (req, res) {

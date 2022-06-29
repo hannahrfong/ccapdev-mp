@@ -5,16 +5,16 @@ var OrderSchema = new mongoose.Schema({
         required: true
     },
 
-    userid: {
+    userId: {
         type: Number,
         required:true
     },
 
-    orderitems: [{
+    orderItems: [{
         type: mongoose.Schema.Types.ObjectId, ref: 'OrderItem'
     }],
 
-    orderdate: {
+    orderDate: {
         type: Date
     }
    

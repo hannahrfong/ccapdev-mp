@@ -1,16 +1,16 @@
 var mongoose = require('mongoose');
 var BagSchema = new mongoose.Schema({
-    userid: {
+    userId: {
         type: Number,
         required: true
     },
 
-    orderid: {
+    orderId: {
         type: Number,
         required:true
     },
 
-    orderitems: [{
+    orderItems: [{
         type: mongoose.Schema.Types.ObjectId, ref: 'OrderItem'
     }]
    
