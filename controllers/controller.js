@@ -126,18 +126,6 @@ const controller = {
     
             res.render("addtobag", data);
         });
-
-        
-        /*
-        const data = {
-            style: ["bootstrap", "navbar", "addtobag"],
-            script: ["bootstrap", "addtobag"]
-        }
-
-        res.render("addtobag", data);
-        */
-
-
         
     },
 
