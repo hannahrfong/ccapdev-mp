@@ -1,4 +1,5 @@
 $(document).ready(function(){
+
   price = 395;
   $("#addbtn").click(function(){
     count = parseInt($("#quantity").text());
@@ -19,5 +20,20 @@ $(document).ready(function(){
     }
       
   });
+
+  $("#addtobag").click(function(){
+
+    // generate orderID
+    // get product object id given name
+    // get flavor
+    // get add-ons
+    // get quantity
+    // get unit price
+    // get size?
+    
+
+  });
+
+
 
 });
