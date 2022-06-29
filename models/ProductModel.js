@@ -23,6 +23,10 @@ var ProductSchema = new mongoose.Schema({
     image: {
         type: String, 
         required: true
-    }
+    },
+
+    addOn: [{
+        type: mongoose.Schema.Types.ObjectId, ref: 'AddOn'
+    }]
 });
 module.exports = mongoose.model('Product', ProductSchema);

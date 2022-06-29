@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
-var ProductSchema = new mongoose.Schema({
+var BestSellerSchema = new mongoose.Schema({
     productId: {
         type: mongoose.Schema.Types.ObjectId, ref: 'Product'
     }
 });
-module.exports = mongoose.model('Product', ProductSchema);
+module.exports = mongoose.model('BestSeller', BestSellerSchema);

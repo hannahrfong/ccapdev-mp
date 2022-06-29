@@ -1,6 +1,8 @@
 const db = require("../models/db.js");
 const Product = require("../models/ProductModel.js");
 const Feedback = require("../models/FeedbackModel.js");
+const BestSeller = require("../models/BestSellerModel.js");
+const { populate } = require("../models/ProductModel.js");
 
 const controller = {
 
@@ -19,9 +21,24 @@ const controller = {
     getIndex: function (req, res) {
         const data = {
             style: ["navbar", "index"],
-            script: ["index"]
+            script: ["index"], 
+            bestSellers: []
         }
 
+        BestSeller.find().populate("productId").exec(function(err, results){
+            if (err) return handleError(err);
+
+            for (var i=0;i < results.length; i++)
+            {
+                var productObj = {
+                    name: results[i].productId.name,
+                    price: results[i].productId.price,
+                    image: results[i].productId.image
+                };
+
+                data.bestSellers.push(productObj);
+            }
+        });
         res.render("index", data);
     },
 
