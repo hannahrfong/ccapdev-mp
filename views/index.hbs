@@ -89,29 +89,13 @@
         </div>
 
         <div class="content-container">
-            <a class="best" href="/addtobag">
-                <img src="images/products/nacho-small.png" alt="nacho-small" width="230" height="200">
-                <div class="name">Four Cheese Nacho Bake (Small)</div>
-                <div class="price">₱ 395.0</div>
-            </a>
-
-            <a class="best" href="/addtobag">
-                <img src="images/products/lasagna-medium.png" alt="lasagna-medium" width="230" height="200">
-                <div class="name">Premium All Beef Lasagna (Medium)</div>
-                <div class="price">₱ 795.00</div>
-            </a>
-
-            <a class="best" href="/addtobag">
-                <img src="images/products/ribs-single.png" alt="ribs-single" width="230" height="200">
-                <div class="name">Smoky Baby Back Ribs (Single Rack)</div>
-                <div class="price">₱ 1195.00</div>
-            </a>
-
-            <a class="best" href="/addtobag">
-                <img src="images/products/salmon-medium.png" alt="salmon-medium" width="230" height="200">
-                <div class="name">Parmesan Baked Salmon (Medium)</div>
-                <div class="price">₱ 1295.00</div>
-            </a>
+            {{#each bestSellers}}
+                <a class="best" href="/addtobag">
+                    <img src={{this.image}} alt="nacho-small" width="230" height="200">
+                    <div class="name">{{this.name}}</div>
+                    <div class="price">₱ {{this.price}}.00</div>
+                </a>
+            {{/each}}
         </div>
     </div>  
 </div>

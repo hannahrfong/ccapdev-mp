@@ -11,32 +11,19 @@
 
             <div class="fields-container">
                 <div class="field">
-                    <div class="label">Name</div>
-                    <input type="text" id="name" placeholder="Full name">
-                </div>
-
-                <div class="field">
-                    <div class="label">Telephone</div>
-                    <input type="tel" id="telephone" placeholder="Telephone number">
-                </div>
-
-                <div class="field">
-                    <div class="label">E-mail</div>
-                    <input type="email" id="email" placeholder="E-mail address">
-                </div>
-
-                <div class="field">
                     <div class="label">Subject</div>
                     <input type="text" id="subject" placeholder="Subject">
                 </div>
 
                 <div class="field">
                     <div class="label">Message</div>
-                    <textarea type="text" placeholder="Message"></textarea>
+                    <textarea type="text" id="message" placeholder="Message"></textarea>
                 </div>
             </div>
 
-            <button type="button" action="#">Submit</button>
+            <div id="contact-error"></div>
+
+            <button id="contact-submit" type="button">Submit</button>
         </div>
 
         <div class="right">

@@ -62,7 +62,7 @@
 }
 
 .contact-container textarea{
-    margin-bottom: 44px;
+    margin-bottom: 24px;
     width: 100%;
     border-radius: 5px;;
     border: 1px solid lightgray;
@@ -133,4 +133,11 @@
 
 .contact-container a{
     text-decoration: none;
+}
+
+#contact-error{
+    font-size: 15px;
+    color: red;
+    font-family: poppinsbold;
+    margin-bottom: 24px;
 }

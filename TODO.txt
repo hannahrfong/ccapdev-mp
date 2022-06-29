@@ -46,3 +46,32 @@ main
 contact
 
 menu
+
+        //Stop the event from propogation to other handlers
+        //If this line will be removed, then keypress event handler attached 
+        //at document level will also be triggered
+        event.stopPropagation();
+
+
+
+    getNewId: function(model, callback) {
+        model.find({}, "", function(error, result) {
+            if(error) return callback(false);
+            
+            else 
+            {
+                console.log(result);
+                if (result.length == 0)
+                    return 0;                
+
+                result.sort(function(a, b){
+                    return b.id - a.id;
+                });
+                
+                var lastId = result[0].id;
+
+                console.log(lastId);
+                return callback(lastId+=1);
+            }
+        });    
+    },
