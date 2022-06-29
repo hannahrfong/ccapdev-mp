@@ -10,10 +10,6 @@ var OrderItemSchema = new mongoose.Schema({
         required:true
     },
 
-    size: {
-        type: String
-    },
-
     flavor: {
         type: String
     },
