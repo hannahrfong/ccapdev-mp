@@ -1,7 +1,6 @@
 const db = require("../models/db.js");
 const Product = require("../models/ProductModel.js");
 const Feedback = require("../models/FeedbackModel.js");
-//db.products.createIndex({name: "text"});
 
 const controller = {
 
@@ -63,7 +62,8 @@ const controller = {
             switch (products[i].category){
                 case 'main': main.products.push(productObj); break;
                 case 'snack': snack.products.push(productObj); break;
-                case 'dnd': dnd.products.push(productObj); break;
+                case 'dessert': dnd.products.push(productObj); break;
+                case 'drink': dnd.products.push(productObj); break;
                 case 'bundle': bundle.products.push(productObj); 
             }
         }

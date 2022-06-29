@@ -26,7 +26,8 @@ var m = " (Medium)";
 var l = " (Large)";
 var main = "main";
 var snack = "snack"
-var dnd = "dnd";
+var dessert = "dessert";
+var drink = "drink";
 var bundle = "bundle";
 
 db.connect();
@@ -194,7 +195,7 @@ var products = [
     {
         id: counter++,
         name: cookies + getPcs(6),
-        category: dnd,
+        category: dessert,
         price: 250,
         image: '/images/products/pbutter-6.png'
     },
@@ -202,7 +203,7 @@ var products = [
     {
         id: counter++,
         name: cookies + getPcs(12),
-        category: dnd,
+        category: dessert,
         price: 480,
         image: '/images/products/pbutter-12.png'
     },
@@ -210,7 +211,7 @@ var products = [
     {
         id: counter++,
         name: crinkles + getPcs(10),
-        category: dnd,
+        category: dessert,
         price: 250,
         image: '/images/products/crinkles-10.png'
     },
@@ -219,7 +220,7 @@ var products = [
     {
         id: counter++,
         name: crinkles + getPcs(20),
-        category: dnd,
+        category: dessert,
         price: 480,
         image: '/images/products/crinkles-20.png'
     },
@@ -227,7 +228,7 @@ var products = [
     {
         id: counter++,
         name: cake,
-        category: dnd,
+        category: dessert,
         price: 695,
         image: '/images/products/cake.png'
     },
@@ -235,7 +236,7 @@ var products = [
     {
         id: counter++,
         name: icedTea,
-        category: dnd,
+        category: drink,
         price: 60,
         image: '/images/products/iced-tea.png'
     },
@@ -243,7 +244,7 @@ var products = [
     {
         id: counter++,
         name: calamansi,
-        category: dnd,
+        category: drink,
         price: 60,
         image: '/images/products/calamansi.png'
     },
@@ -251,7 +252,7 @@ var products = [
     {
         id: counter++,
         name: mango,
-        category: dnd,
+        category: drink,
         price: 60,
         image: '/images/products/mango.png'
     },
@@ -259,7 +260,7 @@ var products = [
     {
         id: counter++,
         name: fourSeasons,
-        category: dnd,
+        category: drink,
         price: 60,
         image: '/images/products/four-seasons.png'
     },
