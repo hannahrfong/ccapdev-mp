@@ -1,5 +1,4 @@
 const db = require("../models/db.js");
-const Account = require("../models/AccountModel.js");
 const Product = require("../models/ProductModel.js");
 const Feedback = require("../models/FeedbackModel.js");
 const BestSeller = require("../models/BestSellerModel.js");
@@ -123,27 +122,6 @@ const controller = {
         res.render("profile", data);
     },
 
-    getAddresses: function (req, res) {
-        const data = {
-            style: ["navbar", "accountdetails", "addresses"]
-        }
-        res.render("addresses", data);
-    },
-
-    getContactNums: function (req, res) {
-        const data = {
-            style: ["navbar", "accountdetails", "contactnums"]
-        }
-        res.render("contactnums", data);
-    },
-
-    getID: function (req, res) {
-        const data = {
-            style: ["navbar", "accountdetails", "id"]
-        }
-        res.render("id", data);
-    },
-
     getAddToBag: function (req, res) {
         
         var query = {name: req.params.name};
@@ -245,19 +223,6 @@ const controller = {
                 res.send(flag);
             })
         });
-    },
-
-    postAddAccount: function (req, res) {
-        var first = req.body.firstname;
-        var last = req.body.lastname;
-        var email = req.body.email;
-        var pw = req.body.psw;
-        var number = req.body.contactno;
-        var address = req.body.address;
-        
-        db.insertOne(Account, {firstName: first, lastName: last, email: email, password: pw, contactNumber: number, completeAddress: address}, function(flag){
-            res.redirect('/home');
-        })
     }
 }
 

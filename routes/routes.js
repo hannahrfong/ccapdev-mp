@@ -29,9 +29,6 @@ app.get('/contact', controller.getContact);
 app.get('/orderhistory', controller.getOrderHistory);
 app.get('/about', controller.getAbout);
 app.get('/profile', controller.getProfile);
-app.get('/addresses', controller.getAddresses);
-app.get('/contactnums', controller.getContactNums);
-app.get('/id', controller.getID);
 app.get('/addtobag/:name', controller.getAddToBag)
 app.get('/checkout', controller.getCheckout)
 app.get('/confirmation', controller.getConfirmation)
@@ -39,7 +36,5 @@ app.get('/confirmation', controller.getConfirmation)
 app.get('/search', controller.getSearch);
 app.get('/searchresults', controller.getSearchResults);
 app.get('/addfeedback', controller.getAddFeedback);
-
-app.post('/addaccount', controller.postAddAccount);
 
 module.exports = app;

@@ -56,12 +56,10 @@ $(document).ready(function(){
         if (input.value == input2.value) {
             match.classList.remove("invalid");
             match.classList.add("valid");
-            document.getElementById("reg-submit").disabled = false;
         }
         else {
             match.classList.remove("valid");
             match.classList.add("invalid");
-            document.getElementById("reg-submit").disabled = true;
         }
     }
 });
