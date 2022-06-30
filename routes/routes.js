@@ -38,6 +38,7 @@ app.get('/checkout', controller.getCheckout);
 app.get('/confirmation', controller.getConfirmation)
 
 app.get('/search', controller.getSearch);
+app.get('/searchresults', controller.getSearchResults);
 app.get('/addfeedback', controller.getAddFeedback);
 
 app.post('/addaccount', controller.postAddAccount);

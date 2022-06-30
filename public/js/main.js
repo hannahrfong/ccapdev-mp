@@ -25,13 +25,43 @@ $(document).ready(function(){
         bag.classList.toggle("hide");
     })
 
-    $("#searchbar-input").keypress(function(event){
-        var keycode = (event.keyCode ? event.keyCode : event.which);
-        
-        //if enter key was pressed
-        if(keycode == '13'){
-            var search = $("#searchbar-input").val();
-            window.location.href = "http://localhost:3000/search?search=" + search;
-        }
+    $("#searchbar-input").keyup(function(){
+        var keyupTimer;
+        clearTimeout(keyupTimer);
+        keyupTimer = setTimeout(function(){
+            var q = $("#searchbar-input").val();
+
+            if (q == "")
+                window.location.href = "http://localhost:3000/menu";  
+
+            else if(window.location.href.indexOf("search") == -1)
+                window.location.href = "http://localhost:3000/search?q=" + q;
+
+            else 
+            {
+                getSearchResults(q);
+            }
+        }, 1500);
     })
+
+    function getSearchResults(q){
+        $.get("/searchresults", {q: q}, function(html){
+            $("#results-container").html(html);
+            history.pushState(null, "", "?q=" + q);
+        }); 
+    }
+
+
 });
+
+/*
+        if(window.location.href.indexOf("search") == -1){
+            window.location.href = "http://localhost:3000/search";
+        }
+
+            if(window.location.href.indexOf("search") != -1)
+        $("#searchbar-input").focus();
+        $("#searchbar-input").on("focus", function(e){
+            $("#searchbar-input").delay(13).caretToEnd();
+        });
+*/ 

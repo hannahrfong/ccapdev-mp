@@ -6,7 +6,7 @@
     flex-direction: column;               
  }
  
- .results-container .order-button{
+ .product-container .order-button{
     width: 200px;
     height: 30px;
     font-family: worksansbold;
@@ -20,7 +20,7 @@
     justify-content: center;
 }
 
-.results-container .order-button:hover{
+.product-container .order-button:hover{
     background-color:#aa291b;
     cursor: pointer;
 }
@@ -95,4 +95,8 @@ h1.header{
     color: black;
     font-family: poppinsmedium;
     padding: 20px 0px 0px 12%;
+}
+
+img{
+    border-radius: 8px;
 }

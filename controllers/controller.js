@@ -206,16 +206,13 @@ const controller = {
     },
 
     getSearch: function (req, res){
-        db.findMany(Product, {name: {$regex: req.query.search, $options: 'i'}}, "", function (results) {
+        db.findMany(Product, {name: {$regex: req.query.q, $options: 'i'}}, "", function (results) {
             const data = {
                 style: ["navbarMenu", "search"],
-                search: req.query.search, 
+                q: req.query.q, 
                 nResults: results.length,
                 results: []
             }
-    
-            console.log(data.search);
-            console.log(data.nResults);
 
             for (var i = 0; i < results.length; i++)
             {
@@ -225,11 +222,36 @@ const controller = {
                     image: results[i].image
                 };
                 data.results.push(productObj);
-                console.log(data.results[i]);
             }
             
             res.render("search", data);
         });
+    },
+
+    getSearchResults: function(req, res){
+        db.findMany(Product, {name: {$regex: req.query.q, $options: 'i'}}, "", function (results) {
+            const data = {
+                q: req.query.q, 
+                nResults: results.length,
+                layout: false,
+                results: []
+            }
+
+            for (var i = 0; i < results.length; i++)
+            {
+                var productObj = {
+                    name: results[i].name,
+                    price: results[i].price,
+                    image: results[i].image
+                };
+                data.results.push(productObj);
+            }
+            
+            res.render("partials\\result", data, function(err, html){
+                if (err) throw err;
+                res.send(html);
+            });
+        });        
     },
 
     getAddFeedback: function(req, res){
