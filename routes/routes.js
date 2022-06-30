@@ -35,8 +35,10 @@ app.get('/id', controller.getID);
 app.get('/addtobag/:name', controller.getAddToBag);
 app.get('/getAddOn', controller.getAddOn);
 app.get('/checkout', controller.getCheckout);
-app.get('/confirmation', controller.getConfirmation)
-
+app.get('/confirmation', controller.getConfirmation);
+app.get('/addOrderItem', controller.getAddOrderItem);
+app.get('/getProduct', controller.getProduct);
+app.get('/getBag', controller.getBag);
 app.get('/search', controller.getSearch);
 app.get('/searchresults', controller.getSearchResults);
 app.get('/addfeedback', controller.getAddFeedback);

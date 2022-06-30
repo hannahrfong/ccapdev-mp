@@ -3,8 +3,6 @@ $(document).ready(function(){
   var itemPrice = $("#price").text();
   itemPrice = itemPrice.substring(1);
   itemPrice = parseFloat(itemPrice);
-  console.log('item Price: ');
-  console.log(itemPrice);
 
   $("#addtobag").text("Add to Bag - ₱" + itemPrice);
 
@@ -17,7 +15,6 @@ $(document).ready(function(){
   
 
     var countChecked =  $(".addOnOption:checked").length;
-    console.log(countChecked);
 
     var checkboxValues = $('.addOnOption:checked').map(function() {
       return $(this).next("label").text();
@@ -45,16 +42,12 @@ $(document).ready(function(){
           var name = checkboxValues[i];
           $.get('/getAddOn', {name: name}, function(result)  {
             addOnsPrices.push(result.price);
-            console.log('addOnsPrices');
-            console.log(addOnsPrices);
 
             var sum = 0;
             for (var j = 0; j < addOnsPrices.length; j++)
             {
               sum = sum + addOnsPrices[j];
             } 
-            console.log('sum');
-            console.log(sum);
             var totalPrice = itemQuantity * (itemPrice + sum);
 
             $("#addtobag").text("Add to Bag - ₱" + totalPrice);
@@ -84,7 +77,6 @@ $(document).ready(function(){
       $("#quantity").text(count);
       
       var countChecked =  $(".addOnOption:checked").length;
-      console.log(countChecked);
 
       var checkboxValues = $('.addOnOption:checked').map(function() {
         return $(this).next("label").text();
@@ -112,16 +104,12 @@ $(document).ready(function(){
             var name = checkboxValues[i];
             $.get('/getAddOn', {name: name}, function(result)  {
               addOnsPrices.push(result.price);
-              console.log('addOnsPrices');
-              console.log(addOnsPrices);
 
               var sum = 0;
               for (var j = 0; j < addOnsPrices.length; j++)
               {
                 sum = sum + addOnsPrices[j];
               } 
-              console.log('sum');
-              console.log(sum);
               var totalPrice = itemQuantity * (itemPrice + sum);
 
               $("#addtobag").text("Add to Bag - ₱" + totalPrice);
@@ -145,10 +133,9 @@ $(document).ready(function(){
   });
 
   $(".addOnOption").change(function()  {
-    console.log('changed');
 
     var countChecked =  $(".addOnOption:checked").length;
-    console.log(countChecked);
+    
 
     var checkboxValues = $('.addOnOption:checked').map(function() {
       return $(this).next("label").text();
@@ -176,16 +163,12 @@ $(document).ready(function(){
           var name = checkboxValues[i];
           $.get('/getAddOn', {name: name}, function(result)  {
             addOnsPrices.push(result.price);
-            console.log('addOnsPrices');
-            console.log(addOnsPrices);
 
             var sum = 0;
             for (var j = 0; j < addOnsPrices.length; j++)
             {
               sum = sum + addOnsPrices[j];
             } 
-            console.log('sum');
-            console.log(sum);
             var totalPrice = itemQuantity * (itemPrice + sum);
 
             $("#addtobag").text("Add to Bag - ₱" + totalPrice);
@@ -205,17 +188,104 @@ $(document).ready(function(){
 
   $("#addtobag").click(function(){
 
-    // generate orderID
-    // get product object id given name
-    // get flavor
-    // get add-ons
-    // get quantity
-    // get unit price
-    // get size?
+    var userId = 0  // temporary
+
+    var itemQuantity = $("#quantity").text();
+    itemQuantity = parseFloat(itemQuantity);
+
+    var tPrice = $("#addtobag").text();
+    tPrice = tPrice.substring(14);
+    tPrice = parseFloat(tPrice);
+
+    var productName = $("#productName").text();
+
+    var countChecked =  $(".addOnOption:checked").length;
+
+    var checkboxValues = $('.addOnOption:checked').map(function() {
+      return $(this).next("label").text();
+    }).get();
+
+    for (var i = 0; i < countChecked; i++)
+    {
+      checkboxValues[i] = $.trim(checkboxValues[i]);
+    }
+
+    var addOnsList = [];
     
+    if (checkboxValues.length > 0)
+    {
+        
+        var num = 0;
+        for (var i = 0; i < checkboxValues.length; i++)
+        {
+          var addOnName = checkboxValues[i];
+          
+          $.get('/getAddOn', {name: addOnName}, function(result)  {
+            addOnsList.push(result);
+           
+            console.log(num);
+            if (num == checkboxValues.length - 1)
+            {
+              console.log('hello');
+              $.get('/getProduct', {name: productName}, function(res)  {
 
+
+                $.get('/getBag', {userId: userId}, function(newRes) {
+  
+                  var addOns = addOnsList;
+                  var quantity = itemQuantity;
+                  var totalPrice = tPrice;
+                  var product = res._id;
+                  var orderId = newRes.orderId;
+                  
+                  var query = {
+                    orderId: orderId,
+                    product: product,
+                    addOns: addOns,
+                    quantity: quantity,
+                    totalPrice: totalPrice
+                  };
+                  
+                  
+                  $.get('/addOrderItem', query, function() {});
+                  
+                });
+              
+              });
+            }
+            num += 1;
+            
+                 
+          }); 
+        }
+    }
+    else
+    {
+      $.get('/getProduct', {name: productName}, function(res)  {
+
+        $.get('/getBag', {userId: userId}, function(newRes) {
+                
+          var addOns = addOnsList;
+          var quantity = itemQuantity;
+          var totalPrice = tPrice;
+          var product = res._id;
+          var orderId = newRes.orderId;
+          
+          var query = {
+            orderId: orderId,
+            product: product,
+            addOns: addOns,
+            quantity: quantity,
+            totalPrice: totalPrice
+          };
+          
+    
+          $.get('/addOrderItem', query, function() {});
+        });
+              
+            
+      });
+    }
+  
   });
-
-
-
 });

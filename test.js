@@ -2,6 +2,7 @@ const db = require("./models/db.js");
 const Product = require("./models/ProductModel.js");
 const AddOn = require("./models/AddOnModel.js");
 const BestSeller = require("./models/BestSellerModel.js");
+const Bag = require("./models/BagModel.js");
 
 db.connect();
 AddOn.deleteMany()
@@ -468,6 +469,33 @@ function insertProducts(garlicBread, parmesanGarlicBread, cornCarrots, bacon, ch
     });
 }
 
+
+// just for testing
+function deleteBags(){
+    db.deleteMany(Bag, {}, function()   {
+
+    });
+}
+
+function createBag(){
+    var userId = 0;
+    var orderId  = 0;   // has to not yet exist in orderModel
+    var orderItems = [];
+
+    var bag = {
+        userId: userId,
+        orderId: orderId,
+        orderItems: orderItems
+    }
+
+    db.insertOne(Bag, bag, function()   {
+    });
+}
+
+deleteBags();
+createBag();
+
+        
 /*
 db.deleteMany(AddOn, {}, function(){});
 db.deleteMany(Product, {}, function(){});

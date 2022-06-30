@@ -298,7 +298,46 @@ const controller = {
         db.findOne(AddOn, {name: name}, 'id name price', function(result)  {
             res.send(result);
         });
+    },
+
+    getProduct: function(req, res) {
+        var name = req.query.name;
+
+        db.findOne(Product, {name: name}, '_id', function(result)  {
+            res.send(result);
+        });
+    },
+
+    getBag: function(req, res) {
+        var userId = req.query.userId;
+
+        db.findOne(Bag, {userId: userId}, 'userId orderId orderItems', function(result)  {
+            res.send(result);
+        });
+    },
+
+
+    getAddOrderItem: function(req, res) {
+        var orderId = req.query.orderId;
+        var product = req.query.product;
+        var addOns = req.query.addOns;
+        var quantity = req.query.quantity;
+        var totalPrice = req.query.totalPrice;
+
+        var orderItem = {
+            orderId: orderId,
+            product: product,
+            addOns: addOns,
+            quantity: quantity,
+            totalPrice: totalPrice
+        };
+
+        db.insertOne(OrderItem, orderItem, function()   {
+            res.redirect('/menu');
+        });
     }
+
+    
 
 }
 

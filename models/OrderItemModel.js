@@ -10,12 +10,8 @@ var OrderItemSchema = new mongoose.Schema({
         required:true
     },
 
-    flavor: {
-        type: String
-    },
-
     addOns: [{
-        type: String
+        type: mongoose.Schema.Types.ObjectId, ref: 'AddOn'
     }],
 
     quantity: {
@@ -23,7 +19,7 @@ var OrderItemSchema = new mongoose.Schema({
         required: true
     },
 
-    unitPrice: {
+    totalPrice: {
         type: Number,
         required: true
     }
