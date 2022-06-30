@@ -42,7 +42,6 @@ app.get('/getBag', controller.getBag);
 app.get('/getAllOrderItems', controller.getAllOrderItems);
 app.get('/getOrderItem', controller.getOrderItem);
 app.get('/updateBagItems', controller.getUpdateBagItems);
-app.post('/updateBagItemsPost', controller.postUpdateBagItems);
 app.get('/search', controller.getSearch);
 app.get('/searchresults', controller.getSearchResults);
 app.get('/addfeedback', controller.getAddFeedback);

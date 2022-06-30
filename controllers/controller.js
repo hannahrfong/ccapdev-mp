@@ -322,25 +322,17 @@ const controller = {
     },
 
     getUpdateBagItems: function(req, res)   {
-        var userId = req.query.userId;
+        var _id = req.query._id;
         var orderItems = req.query.orderItems;
 
-        db.updateOne(Bag, {userId: userId}, {orderItems: orderItems}, function()    {
-            //res.redirect('/menu');
-        });
-    },
-
-    postUpdateBagItems: function(req, res)   {
-        var userId = req.body.userId;
-        var orderItems = req.body.orderItems;
-
-        db.updateOne(Bag, {userId: userId}, {orderItems: orderItems}, function(result)    {
-           // res.redirect('/menu');
+        db.updateOne(Bag, {_id: _id}, {orderItems: orderItems}, function()    {
+            res.redirect('/menu');
         });
     },
 
 
     getAddOrderItem: function(req, res) {
+        var orderItemId = req.query.orderItemId;
         var orderId = req.query.orderId;
         var product = req.query.product;
         var addOns = req.query.addOns;
@@ -348,6 +340,7 @@ const controller = {
         var totalPrice = req.query.totalPrice;
 
         var orderItem = {
+            orderItemId: orderItemId,
             orderId: orderId,
             product: product,
             addOns: addOns,
@@ -356,8 +349,9 @@ const controller = {
         };
 
         db.insertOne(OrderItem, orderItem, function()   {
-            //res.redirect('/menu');
         });
+
+        
     },
 
     postAddAccount: function (req, res) {
