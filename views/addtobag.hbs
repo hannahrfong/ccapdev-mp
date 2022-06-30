@@ -25,37 +25,47 @@
         </div>
       </div>
 
+      {{#if this.bCustomizable}}
       <div class="col-sm-auto col-md-auto col-lg-5">
         <div class="card mt-5 ms-4 border-dark" style="border: 1px #888888; border-radius: 25px; box-shadow: 2px 2px 2px 2px #888888; background-color: white">
           <div class="card-body mx-4 my-4">
+  
+            {{#if this.inclusions}}
             <div>
-
-              <h5 class="card-title fw-bold mb-3">Description</h3>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-              </p>
-
-            </div>
-            
-            <div>
-              {{#if this.addOns}}
-                <h5 class="card-title fw-bold mt-5 mb-3">Add-Ons</h3>
-              {{/if}}
-              {{#each this.addOns as |addOn|}}
-                <div class="form-check mb-3">
-                <input class="form-check-input addOnOption" type="checkbox" value="" id="flexCheckDefault">
-                <label class="form-check-label" for="flexCheckDefault">
-                  {{addOn.name}}
-                </label>
-                <div style="float:right; font-weight:bold;" id="ck{{addOn.}}">
-                  <p>+ ₱{{addOn.price}}</p>
-                </div>
-              </div>
+              <h3 class="card-title fw-bold mt-1 mb-3" style="font-size: 1.6rem;">Inclusions</h3>
+              <ul class="ms-4 me-1 mb-5" >
+              {{#each this.inclusions as |inclusion|}}
+                <li class="mb-4 ms-4" style="font-size: 1.2rem;">
+                  <div style="float: left;">{{inclusion.productName}}</div>
+                  {{#if inclusion.quantity}}
+                    <div style="float:right; font-weight: bold;">&#40;{{inclusion.quantity}} pcs.&#41; </div>
+                  {{/if}}
+                </li>              
               {{/each}}
+              </ul>
             </div>
+            {{/if}}
+            
+            {{#if this.addOns}}
+              <div>
+                  <h3 class="card-title fw-bold mt-1 mb-3" >Add-Ons</h3>
+                {{#each this.addOns as |addOn|}}
+                  <div class="form-check mb-3 ms-4">
+                  <input class="form-check-input addOnOption" style="outline: 1px solid black;" type="checkbox" value="">
+                  <label class="form-check-label ms-2" for="flexCheckDefault">
+                    {{addOn.name}}
+                  </label>
+                  <div style="float:right; font-weight:bold;">
+                    <p style="font-size: 1.2rem;">+ ₱{{addOn.price}}</p>
+                  </div>
+                </div>
+                {{/each}}
+              </div>
+            {{/if}}
 
           </div>
         </div>
       </div>
+      {{/if}}
     </div>
   </div>

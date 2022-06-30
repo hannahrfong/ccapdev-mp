@@ -152,21 +152,30 @@ const controller = {
 
     getAddToBag: function (req, res) {
         var query = {name: req.params.name};
-        var projection = 'name image price addOn';
+        var projection = 'name image price addOn inclusion';
 
         db.findOne(Product, query, projection, function(result) {
             var productdetails = {
                 name: result.name,
                 image: result.image,
                 price: result.price,
-                addOn: result.addOn
+                addOn: result.addOn,
+                inclusion: result.inclusion
             };
+
+            var bool = false;
+            if (productdetails.inclusion.length > 0 || productdetails.addOn.length > 0)
+            {
+                bool = true;
+            }
 
             const data = {
                 style: ["bootstrap", "navbar", "addtobag"],
                 script: ["bootstrap", "addtobag"],
                 productdetails: productdetails,
-                addOns: []
+                addOns: [],
+                inclusions: [],
+                bCustomizable: bool
             }
 
             for (var i = 0; i < productdetails.addOn.length; i++)
@@ -182,6 +191,16 @@ const controller = {
                     data.addOns.push(addOnObj);
 
                 });
+            }
+
+            for (var i = 0; i < productdetails.inclusion.length; i++)
+            {
+                var inclusionObj = {
+                    productName: productdetails.inclusion[i].productName,
+                    quantity: productdetails.inclusion[i].quantity
+                };
+
+                data.inclusions.push(inclusionObj);
             }
 
             res.render("addtobag", data);
