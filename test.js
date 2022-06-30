@@ -107,7 +107,7 @@ AddOn.deleteMany()
 
 function insertProducts(garlicBread, parmesanGarlicBread, cornCarrots, bacon, cheese, bbqSauce, dip){
     var lasagna = "Premium All Beef Lasagna";
-    var ribs = "Smoky Baby Rack Ribs";
+    var ribs = "Smoky Baby Back Ribs";
     var salmon = "Parmesan Baked Salmon";
     var chicken = "Garlic Parmesan Wings";
     var nachoBake = "Four Cheese Nacho Bake";
@@ -117,7 +117,7 @@ function insertProducts(garlicBread, parmesanGarlicBread, cornCarrots, bacon, ch
     var cookies = "Reese's Chocochip Cookies";
     var crinkles = "Chocolate Crinkles";
     var cake = "Belgian Chocolate Cake";
-    var icedTea = "Houseblen Iced Tea";
+    var icedTea = "Houseblend Iced Tea";
     var calamansi = "Calamansi Juice";
     var mango = "Mango Juice";
     var fourSeasons = "Four Seasons Juice";
@@ -171,29 +171,32 @@ function insertProducts(garlicBread, parmesanGarlicBread, cornCarrots, bacon, ch
 
         {
             id: counter++,
-            name: ribs + "(Half Rack)",
+            name: ribs + " (Half Rack)",
             category: main,
             price: 645,
             image: '/images/products/ribs-half.png',
-            addOn: [cornCarrots, bbqSauce]
+            addOn: [cornCarrots, bbqSauce],
+            inclusion: [{productName: "Corn and Carrots"}]
         },
 
         {
             id: counter++,
-            name: ribs + "(Single Rack)",
+            name: ribs + " (Single Rack)",
             category: main,
             price: 1125,
             image: '/images/products/ribs-single.png',
-            addOn: [cornCarrots, bbqSauce]
+            addOn: [cornCarrots, bbqSauce],
+            inclusion: [{productName: "Corn and Carrots"}]
         },
 
         {
             id: counter++,
-            name: ribs + "(Double Rack)",
+            name: ribs + " (Double Rack)",
             category: main,
             price: 2225,
             image: '/images/products/ribs-double.png',
-            addOn: [cornCarrots, bbqSauce]
+            addOn: [cornCarrots, bbqSauce],
+            inclusion: [{productName: "Corn and Carrots"}]
         },
 
         {
@@ -202,7 +205,8 @@ function insertProducts(garlicBread, parmesanGarlicBread, cornCarrots, bacon, ch
             category: main,
             price: 1295,
             image: '/images/products/salmon-medium.png',
-            addOn: [cornCarrots]
+            addOn: [cornCarrots],
+            inclusion: [{productName: "Corn and Carrots"}]
         },
 
         {
@@ -211,7 +215,8 @@ function insertProducts(garlicBread, parmesanGarlicBread, cornCarrots, bacon, ch
             category: main,
             price: 2495,
             image: '/images/products/salmon-large.png',
-            addOn: [cornCarrots]
+            addOn: [cornCarrots],
+            inclusion: [{productName: "Corn and Carrots"}]
         },
 
         {
@@ -388,7 +393,12 @@ function insertProducts(garlicBread, parmesanGarlicBread, cornCarrots, bacon, ch
             name: bday + m,
             category: bundle,
             price: 2550,
-            image: '/images/products/bday-medium.png'
+            image: '/images/products/bday-medium.png',
+            inclusion: [{productName: "Premium Medium Lasagna", quantity: 1}, 
+            {productName: "Medium Baked Salmon", quantity: 1},
+            {productName: "Garlic Parmesan Chicken Wings", quantity: 12},
+            {productName: "Garlic Bread", quantity: 6}]
+
         },
 
         {
@@ -396,7 +406,11 @@ function insertProducts(garlicBread, parmesanGarlicBread, cornCarrots, bacon, ch
             name: party + m,
             category: bundle,
             price: 1495,
-            image: '/images/products/party-medium.png'
+            image: '/images/products/party-medium.png',
+            inclusion: [{productName: "Premium Medium Lasagna", quantity: 1}, 
+            {productName: "Garlic Parmesan Chicken Wings", quantity: 12},
+            {productName: "Garlic Bread", quantity: 6},
+            {productName: "Houseblend Iced Tea", quantity: 4}]
         },
 
         {
@@ -404,7 +418,11 @@ function insertProducts(garlicBread, parmesanGarlicBread, cornCarrots, bacon, ch
             name: holiday + m,
             category: bundle,
             price: 2450,
-            image: '/images/products/holiday-medium.png'
+            image: '/images/products/holiday-medium.png',
+            inclusion: [{productName: "Premium Medium Lasagna", quantity: 1}, 
+            {productName: "Rack of Baby Back Ribs", quantity: 1},
+            {productName: "Garlic Parmesan Chicken Wings", quantity: 12},
+            {productName: "Garlic Bread", quantity: 6}]
         },
 
         {
@@ -412,7 +430,12 @@ function insertProducts(garlicBread, parmesanGarlicBread, cornCarrots, bacon, ch
             name: fiesta + m,
             category: bundle,
             price: 3700,
-            image: '/images/products/fiesta-medium.png'
+            image: '/images/products/fiesta-medium.png',
+            inclusion: [{productName: "Premium Medium Lasagna", quantity: 1}, 
+            {productName: "Rack of Baby Back Ribs", quantity: 1},
+            {productName: "Medium Baked Salmon", quantity: 1},
+            {productName: "Garlic Parmesan Chicken Wings", quantity: 12},
+            {productName: "Garlic Bread", quantity: 6}]
         },
 
         {
@@ -420,7 +443,11 @@ function insertProducts(garlicBread, parmesanGarlicBread, cornCarrots, bacon, ch
             name: bday + l,
             category: bundle,
             price: 4850,
-            image: '/images/products/bday-large.png'
+            image: '/images/products/bday-large.png',
+            inclusion: [{productName: "Premium Large Lasagna", quantity: 1}, 
+            {productName: "Large Baked Salmon", quantity: 1},
+            {productName: "Garlic Parmesan Chicken Wings", quantity: 24},
+            {productName: "Garlic Bread", quantity: 12}]
         },
 
         {
@@ -428,7 +455,11 @@ function insertProducts(garlicBread, parmesanGarlicBread, cornCarrots, bacon, ch
             name: party + l,
             category: bundle,
             price: 2795,
-            image: '/images/products/party-large.png'
+            image: '/images/products/party-large.png',
+            inclusion: [{productName: "Premium Large Lasagna", quantity: 1}, 
+            {productName: "Garlic Parmesan Chicken Wings", quantity: 24},
+            {productName: "Garlic Bread", quantity: 12},
+            {productName: "Houseblend Iced Tea", quantity: 8}]
         },
 
         {
@@ -436,7 +467,11 @@ function insertProducts(garlicBread, parmesanGarlicBread, cornCarrots, bacon, ch
             name: holiday + l,
             category: bundle,
             price: 4650,
-            image: '/images/products/holiday-large.png'
+            image: '/images/products/holiday-large.png',
+            inclusion: [{productName: "Premium Large Lasagna", quantity: 1}, 
+            {productName: "Racks of Baby Back Ribs", quantity: 2},
+            {productName: "Garlic Parmesan Chicken Wings", quantity: 24},
+            {productName: "Garlic Bread", quantity: 12}]
         },
 
         {
@@ -444,7 +479,12 @@ function insertProducts(garlicBread, parmesanGarlicBread, cornCarrots, bacon, ch
             name: fiesta + l,
             category: bundle,
             price: 7100,
-            image: '/images/products/fiesta-large.png'
+            image: '/images/products/fiesta-large.png',
+            inclusion: [{productName: "Premium Large Lasagna", quantity: 1}, 
+            {productName: "Racks of Baby Back Ribs", quantity: 2},
+            {productName: "Large Baked Salmon", quantity: 1},
+            {productName: "Garlic Parmesan Chicken Wings", quantity: 24},
+            {productName: "Garlic Bread", quantity: 12}]
         }
     ]
     Product.insertMany(products)

@@ -1,5 +1,4 @@
 const db = require("../models/db.js");
-const Account = require("../models/AccountModel.js");
 const Product = require("../models/ProductModel.js");
 const Feedback = require("../models/FeedbackModel.js");
 const BestSeller = require("../models/BestSellerModel.js");
@@ -126,27 +125,6 @@ const controller = {
             style: ["navbar", "accountdetails", "profile"]
         }
         res.render("profile", data);
-    },
-
-    getAddresses: function (req, res) {
-        const data = {
-            style: ["navbar", "accountdetails", "addresses"]
-        }
-        res.render("addresses", data);
-    },
-
-    getContactNums: function (req, res) {
-        const data = {
-            style: ["navbar", "accountdetails", "contactnums"]
-        }
-        res.render("contactnums", data);
-    },
-
-    getID: function (req, res) {
-        const data = {
-            style: ["navbar", "accountdetails", "id"]
-        }
-        res.render("id", data);
     },
 
     getAddToBag: function (req, res) {
@@ -281,16 +259,6 @@ const controller = {
             res.redirect('/home');
         })
     },
-
-    /*
-    getItemPrice: function(req, res) 
-        var name = req.query.name;
-
-        db.findOne(Product, {name: name}, 'name', function(result)  {
-            res.send(result);
-        });
-    }
-    */
 
     getAddOn: function(req, res) {
         var name = req.query.name;

@@ -27,6 +27,18 @@ var ProductSchema = new mongoose.Schema({
 
     addOn: [{
         type: mongoose.Schema.Types.ObjectId, ref: 'AddOn'
-    }]
+    }],
+
+    inclusion: [
+        {
+            productName: {
+                type: String, 
+                required: true
+            },
+            quantity: {
+                type: Number
+            } 
+        }
+    ]
 });
 module.exports = mongoose.model('Product', ProductSchema);
