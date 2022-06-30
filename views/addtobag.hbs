@@ -43,11 +43,11 @@
               {{/if}}
               {{#each this.addOns as |addOn|}}
                 <div class="form-check mb-3">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                <input class="form-check-input addOnOption" type="checkbox" value="" id="flexCheckDefault">
                 <label class="form-check-label" for="flexCheckDefault">
                   {{addOn.name}}
                 </label>
-                <div style="float:right">
+                <div style="float:right; font-weight:bold;" id="ck{{addOn.}}">
                   <p>+ ₱{{addOn.price}}</p>
                 </div>
               </div>

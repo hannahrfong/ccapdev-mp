@@ -5,6 +5,9 @@ const Feedback = require("../models/FeedbackModel.js");
 const BestSeller = require("../models/BestSellerModel.js");
 const { populate } = require("../models/ProductModel.js");
 const AddOn = require("../models/AddOnModel.js")
+const OrderItem = require("../models/OrderItemModel.js");
+const Bag = require("../models/BagModel.js");
+const Order = require("../models/OrderModel.js");
 
 const controller = {
 
@@ -255,7 +258,26 @@ const controller = {
         db.insertOne(Account, {firstName: first, lastName: last, email: email, password: pw, contactNumber: number, completeAddress: address}, function(flag){
             res.redirect('/home');
         })
+    },
+
+    /*
+    getItemPrice: function(req, res) 
+        var name = req.query.name;
+
+        db.findOne(Product, {name: name}, 'name', function(result)  {
+            res.send(result);
+        });
     }
+    */
+
+    getAddOn: function(req, res) {
+        var name = req.query.name;
+
+        db.findOne(AddOn, {name: name}, 'id name price', function(result)  {
+            res.send(result);
+        });
+    }
+
 }
 
 module.exports = controller;

@@ -32,8 +32,9 @@ app.get('/profile', controller.getProfile);
 app.get('/addresses', controller.getAddresses);
 app.get('/contactnums', controller.getContactNums);
 app.get('/id', controller.getID);
-app.get('/addtobag/:name', controller.getAddToBag)
-app.get('/checkout', controller.getCheckout)
+app.get('/addtobag/:name', controller.getAddToBag);
+app.get('/getAddOn', controller.getAddOn);
+app.get('/checkout', controller.getCheckout);
 app.get('/confirmation', controller.getConfirmation)
 
 app.get('/search', controller.getSearch);
