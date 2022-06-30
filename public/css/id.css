@@ -1,0 +1,40 @@
+.field-name {
+    font-family: poppinsbold;
+    font-size: 22px;
+    width: 25%;
+    text-align: left;
+    margin-right: 20px;
+    padding-left: 10px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    padding-left: 15px;
+    padding-top: 5px;
+}
+
+.modify {
+    padding-left: 15px;
+    margin-right: 20px;
+}
+
+button {
+    background-color: #c93020;
+    border-radius: 5px;
+    border: none;
+    font-size: 18px;
+    color: white;
+}
+
+.btn {
+    min-width: 200px;
+    height: 51px;
+    padding: 10px;
+}
+
+.modify-btn {
+    width: 89px;
+    height: 43px;
+    margin-right: 15px;
+}
