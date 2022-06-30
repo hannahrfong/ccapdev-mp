@@ -497,7 +497,7 @@ function insertProducts(garlicBread, parmesanGarlicBread, cornCarrots, bacon, ch
     })
     .then(function(result){
         lasagnaMed = result._id;
-        return Product.findOne({name: "Smoky Baby Rack Ribs(Single Rack)"});
+        return Product.findOne({name: "Smoky Baby Back Ribs (Single Rack)"});
     })
     .then(function(result){
         ribsSingle = result._id;

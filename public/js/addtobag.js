@@ -1,10 +1,22 @@
 $(document).ready(function(){
 
+<<<<<<< Updated upstream
   var itemPrice = $("#price").text();
   itemPrice = itemPrice.substring(1);
   itemPrice = parseFloat(itemPrice);
 
   $("#addtobag").text("Add to Bag - ₱" + itemPrice);
+=======
+  //plus button
+  
+  //minus button
+
+  //edit button
+
+  //delete button
+
+
+>>>>>>> Stashed changes
 
 
   // price = 395;
