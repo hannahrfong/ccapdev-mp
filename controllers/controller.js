@@ -7,6 +7,7 @@ const AddOn = require("../models/AddOnModel.js")
 const OrderItem = require("../models/OrderItemModel.js");
 const Bag = require("../models/BagModel.js");
 const Order = require("../models/OrderModel.js");
+const Account = require("../models/AccountModel.js");
 
 const controller = {
 
@@ -125,6 +126,27 @@ const controller = {
             style: ["navbar", "accountdetails", "profile"]
         }
         res.render("profile", data);
+    },
+
+    getAddresses: function (req, res) {
+        const data = {
+            style: ["navbar", "accountdetails", "addresses"]
+        }
+        res.render("addresses", data);
+    },
+
+    getContactNums: function (req, res) {
+        const data = {
+            style: ["navbar", "accountdetails", "contactnums"]
+        }
+        res.render("contactnums", data);
+    },
+
+    getID: function (req, res) {
+        const data = {
+            style: ["navbar", "accountdetails", "id"]
+        }
+        res.render("id", data);
     },
 
     getAddToBag: function (req, res) {
@@ -303,9 +325,20 @@ const controller = {
         db.insertOne(OrderItem, orderItem, function()   {
             res.redirect('/menu');
         });
-    }
+    },
 
-    
+    postAddAccount: function (req, res) {
+        var first = req.body.firstname;
+        var last = req.body.lastname;
+        var email = req.body.email;
+        var pw = req.body.psw;
+        var number = req.body.contactno;
+        var address = req.body.address;
+        
+        db.insertOne(Account, {firstName: first, lastName: last, email: email, password: pw, contactNumber: number, completeAddress: address}, function(flag){
+            res.redirect('/home');
+        })
+    }
 
 }
 

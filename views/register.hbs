@@ -20,33 +20,33 @@
           <div class="split right">
               <div class="container">
                 <h1 id="header">Register</h1>
-                <form action="/home" method="get">
+                <form action="/addaccount" method="post">
                     <div class="two-fields">
                         <div class="field-one">
                             <label for="firstname"><b>First Name *</b></label><br>
-                            <input type="text" placeholder="John" name="firstname" required>
+                            <input type="text" placeholder="John" id="firstname" name="firstname" required>
                         </div>
                         <div class="field-two">
                             <label for="lastname"><b>Last Name *</b></label><br>
-                            <input type="text" placeholder="Doe" name="lastname" required>
+                            <input type="text" placeholder="Doe" id="lastname" name="lastname" required>
                         </div>
                     </div>
 
                     <div class="break"></div>
 
                     <label for="email"><b>Email *</b></label><br>
-                    <input type="text" placeholder="johndoe@gmail.com" name="email" required>
+                    <input type="text" placeholder="johndoe@gmail.com" id="email" name="email" required>
 
                     <div class="break"></div>
 
                     <div class="two-fields">
                         <div class="field-one">
                             <label for="psw"><b>Password *</b></label><br>
-                            <input type="password" id="psw" placeholder="Enter Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="psw" required>
+                            <input type="password" id="psw" placeholder="Enter Password" pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Z\d@$!%*#?&]{8,}$" name="psw" required>
                         </div>
                         <div class="field-two">
                             <label for="confirmpsw"><b>Confirm Password *</b></label><br>
-                            <input type="password" id="confirmpsw" placeholder="Enter Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="confirmpsw" required>
+                            <input type="password" id="confirmpsw" placeholder="Enter Password" pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Z\d@$!%*#?&]{8,}$" name="confirmpsw" required>
                         </div>
                     </div>
 
@@ -61,12 +61,12 @@
                     <div class="break"></div>
 
                     <label for="contactno"><b>Contact Number *</b></label><br>
-                    <input type="text" placeholder="09xxxxxxxxx" pattern="[0-9]+" minlength="11" name="contactno" required>
+                    <input type="text" id="contactno" placeholder="09xxxxxxxxx" pattern="[0-9]+" minlength="11" name="contactno" required>
 
                     <div class="break"></div>
 
                     <label for="address"><b>Complete Address *</b></label><br>
-                    <input type="text" placeholder="Address" name="address" required>
+                    <input type="text" id="address" placeholder="Address" name="address" required>
 
                     <div class="break"></div>
 
@@ -83,7 +83,7 @@
 
                     <div class="break"></div>
 
-                    <button type="submit"><strong>Register</strong></button>
+                    <button type="submit" id="reg-submit" disabled><strong>Register</strong></button>
                     
                     <p>Already a member? <a href="/">Sign In</a></p>
                 </form>
