@@ -16,19 +16,4 @@ $(document).ready(function(){
         else
             submit.disabled = true;
     }
-
-    submit.onclick = function() {
-        $.get('/checkaccount', {email: email.value, password: pw.value}, function(res) {
-            if (res == "err-email")
-                document.getElementById("error").innerHTML = "This account is not registered.";
-            else
-                if (res == "err-pw")
-                    document.getElementById("error").innerHTML = "Incorrect password. Please try again.";
-                else
-                {
-                    document.getElementById("error").innerHTML = "";
-                    $("body").load('/home');
-                }
-        })
-    };
 });

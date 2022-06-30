@@ -20,7 +20,7 @@
           <div class="split right">
               <div class="container">
                 <h1 id="header">Register</h1>
-                <form>
+                <form action="/addaccount">
                     <div class="two-fields">
                         <div class="field-one">
                             <label for="firstname"><b>First Name *</b></label><br>
@@ -83,11 +83,11 @@
 
                     <div class="break"></div>
 
-                    <p id="error"></p>
+                    <p id="error">{{error_msg}}</p>
 
-                    <button type="button" id="reg-submit" disabled><strong>Register</strong></button>
+                    <button type="submit" id="reg-submit" disabled><strong>Register</strong></button>
                     
-                    <p>Already a member? <a href="/">Sign In</a></p>
+                    <p>Already a member? <a href="/signin">Sign In</a></p>
                 </form>
             </div>
           </div>

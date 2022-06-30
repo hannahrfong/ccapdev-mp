@@ -19,7 +19,7 @@
           <div class="split right">
               <div class="container">
                 <h1 id="header">Sign In</h1>
-                <form>
+                <form action="/checkaccount">
                     <label for="email"><b>Email</b></label><br>
                     <input type="text" placeholder="Enter Email" id="email" name="email" required>
 
@@ -34,9 +34,9 @@
 
                     <div class="break"></div>
 
-                    <p id="error"></p>
+                    <p id="error">{{error_msg}}</p>
 
-                    <button type="button" id="signin-submit" disabled><strong>Sign In</strong></button>
+                    <button type="submit" id="signin-submit" disabled><strong>Sign In</strong></button>
                     
                     <p>Don't have an account? <a href="/register">Sign Up</a></p>
                 </form>

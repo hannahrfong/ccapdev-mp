@@ -71,17 +71,4 @@ $(document).ready(function(){
             submit.disabled = true;
         }
     }
-
-    submit.onclick = function() {
-        $.get('/addaccount', {firstname: first.value, lastname: last.value, email: email.value, password: input.value, contactno: contactno.value,
-            address: address.value}, function(res) {
-                if (res == "found")
-                    document.getElementById("error").innerHTML = "This account is already registered.";
-                else
-                {
-                    document.getElementById("error").innerHTML = "";
-                    $("body").load('/home');
-                }
-            })
-    };
 });

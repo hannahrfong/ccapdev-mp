@@ -124,7 +124,8 @@ const controller = {
 
     getProfile: function (req, res) {
         const data = {
-            style: ["navbar", "accountdetails", "profile"]
+            style: ["navbar", "accountdetails", "profile"],
+            name: req.session.name
         }
         res.render("profile", data);
     },
@@ -376,7 +377,7 @@ const controller = {
         var first = req.query.firstname;
         var last = req.query.lastname;
         var email = req.query.email;
-        var pw = req.query.password;
+        var pw = req.query.psw;
         var number = req.query.contactno;
         var address = req.query.address;
         const saltRounds = 10;
@@ -386,14 +387,20 @@ const controller = {
             {
                 bcrypt.hash(pw, saltRounds, (err, hashed) => {
                     if (!err)
-                        db.insertOne(Account, {firstName: first, lastName: last, email: email, password: hashed, contactNumber: number, completeAddress: address}, function(flag){
-                            res.send('success');
-                        })
+                        Account.create({firstName: first, lastName: last, email: email, password: hashed, contactNumber: number, completeAddress: address}, function(error, result) {
+                            req.session.user = result._id;
+                            req.session.name = result.firstName + " " + result.lastName;
+
+                            console.log(req.session);
+                            res.redirect('/');
+                        });
                 });
             }
             else
-                if (res != null)
-                    res.send("found");
+            {
+                req.flash('error_msg', 'This account already exists.');
+                res.redirect('/register');
+            }
         });
     },
 
@@ -401,23 +408,52 @@ const controller = {
         db.findOne(Account, {email: req.query.email}, {firstName: 1, lastName: 1, email: 1, password: 1, contactNumber: 1, completeAddress: 1}, function(user) {
             if (user != null)
             {
-                bcrypt.compare(req.query.password, user.password, (err, result) => {
+                bcrypt.compare(req.query.psw, user.password, (err, result) => {
                     if (result)
                     {
-                        /*req.session.user = user._id;
-                        req.session.name = user.name;
+                        req.session.user = user._id;
+                        req.session.name = user.firstName + " " + user.lastName;
 
-                        console.log(req.session);*/
-
-                        res.send("found");
+                        console.log(req.session);
+                        res.redirect('/');
                     }
                     else
-                        res.send("err-pw")
-                })
+                    {
+                        req.flash('error_msg', 'Incorrect password. Please try again.');
+                        res.redirect('/signin');
+                    }
+                });
             }
             else
-                res.send("err-email");
+            {
+                req.flash('error_msg', 'This account is not registered.');
+                res.redirect('/signin');
+            }
         });
+    },
+
+    isPrivate: function(req, res, next) {
+        if (req.session.user)
+            return next();
+        else
+            res.redirect('/signin');
+    },
+
+    isPublic: function(req, res, next) {
+        if (req.session.user)
+            res.redirect('/');
+        else
+            return next();
+    },
+
+    getLogout: function(req, res) {
+        if (req.session)
+        {
+            req.session.destroy(() => {
+                res.clearCookie('connect.sid');
+                res.redirect('/signin');
+            });
+        }
     }
 }
 

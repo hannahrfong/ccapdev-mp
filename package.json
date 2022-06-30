@@ -19,8 +19,11 @@
   "homepage": "https://github.com/hannahrfong/ccapdev-mp#readme",
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "connect-flash": "^0.1.1",
+    "connect-mongo": "^4.6.0",
     "express": "^4.18.1",
     "express-handlebars": "^6.0.6",
+    "express-session": "^1.17.3",
     "hbs": "^4.2.0",
     "mongoose": "^6.4.0"
   }
