@@ -20,7 +20,7 @@
           <div class="split right">
               <div class="container">
                 <h1 id="header">Register</h1>
-                <form action="/addaccount" method="post">
+                <form>
                     <div class="two-fields">
                         <div class="field-one">
                             <label for="firstname"><b>First Name *</b></label><br>
@@ -42,11 +42,11 @@
                     <div class="two-fields">
                         <div class="field-one">
                             <label for="psw"><b>Password *</b></label><br>
-                            <input type="password" id="psw" placeholder="Enter Password" pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Z\d@$!%*#?&]{8,}$" name="psw" required>
+                            <input type="password" id="psw" placeholder="Enter Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="psw" required>
                         </div>
                         <div class="field-two">
                             <label for="confirmpsw"><b>Confirm Password *</b></label><br>
-                            <input type="password" id="confirmpsw" placeholder="Enter Password" pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Z\d@$!%*#?&]{8,}$" name="confirmpsw" required>
+                            <input type="password" id="confirmpsw" placeholder="Enter Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="confirmpsw" required>
                         </div>
                     </div>
 
@@ -83,7 +83,9 @@
 
                     <div class="break"></div>
 
-                    <button type="submit" id="reg-submit" disabled><strong>Register</strong></button>
+                    <p id="error"></p>
+
+                    <button type="button" id="reg-submit" disabled><strong>Register</strong></button>
                     
                     <p>Already a member? <a href="/">Sign In</a></p>
                 </form>

@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/hannahrfong/ccapdev-mp#readme",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "express": "^4.18.1",
     "express-handlebars": "^6.0.6",
     "hbs": "^4.2.0",

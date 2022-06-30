@@ -8,6 +8,7 @@ const OrderItem = require("../models/OrderItemModel.js");
 const Bag = require("../models/BagModel.js");
 const Order = require("../models/OrderModel.js");
 const Account = require("../models/AccountModel.js");
+const bcrypt = require("bcrypt");
 
 const controller = {
 
@@ -352,19 +353,53 @@ const controller = {
         
     },
 
-    postAddAccount: function (req, res) {
-        var first = req.body.firstname;
-        var last = req.body.lastname;
-        var email = req.body.email;
-        var pw = req.body.psw;
-        var number = req.body.contactno;
-        var address = req.body.address;
-        
-        db.insertOne(Account, {firstName: first, lastName: last, email: email, password: pw, contactNumber: number, completeAddress: address}, function(flag){
-            res.redirect('/home');
-        })
-    }
+    getAddAccount: function (req, res) {
+        var first = req.query.firstname;
+        var last = req.query.lastname;
+        var email = req.query.email;
+        var pw = req.query.password;
+        var number = req.query.contactno;
+        var address = req.query.address;
+        const saltRounds = 10;
 
+        db.findOne(Account, {email: email}, {email: 1}, function(result) {
+            if (result == null)
+            {
+                bcrypt.hash(pw, saltRounds, (err, hashed) => {
+                    if (!err)
+                        db.insertOne(Account, {firstName: first, lastName: last, email: email, password: hashed, contactNumber: number, completeAddress: address}, function(flag){
+                            res.send('success');
+                        })
+                });
+            }
+            else
+                if (res != null)
+                    res.send("found");
+        });
+    },
+
+    getCheckAccount: function(req, res) {
+        db.findOne(Account, {email: req.query.email}, {firstName: 1, lastName: 1, email: 1, password: 1, contactNumber: 1, completeAddress: 1}, function(user) {
+            if (user != null)
+            {
+                bcrypt.compare(req.query.password, user.password, (err, result) => {
+                    if (result)
+                    {
+                        /*req.session.user = user._id;
+                        req.session.name = user.name;
+
+                        console.log(req.session);*/
+
+                        res.send("found");
+                    }
+                    else
+                        res.send("err-pw")
+                })
+            }
+            else
+                res.send("err-email");
+        });
+    }
 }
 
 module.exports = controller;

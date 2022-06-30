@@ -45,6 +45,6 @@ app.get('/updateBagItems', controller.getUpdateBagItems);
 app.get('/search', controller.getSearch);
 app.get('/searchresults', controller.getSearchResults);
 app.get('/addfeedback', controller.getAddFeedback);
-app.post('/addaccount', controller.postAddAccount);
-
+app.get('/addaccount', controller.getAddAccount);
+app.get('/checkaccount', controller.getCheckAccount);
 module.exports = app;

@@ -4,6 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="all" href="css/forms.css"/>
+    <script type="text/javascript" src="js/sign-in.js"></script>
     </head>
 
     <body>
@@ -18,14 +19,14 @@
           <div class="split right">
               <div class="container">
                 <h1 id="header">Sign In</h1>
-                <form action="/home">
+                <form>
                     <label for="email"><b>Email</b></label><br>
-                    <input type="text" placeholder="Enter Email" name="email" required>
+                    <input type="text" placeholder="Enter Email" id="email" name="email" required>
 
                     <div class="break"></div>
 
                     <label for="psw"><b>Password</b></label><br>
-                    <input type="password" placeholder="Enter Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="psw" required>
+                    <input type="password" id="psw" placeholder="Enter Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="psw" required>
 
                     <p><a href="#">Forgot your password?</a></p>
 
@@ -33,7 +34,9 @@
 
                     <div class="break"></div>
 
-                    <button type="submit" id="signin-submit"><strong>Sign In</strong></button>
+                    <p id="error"></p>
+
+                    <button type="button" id="signin-submit" disabled><strong>Sign In</strong></button>
                     
                     <p>Don't have an account? <a href="/register">Sign Up</a></p>
                 </form>

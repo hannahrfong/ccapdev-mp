@@ -8,6 +8,13 @@ $(document).ready(function(){
     var input2 = document.getElementById("confirmpsw");
     var match = document.getElementById("match");
 
+    var first = document.getElementById("firstname");
+    var last = document.getElementById("lastname");
+    var email = document.getElementById("email");
+    var contactno = document.getElementById("contactno");
+    var address = document.getElementById("address");
+    var submit = document.getElementById("reg-submit");
+
     input.onkeyup = function() {
         // Check length
         if(input.value.length >= 8) {
@@ -56,12 +63,25 @@ $(document).ready(function(){
         if (input.value == input2.value) {
             match.classList.remove("invalid");
             match.classList.add("valid");
-            document.getElementById("reg-submit").disabled = false;
+            submit.disabled = false;
         }
         else {
             match.classList.remove("valid");
             match.classList.add("invalid");
-            document.getElementById("reg-submit").disabled = true;
+            submit.disabled = true;
         }
     }
+
+    submit.onclick = function() {
+        $.get('/addaccount', {firstname: first.value, lastname: last.value, email: email.value, password: input.value, contactno: contactno.value,
+            address: address.value}, function(res) {
+                if (res == "found")
+                    document.getElementById("error").innerHTML = "This account is already registered.";
+                else
+                {
+                    document.getElementById("error").innerHTML = "";
+                    $("body").load('/home');
+                }
+            })
+    };
 });
