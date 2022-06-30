@@ -6,11 +6,6 @@ var OrderItemSchema = new mongoose.Schema({
         required: true
     },
 
-    orderId: {
-        type: Number,
-        required: true
-    },
-
     product: {
         type: mongoose.Schema.Types.ObjectId, ref: 'Product',
         required:true

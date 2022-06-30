@@ -301,7 +301,7 @@ const controller = {
     getBag: function(req, res) {
         var userId = req.query.userId;
 
-        db.findOne(Bag, {userId: userId}, 'userId orderId orderItems', function(result)  {
+        db.findOne(Bag, {userId: userId}, 'userId orderItems', function(result)  {
             res.send(result);
         });
     },
@@ -333,7 +333,6 @@ const controller = {
 
     getAddOrderItem: function(req, res) {
         var orderItemId = req.query.orderItemId;
-        var orderId = req.query.orderId;
         var product = req.query.product;
         var addOns = req.query.addOns;
         var quantity = req.query.quantity;
@@ -341,7 +340,6 @@ const controller = {
 
         var orderItem = {
             orderItemId: orderItemId,
-            orderId: orderId,
             product: product,
             addOns: addOns,
             quantity: quantity,

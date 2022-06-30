@@ -248,12 +248,10 @@ $(document).ready(function(){
                     var quantity = itemQuantity;
                     var totalPrice = tPrice;
                     var product = res._id;
-                    var orderId = newRes.orderId;
                   
                     
                     var query = {
                       orderItemId: orderItemId,
-                      orderId: orderId,
                       product: product,
                       addOns: addOns,
                       quantity: quantity,
@@ -298,12 +296,10 @@ $(document).ready(function(){
             var quantity = itemQuantity;
             var totalPrice = tPrice;
             var product = res._id;
-            var orderId = newRes.orderId;
           
             
             var query = {
               orderItemId: orderItemId,
-              orderId: orderId,
               product: product,
               addOns: addOns,
               quantity: quantity,

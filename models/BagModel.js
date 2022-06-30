@@ -5,11 +5,6 @@ var BagSchema = new mongoose.Schema({
         required: true
     },
 
-    orderId: {
-        type: Number,
-        required:true
-    },
-
     orderItems: [{
         type: mongoose.Schema.Types.ObjectId, ref: 'OrderItem'
     }]
