@@ -111,8 +111,8 @@ function insertProducts(garlicBread, parmesanGarlicBread, cornCarrots, bacon, ch
     var chicken = "Garlic Parmesan Wings";
     var nachoBake = "Four Cheese Nacho Bake";
     var bakedPotato = "Cheesy Bacon Baked Potatoes";
-    var truffleFries = "Parmesan Truffle Fries w/ Dip";
-    var twisterFries = "Twister Fries w/ Drip";
+    var truffleFries = "Parmesan Truffle Fries with Dip";
+    var twisterFries = "Twister Fries with Dip";
     var cookies = "Reese's Chocochip Cookies";
     var crinkles = "Chocolate Crinkles";
     var cake = "Belgian Chocolate Cake";

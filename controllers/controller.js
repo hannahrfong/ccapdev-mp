@@ -4,6 +4,7 @@ const Product = require("../models/ProductModel.js");
 const Feedback = require("../models/FeedbackModel.js");
 const BestSeller = require("../models/BestSellerModel.js");
 const { populate } = require("../models/ProductModel.js");
+const AddOn = require("../models/AddOnModel.js")
 
 const controller = {
 
@@ -146,24 +147,41 @@ const controller = {
     },
 
     getAddToBag: function (req, res) {
-        
         var query = {name: req.params.name};
-        var projection = 'name image price';
+        var projection = 'name image price addOn';
 
         db.findOne(Product, query, projection, function(result) {
             var productdetails = {
                 name: result.name,
                 image: result.image,
-                price: result.price
+                price: result.price,
+                addOn: result.addOn
             };
 
             const data = {
                 style: ["bootstrap", "navbar", "addtobag"],
                 script: ["bootstrap", "addtobag"],
-                productdetails: productdetails
+                productdetails: productdetails,
+                addOns: []
             }
-    
+
+            for (var i = 0; i < productdetails.addOn.length; i++)
+            {
+                var addOnObjId = productdetails.addOn[i] 
+                db.findOne(AddOn, {_id: addOnObjId}, 'id name price', function(newRes)  {
+
+                    var addOnObj = {
+                        id: newRes.id,
+                        name: newRes.name,
+                        price: newRes.price
+                    };
+                    data.addOns.push(addOnObj);
+
+                });
+            }
+
             res.render("addtobag", data);
+            
         });
         
     },
