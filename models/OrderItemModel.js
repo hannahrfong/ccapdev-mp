@@ -1,5 +1,11 @@
 var mongoose = require('mongoose');
 var OrderItemSchema = new mongoose.Schema({
+
+    orderItemId: {
+        type: Number,
+        required: true
+    },
+
     orderId: {
         type: Number,
         required: true

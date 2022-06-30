@@ -306,6 +306,39 @@ const controller = {
         });
     },
 
+    getAllOrderItems: function(req, res){
+        
+        db.findMany(OrderItem, {}, "", function(result){
+            res.send(result);
+        });
+    },
+
+    getOrderItem: function(req, res) {
+        var orderItemId = req.query.orderItemId;
+
+        db.findOne(OrderItem, {orderItemId: orderItemId}, '_id', function(result)  {
+            res.send(result);
+        });
+    },
+
+    getUpdateBagItems: function(req, res)   {
+        var userId = req.query.userId;
+        var orderItems = req.query.orderItems;
+
+        db.updateOne(Bag, {userId: userId}, {orderItems: orderItems}, function()    {
+            //res.redirect('/menu');
+        });
+    },
+
+    postUpdateBagItems: function(req, res)   {
+        var userId = req.body.userId;
+        var orderItems = req.body.orderItems;
+
+        db.updateOne(Bag, {userId: userId}, {orderItems: orderItems}, function(result)    {
+           // res.redirect('/menu');
+        });
+    },
+
 
     getAddOrderItem: function(req, res) {
         var orderId = req.query.orderId;
@@ -323,7 +356,7 @@ const controller = {
         };
 
         db.insertOne(OrderItem, orderItem, function()   {
-            res.redirect('/menu');
+            //res.redirect('/menu');
         });
     },
 

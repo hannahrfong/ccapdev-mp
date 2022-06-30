@@ -113,7 +113,7 @@ $(document).ready(function(){
               var totalPrice = itemQuantity * (itemPrice + sum);
 
               $("#addtobag").text("Add to Bag - ₱" + totalPrice);
-
+              
 
             }); 
           }
@@ -246,8 +246,9 @@ $(document).ready(function(){
                     totalPrice: totalPrice
                   };
                   
-                  
-                  $.get('/addOrderItem', query, function() {});
+                  console.log('before add order item');
+                  console.log(query);
+                  //$.get('/addOrderItem', query, function() {});
                   
                 });
               
