@@ -387,8 +387,7 @@ const controller = {
 
     getCheckout: function (req, res) {
 
-        var userId = 0; 
-        console.log('session user: ' + req.session.user);
+        var userId = req.session.user; 
 
         var query = {userID: userId};
         var projection = 'firstName lastName email password contactNumber completeAddress seniorID pwdID';
@@ -533,6 +532,26 @@ const controller = {
             
 
     },
+
+    /*
+    getSession: function(req, res)  {
+        var userId = req.session.user;
+        console.log('session: ' + userId);
+        // res.send(userId);
+        
+    },
+    */
+   getUserId:   function(req, res)  {
+
+        var userId = req.session.user;
+        var query = {userID: userId};
+        var projection = 'userID';
+        
+        db.findOne(Account, query, projection, function(result) {
+            res.send(result);
+        });
+
+   }, 
 
 
     getConfirmation: function (req, res) {

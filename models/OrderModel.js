@@ -11,12 +11,66 @@ var OrderSchema = new mongoose.Schema({
     },
 
     orderItems: [{
-        type: mongoose.Schema.Types.ObjectId, ref: 'OrderItem'
+        type: mongoose.Schema.Types.ObjectId, ref: 'OrderItem',
+        required: true
     }],
 
+    orderCost: {
+        type: Number,
+        required: true
+    },
+
     orderDate: {
-        type: Date
+        type: Date,
+        required: true
+    },
+
+    firstName: {
+        type: String,
+        required: true
+    },
+
+    lastName: {
+        type: String,
+        required: true
+    },
+
+    email: {
+        type: String,
+        required: true
+    },
+
+    contactNumber: {
+        type: String,
+        required: true
+    },
+
+    completeAddress: {
+        type: String,
+        required: true
+    },
+
+    seniorID: {
+        type: String
+    },
+
+    pwdID: {
+        type: String
+    },
+
+    changeFor: {
+        type: Number
+    },
+
+    cardNo: {
+        type: Number
+    },
+
+    cvv: {
+        type: Number
     }
+
+    
    
 });
 

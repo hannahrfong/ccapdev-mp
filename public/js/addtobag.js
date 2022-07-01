@@ -197,7 +197,7 @@ $(document).ready(function(){
 
   $("#addtobag").click(function(){
 
-    var userId = 0  // temporary
+    // var userId = 1  // temporary
 
     var itemQuantity = $("#quantity").text();
     itemQuantity = parseFloat(itemQuantity);
@@ -220,110 +220,112 @@ $(document).ready(function(){
     }
 
     var addOnsList = [];
-    
-    if (checkboxValues.length > 0)
-    {
-        
-        var num = 0;
-        for (var i = 0; i < checkboxValues.length; i++)
-        {
-          var addOnName = checkboxValues[i];
-          
-          $.get('/getAddOn', {name: addOnName}, function(result)  {
-            addOnsList.push(result);
-           
-          
-            if (num == checkboxValues.length - 1)
-            {
-              
-              $.get('/getProduct', {name: productName}, function(res)  {
+
+    $.get('/getUserId', function(userIdRes)  {
+      var userId = userIdRes.userID;
+      if (checkboxValues.length > 0)
+      {
+          var num = 0;
+          for (var i = 0; i < checkboxValues.length; i++)
+          {
+            var addOnName = checkboxValues[i];
+            
+            $.get('/getAddOn', {name: addOnName}, function(result)  {
+              addOnsList.push(result);
+            
+            
+              if (num == checkboxValues.length - 1)
+              {
+                
+                $.get('/getProduct', {name: productName}, function(res)  {
 
 
-                $.get('/getBag', {userId: userId}, function(newRes) {
+                  $.get('/getBag', {userId: userId}, function(newRes) {
 
-                  $.get('/getAllOrderItems', function(allOrderItems)  {
+                    $.get('/getAllOrderItems', function(allOrderItems)  {
 
-                    var orderItemId = allOrderItems.length;
-                    var addOns = addOnsList;
-                    var quantity = itemQuantity;
-                    var totalPrice = tPrice;
-                    var product = res._id;
-                  
+                      var orderItemId = allOrderItems.length;
+                      var addOns = addOnsList;
+                      var quantity = itemQuantity;
+                      var totalPrice = tPrice;
+                      var product = res._id;
                     
-                    var query = {
-                      orderItemId: orderItemId,
-                      product: product,
-                      addOns: addOns,
-                      quantity: quantity,
-                      totalPrice: totalPrice,
-                    };
+                      
+                      var query = {
+                        orderItemId: orderItemId,
+                        product: product,
+                        addOns: addOns,
+                        quantity: quantity,
+                        totalPrice: totalPrice,
+                      };
+                      
+                      
+                      $.get('/addOrderItem', query, function() {});
                     
-                    
-                    $.get('/addOrderItem', query, function() {});
-                  
-                    $.get('/getOrderItem', {orderItemId: orderItemId}, function (curOrderItem)  {
-                      var orderItems = newRes.orderItems;
-                      orderItems.push(curOrderItem._id);
-                      var _id = newRes._id;
-                      $.get('/updateBagItems', {_id: _id, orderItems: orderItems}, function() {});
+                      $.get('/getOrderItem', {orderItemId: orderItemId}, function (curOrderItem)  {
+                        var orderItems = newRes.orderItems;
+                        orderItems.push(curOrderItem._id);
+                        var _id = newRes._id;
+                        $.get('/updateBagItems', {_id: _id, orderItems: orderItems}, function() {});
+                      });
+                      
+                      window.location.assign('/menu');                    
+
                     });
-                    
-                    window.location.assign('/menu');                    
-
+    
                   });
-  
+                
                 });
+              }
+              num += 1;
               
+                  
+            }); 
+          }
+      }
+      else
+      {
+        $.get('/getProduct', {name: productName}, function(res)  {
+
+
+          $.get('/getBag', {userId: userId}, function(newRes) {
+
+            $.get('/getAllOrderItems', function(allOrderItems)  {
+
+              var orderItemId = allOrderItems.length;
+              var addOns = addOnsList;
+              var quantity = itemQuantity;
+              var totalPrice = tPrice;
+              var product = res._id;
+            
+              
+              var query = {
+                orderItemId: orderItemId,
+                product: product,
+                addOns: addOns,
+                quantity: quantity,
+                totalPrice: totalPrice,
+              };
+              
+              
+              $.get('/addOrderItem', query, function() {});
+            
+              $.get('/getOrderItem', {orderItemId: orderItemId}, function (curOrderItem)  {
+                var orderItems = newRes.orderItems;
+                orderItems.push(curOrderItem._id);
+                var _id = newRes._id;
+                $.get('/updateBagItems', {_id: _id, orderItems: orderItems}, function() {});
               });
-            }
-            num += 1;
-            
-                 
-          }); 
-        }
-    }
-    else
-    {
-      $.get('/getProduct', {name: productName}, function(res)  {
+              
+              window.location.assign('/menu');                    
 
-
-        $.get('/getBag', {userId: userId}, function(newRes) {
-
-          $.get('/getAllOrderItems', function(allOrderItems)  {
-
-            var orderItemId = allOrderItems.length;
-            var addOns = addOnsList;
-            var quantity = itemQuantity;
-            var totalPrice = tPrice;
-            var product = res._id;
-          
-            
-            var query = {
-              orderItemId: orderItemId,
-              product: product,
-              addOns: addOns,
-              quantity: quantity,
-              totalPrice: totalPrice,
-            };
-            
-            
-            $.get('/addOrderItem', query, function() {});
-          
-            $.get('/getOrderItem', {orderItemId: orderItemId}, function (curOrderItem)  {
-              var orderItems = newRes.orderItems;
-              orderItems.push(curOrderItem._id);
-              var _id = newRes._id;
-              $.get('/updateBagItems', {_id: _id, orderItems: orderItems}, function() {});
             });
-            
-            window.location.assign('/menu');                    
 
           });
-
+        
         });
-      
-      });
-    }
+      }
+    });
   
   });
 });
