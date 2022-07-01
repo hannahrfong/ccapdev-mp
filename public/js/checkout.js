@@ -7,7 +7,6 @@ $(document).ready(function(){
     pwdInputText = $.trim(pwdInputText);
 
     var finalTotal = $("#finalTotal").text();
-    finalTotal = finalTotal.substring(1);
     finalTotal = parseFloat(finalTotal);
 
     
@@ -34,19 +33,22 @@ $(document).ready(function(){
     }
     else
     {
+       
         if($("#discountText").length == 0 && $("#discountValue").length == 0) {
+            
             $("#discount").append(  '<div class="col text-start" id="discountText">' +
                                     '<p style="color: red">Discount</p>' +
                                     '</div>' +
                                     '<div class="col text-end" id="discountValue">' +
-                                    '<p style="font-weight:bold; color: red" class="price" > - ₱' + discount + '</p>' +
+                                    '<p style="font-weight:bold; color: red"> - ₱' + discount + '</p>' +
                                     '</div>'    );
 
-
+            
             var newFinalTotal = finalTotal - discount;
             newFinalTotal = newFinalTotal.toFixed(2);
-
-            $("#finalTotal").text("₱" + newFinalTotal);
+         
+            $("#finalTotal").text(newFinalTotal);
+            
         }
         
     }
@@ -74,6 +76,13 @@ $(document).ready(function(){
 
     var totalVal = $("#finalTotal").text();
     totalVal = parseFloat(totalVal);
+
+    $('.price').each(function() {
+        var priceText = $(this).text();
+        priceText = parseFloat(priceText);
+        priceText = priceText.toFixed(2);
+        $(this).text("₱" + priceText);
+    });
 
     $("#codInput").keyup( function() {
         var changeForVal = $(this).val();
@@ -119,12 +128,7 @@ $(document).ready(function(){
     });
 
 
-    $('.price').each(function() {
-        var priceText = $(this).text();
-        priceText = parseFloat(priceText);
-        priceText = priceText.toFixed(2);
-        $(this).text("₱" + priceText);
-    });
+   
 
     
 
