@@ -48,4 +48,5 @@ app.get('/addfeedback', controller.isPrivate, controller.getAddFeedback);
 app.get('/addaccount', controller.getAddAccount);
 app.get('/checkaccount', controller.getCheckAccount);
 app.get('/logout', controller.isPrivate, controller.getLogout);
+//app.get('/delete', controller.isPrivate, controller.getDeleteAccount);
 module.exports = app;

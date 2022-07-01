@@ -395,7 +395,7 @@ const controller = {
         const saltRounds = 10;
 
         db.findMany(Account, {}, "", function(result){
-            id = result.length;
+            id = result.length+1;
             db.findOne(Account, {email: email}, {email: 1}, function(result) {
                 if (result == null)
                 {
@@ -471,6 +471,18 @@ const controller = {
             });
         }
     }
+/*
+    getDeleteAccount: function (req, res) {
+        db.deleteOne(Account, {userID: req.session.user}, function(flag) {
+            if (req.session)
+            {
+                req.session.destroy(() => {
+                    res.clearCookie('connect.sid');
+                    res.redirect('/signin');
+                });
+            }
+        });
+    }*/
 }
 
 module.exports = controller;
