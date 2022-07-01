@@ -784,17 +784,6 @@ const controller = {
 
                                 console.log(req.session);
 
-<<<<<<< Updated upstream
-                                // creates a new bag for the registered user
-                                var bag = {
-                                        userId: id,
-                                        orderItems: []
-                                }
-
-                                db.insertOne(Bag, bag, function()    {
-                                    res.redirect('/');
-                                });
-=======
                                 //add new bag for new user
                                 var bag = {
                                     userId: req.session.user,
@@ -804,7 +793,6 @@ const controller = {
                                 db.insertOne(Bag, bag, function(){});
 
                                 res.redirect('/');
->>>>>>> Stashed changes
                             });
                     });
                 }
