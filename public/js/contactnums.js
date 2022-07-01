@@ -2,7 +2,7 @@ $(document).ready(function() {
     var add = document.getElementById("add");
     var orig;
 
-    $('#addresses').on('click', '.edit', function () {
+    $('#numbers').on('click', '.edit', function () {
         var p = this.parentNode.parentNode;
         var child = p.children[1];
         orig = child.innerHTML;
@@ -18,9 +18,9 @@ $(document).ready(function() {
         this.classList.add("hide");
     });
 
-    $('#addresses').on('click', '.save', function () {
-        var address = this.parentNode.previousElementSibling;
-        $.get('/updateelement', {frm: "address", val: orig, newVal: address.value});
+    $('#numbers').on('click', '.save', function () {
+        var num = this.parentNode.previousElementSibling;
+        $.get('/updateelement', {frm: "contact", val: orig, newVal: num.value});
 
         var p = this.parentNode.parentNode;
         var child = p.children[1];
@@ -38,14 +38,14 @@ $(document).ready(function() {
     });
 
     add.onclick = function () {
-        window.location.assign('/addaddress');
+        window.location.assign('/addnumber');
     }
 
-    $('#addresses').on('click', '.del', function () {
+    $('#numbers').on('click', '.del', function () {
         var p = this.parentNode.parentNode;
         var child = p.children[1];
 
-        $.get('/updateDetails', {$pull:{completeAddress: child.innerHTML}}, function (res) {});
-        window.location.assign('/addresses');
+        $.get('/updateDetails', {$pull:{contactNumber: child.innerHTML}}, function (res) {});
+        window.location.assign('/contactnums');
     });
 });

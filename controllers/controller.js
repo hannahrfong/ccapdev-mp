@@ -161,8 +161,10 @@ const controller = {
             {
                 const data = {
                     style: ["navbar", "accountdetails", "contactnums"],
+                    script:["contactnums"],
                     partialName: ["contactnums"],
-                    contact: user.contactNumber
+                    contact: user.contactNumber,
+                    disableDel: Boolean(user.contactNumber.length == 1)
                 }
                 res.render("account", data);
             }
@@ -190,7 +192,7 @@ const controller = {
                 const data = {
                     style: ["navbar", "accountdetails", "profile"],
                     script: ["changepw"],
-                    partialName: ["changepw"],
+                    partialName: ["changepw"]
                 }
                 res.render("account", data);
             }
@@ -204,7 +206,21 @@ const controller = {
                 const data = {
                     style: ["navbar", "accountdetails", "profile"],
                     script: ["addaddress"],
-                    partialName: ["addaddress"],
+                    partialName: ["addaddress"]
+                }
+                res.render("account", data);
+            }
+        });
+    },
+
+    getAddNumber: function (req, res) {
+        db.findOne(Account, {userID: req.session.user}, {}, function(user) {
+            if (user != null)
+            {
+                const data = {
+                    style: ["navbar", "accountdetails", "profile"],
+                    script: ["addcontactnum"],
+                    partialName: ["addcontactnum"]
                 }
                 res.render("account", data);
             }
@@ -889,6 +905,17 @@ const controller = {
                 }
             });
         }
+    },
+
+    getUpdateArrayElement: function (req, res) {
+        var val = req.query.val;
+        var newVal = req.query.newVal;
+
+        if (req.query.frm == "address")
+            db.updateOne(Account, {userID: req.session.user, completeAddress: val}, {$set:{"completeAddress.$": newVal}}, function (result) {});
+        else
+            if (req.query.frm == "contact")
+                db.updateOne(Account, {userID: req.session.user, contactNumber: val}, {$set:{"contactNumber.$": newVal}}, function (result) {});
     }
 }
 

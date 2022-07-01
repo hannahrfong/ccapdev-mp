@@ -1,21 +1,21 @@
 $(document).ready(function () {
     var add = document.getElementById("add");
     var cancel = document.getElementById("cancel");
-    var newAdd = document.getElementById("address");
+    var newNum = document.getElementById("number");
 
     cancel.onclick = function () {
-        window.location.assign('/addresses');
+        window.location.assign('/contactnums');
     }
 
-    newAdd.onkeyup = function () {
-        if (newAdd.value.length != 0)
+    newNum.onkeyup = function () {
+        if (newNum.value.length != 0)
             add.disabled = false;
         else
             add.disabled = true;
     }
 
     add.onclick = function () {
-        $.get('/updateDetails', {$addToSet:{completeAddress: newAdd.value}});
-        window.location.assign('/addresses');
+        $.get('/updateDetails', {$addToSet:{contactNumber: newNum.value}});
+        window.location.assign('/contactnums');
     }
 })
