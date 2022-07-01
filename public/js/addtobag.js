@@ -5,16 +5,6 @@ $(document).ready(function(){
   itemPrice = parseFloat(itemPrice);
 
   $("#addtobag").text("Add to Bag - ₱" + itemPrice);
-  //plus button
-  
-  //minus button
-
-  //edit button
-
-  //delete button
-
-
-
 
   // price = 395;
   $("#addbtn").click(function(){
