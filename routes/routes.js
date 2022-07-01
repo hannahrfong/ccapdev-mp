@@ -50,4 +50,5 @@ app.get('/checkaccount', controller.getCheckAccount);
 app.get('/logout', controller.isPrivate, controller.getLogout);
 app.get('/delete', controller.isPrivate, controller.getDeleteAccount);
 app.get('/updateDetails', controller.isPrivate, controller.getUpdateDetails);
+app.get('/changepw', controller.isPrivate, controller.getChangePassword);
 module.exports = app;

@@ -179,6 +179,20 @@ const controller = {
         });
     },
 
+    getChangePassword: function (req, res) {
+        db.findOne(Account, {userID: req.session.user}, {}, function(user) {
+            if (user != null)
+            {
+                const data = {
+                    style: ["navbar", "accountdetails", "profile"],
+                    script: ["changepw"],
+                    partialName: ["changepw"],
+                }
+                res.render("account", data);
+            }
+        });
+    },
+
     getAddToBag: function (req, res) {
         var query = {name: req.params.name};
         var projection = 'name image price addOn inclusion';
@@ -478,19 +492,58 @@ const controller = {
     },
 
     getDeleteAccount: function (req, res) {
-        db.deleteOne(Account, {userID: req.session.user}, function(flag) {
-            if (req.session)
-            {
-                req.session.destroy(() => {
-                    res.clearCookie('connect.sid');
-                    res.redirect('/signin');
+        db.updateMany(Account, {userID:{$gt:req.session.user}}, {$inc: {userID: -1}}, function(result){
+            db.deleteOne(Account, {userID: req.session.user}, function(flag) {
+                    if (req.session)
+                    {
+                        req.session.destroy(() => {
+                            res.clearCookie('connect.sid');
+                            console.log("Session successfully destroyed.");
+                            res.redirect('/signin');
+                        });
+                    }
                 });
-            }
         });
     },
 
     getUpdateDetails: function (req, res) {
-        db.updateOne(Account, {userID: req.session.user}, {$set: req.query}, function (result) {});
+        if (req.query.newpsw == undefined)
+            db.updateOne(Account, {userID: req.session.user}, {$set: req.query}, function (result) {});
+        else
+        {
+            db.findOne(Account, {userID: req.session.user}, {}, function(user) {
+                if (user != null)
+                {
+                    bcrypt.compare(req.query.oldpsw, user.password, (err, result) => {
+                        if (result)
+                        {
+                            bcrypt.compare(req.query.newpsw, user.password, (err, result) => {
+                                if (!result)
+                                {
+                                    const saltRounds = 10;
+                                    bcrypt.hash(req.query.newpsw, saltRounds, (err, hashed) => {
+                                        if (!err)
+                                            db.updateOne(Account, {userID: req.session.user}, {$set: {password: hashed}}, function (result) {
+                                                res.redirect('/profile');
+                                            });
+                                    });
+                                }
+                                else
+                                {
+                                    req.flash('error_msg', 'Password must differ from current password. Please try again.');
+                                    res.redirect('/changepw');
+                                }
+                            });
+                        }
+                        else
+                        {
+                            req.flash('error_msg', 'Incorrect current password. Please try again.');
+                            res.redirect('/changepw');
+                        }
+                    });
+                }
+            });
+        }
     }
 }
 

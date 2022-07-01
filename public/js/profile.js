@@ -1,6 +1,7 @@
 $(document).ready(function() {
     var update = document.getElementById("update");
     var save = document.getElementById("save");
+    var change = document.getElementById("changepw");
 
     update.onclick = function () {
         var p = this.parentNode.parentNode;
@@ -53,5 +54,9 @@ $(document).ready(function() {
 
         save.classList.add("hide");
         update.classList.remove("hide");
+    }
+
+    change.onclick = function () {
+        window.location.assign('/changepw');
     }
 });

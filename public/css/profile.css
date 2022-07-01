@@ -24,3 +24,9 @@
     margin-right: 25px;
     color: white;
 }
+
+#error {
+    color: #c93020;
+    font-family: poppinsbold;
+    text-align: center;
+}

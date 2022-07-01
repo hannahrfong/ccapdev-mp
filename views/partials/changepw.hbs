@@ -1,0 +1,25 @@
+<div class="details-content">
+    <p class="det-header">Change Password</p>
+    <hr class="line-break">
+    <div class="break2"></div>
+    <form action="/updateDetails">
+        <div class="field">
+            <input type="password" class="field-value" id="oldpsw" placeholder="Enter Current Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="oldpsw">
+        </div>
+        <div class="break2"></div>
+        <div class="field">
+            <input type="password" class="field-value" id="newpsw" placeholder="Enter New Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="newpsw">
+        </div>
+        <div class="break2"></div>
+        <div class="field">
+            <input type="password" class="field-value" id="confnewpsw" placeholder="Confirm New Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="confnewpsw">
+        </div>
+        <div class="break2"></div>
+        <p id="error">{{error_msg}}</p>
+        <div class="break2"></div>
+        <div class="buttons">
+            <button type="submit" class="btn" id="update" disabled><strong>Save Password</strong></button>
+            <button type="button" class="btn" id="cancel"><strong>Cancel</strong></button>
+        </div>
+    </form>
+</div>
