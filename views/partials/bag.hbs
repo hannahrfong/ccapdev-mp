@@ -5,9 +5,9 @@
             {{#each order}}
                 <div class="order-container 1">
                     <div class="quantity-container">
-                        <button class="minus"><img src="/images/minus.png" width="18" height="18"></button>
+                        <button class="minus" id="minus-bag"><img src="/images/minus.png" width="18" height="18"></button>
                         <div class="quantity">{{quantity}}</div>
-                        <button class="plus"><img src="/images/plus.png" width="18" height="18"></button>
+                        <button class="plus" id="plus-bag"><img src="/images/plus.png" width="18" height="18"></button>
                     </div>
 
                     <div class="detail-container">
@@ -15,8 +15,8 @@
                         {{#each product.inclusion}}
                             <div class="product-inclusion">x{{quantity}} {{productName}}</div>
                         {{/each}}
-                        <a href="/AddToBag" class="edit">Edit</a> | 
-                        <button class="delete 1">Delete</button>
+                        <a href="/addtobag/{{name}}" class="edit" id="edit-bag">Edit</a> | 
+                        <button class="delete 1" id="delete-bag">Delete</button>
                     </div>
 
                     <div class="price-container">
