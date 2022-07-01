@@ -3,43 +3,43 @@
     <div class="container overflow-hidden"> 
         <form class="row justify-content-center mb-5" action="/confirmation">
 
-            <div class="col-sm-auto col-md-auto col-lg-6" >
+            <div class="col-sm-auto col-md-auto col-lg-7" >
                 <div class="card mt-5 ms-4 border-dark" style="border: 1px #888888; border-radius: 25px; box-shadow: 2px 2px 2px 2px #888888; background-color: white">
                     <div class="card-body mx-4 my-4">
                         
                         <h5 class="card-title fw-bold mb-3">Contact Details</h5>
                         <div class="row g-2">
                             <div class="col-md me-4">
+                                
                               <div class="form-floating">
-                                   <input type="text" class="form-control" id="floatingInputGrid1" placeholder="firstNameEx" value="Ibrahim" required>
-                                   <label for="floatingInputGrid1">First Name</label>
+                                   <input type="text" class="form-control" id="floatingInputGrid1" placeholder="firstNameEx" value="{{this.accountDetails.firstName}}" required>
+                                   <label style="color: #676e75;" for="floatingInputGrid1">First Name</label>
                                 </div>
                             </div>
                             <div class="col-md">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="floatingInputGrid2" placeholder="lastNameEx" value="Kahil" required>
-                                    <label for="floatingInputGrid2">Last Name</label>
+                                    <input type="text" class="form-control" id="floatingInputGrid2" placeholder="lastNameEx" value="{{this.accountDetails.lastName}}" required>
+                                    <label style="color: #6c757d;" for="floatingInputGrid2">Last Name</label>
                                 </div>
                             </div>
                         </div>    
 
                         <div class="row g-2">
+                            <div class="col-md mt-5 me-4">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="floatingInputGrid3" placeholder="MobileNoEx" value="{{this.accountDetails.contactNumber}}" required>
+                                    <label style="color: #6c757d;" for="floatingInputGrid3">Mobile Number</label>
+                                </div>
+                            </div>
                             <div class="col-md mt-5">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="floatingInputGrid3" placeholder="MobileNoEx" value="09274877316" required>
-                                    <label for="floatingInputGrid3">Mobile Number</label>
+                                    <input type="email" class="form-control" id="floatingInputGrid4" placeholder="EmailEx" value="{{this.accountDetails.email}}" required>
+                                    <label style="color: #6c757d;" for="floatingInputGrid4">Email Address</label>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="row g-2">
-                            <div class="col-md mt-5">
-                                <div class="form-floating">
-                                    <input type="email" class="form-control" id="floatingInputGrid4" placeholder="EmailEx" value="ibrahimdkahil@gmail.com" required>
-                                    <label for="floatingInputGrid4">Email Address</label>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
 
@@ -50,32 +50,17 @@
                         <div class="row g-2">
                             <div class="col-md">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="floatingInputGrid5" placeholder="AddressEx" value="17-2 Sandico St." required>
-                                    <label for="floatingInputGrid5">Address (Floor, Unit No., Street, Barangay</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row g-2 mt-4 mb-4">
-                            <div class="col-md me-4">
-                              <div class="form-floating">
-                                   <input type="text" class="form-control" id="floatingInputGrid6" placeholder="CityEx" value="Angeles City" required>
-                                   <label for="floatingInputGrid6">City</label>
-                                </div>
-                            </div>
-                            <div class="col-md">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" id="floatingInputGrid7" placeholder="ProvinceEx" value="Pampanga" required>
-                                    <label for="floatingInputGrid7">Province</label>
+                                    <input type="text" class="form-control" id="floatingInputGrid5" placeholder="AddressEx" value="{{this.accountDetails.completeAddress}}" required>
+                                    <label style="color: #6c757d;" for="floatingInputGrid5">Complete Address</label>
                                 </div>
                             </div>
                         </div> 
 
-                        <div class="row g-2 mt-5">
+                        <div class="row g-2 mt-4">
                             <div class="col-md">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="floatingInputGrid8" placeholder="NotesEx" value="">
-                                    <label for="floatingInputGrid8">Special Requests / Notes to Rider</label>
+                                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 9rem"></textarea>
+                                    <label style="color: #6c757d;" for="floatingTextarea2">Special Requests / Notes to Rider</label>
                                 </div>
                             </div>
                         </div>
@@ -88,22 +73,20 @@
                         
                         <h5 class="card-title fw-bold mb-3">Discounts</h5>
                         <div class="row g-2 mt-3">
+                            <div class="col-md me-4">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="floatingInputGrid9" placeholder="SCIDEx" value="{{this.accountDetails.seniorID}}" >
+                                    <label style="color: #6c757d;" for="floatingInputGrid9">Senior Citizen ID</label>
+                                </div>
+                            </div>
                             <div class="col-md">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="floatingInputGrid9" placeholder="SCIDEx" value="">
-                                    <label for="floatingInputGrid9">Senior Citizen ID</label>
+                                    <input type="text" class="form-control" id="floatingInputGrid10" placeholder="PWDIDEx" value="{{this.accountDetails.pwdID}}" >
+                                    <label style="color: #6c757d;" for="floatingInputGrid10">PWD ID</label>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="row g-2 mt-3">
-                            <div class="col-md">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" id="floatingInputGrid10" placeholder="PWDIDEx" value="">
-                                    <label for="floatingInputGrid10">PWD ID</label>
-                                </div>
-                            </div>
-                        </div>
 
                     </div>
                 </div>
@@ -125,7 +108,7 @@
                             <div class="col-md">
                                 <div class="form-floating">
                                     <input type="number" class="form-control" id="floatingInputGrid11" placeholder="AmountEx" value="">
-                                    <label for="floatingInputGrid11">Change for</label>
+                                    <label style="color: #6c757d;" for="floatingInputGrid11">Change for</label>
                                 </div>
                             </div>
                         </div>
@@ -142,7 +125,7 @@
                             <div class="col-md">
                                 <div class="form-floating">
                                     <input type="number" class="form-control" id="floatingInputGrid11" placeholder="AmountEx" value="">
-                                    <label for="floatingInputGrid11">Card No</label>
+                                    <label style="color: #6c757d;" for="floatingInputGrid11">Card No</label>
                                 </div>
                             </div>
                         </div>

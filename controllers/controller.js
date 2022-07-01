@@ -211,11 +211,48 @@ const controller = {
     },
 
     getCheckout: function (req, res) {
-        const data = {
-            style: ["bootstrap", "navbar", "checkout"],
-            script: ["bootstrap"]
-        }
-        res.render("checkout", data);
+
+        var userId = 0; //remove
+
+        var query = {userID: userId};
+        var projection = 'firstName lastName email password contactNumber completeAddress seniorID pwdID';
+
+        db.findOne(Account, query, projection, function(result) {
+            var accountDetails = {
+                firstName: result.firstName,
+                lastName: result.lastName,
+                email: result.email,
+                password: result.password,
+                contactNumber: result.contactNumber,
+                completeAddress: result.completeAddress,
+                seniorID: result.seniorID,
+                pwdID: result.pwdID
+            };
+
+            var bagQuery = {userId: userId};
+            var bagProjection = 'userId orderItems';
+
+            /*
+            db.findOne(Bag, bagQuery, bagProjection, function (bagResult)   {
+                
+
+
+            });
+            */
+
+            
+            const data = {
+                style: ["bootstrap", "navbar", "checkout"],
+                script: ["bootstrap"],
+                accountDetails: accountDetails,
+                bagContents:    [] 
+            }
+            res.render("checkout", data);
+            
+            
+        });
+
+    
     },
 
     getConfirmation: function (req, res) {
