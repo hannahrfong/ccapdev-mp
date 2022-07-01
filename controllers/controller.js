@@ -27,10 +27,14 @@ const controller = {
     },
 
     getIndex: function (req, res) {
+        console.log("USER: " + req.session.user);
         const data = {
             style: ["navbar", "index"],
             script: ["index"], 
-            bestSellers: []
+            bestSellers: [],
+            bag: {
+
+            }
         }
 
         BestSeller.find().populate("productId").exec(function(err, results){
@@ -47,6 +51,7 @@ const controller = {
                 data.bestSellers.push(productObj);
             }
         });
+
         res.render("index", data);
     },
 
@@ -660,7 +665,7 @@ const controller = {
     },
 
     getBag: function(req, res) {
-        var userId = req.query.userId;
+        var userId = req.session.userId;
 
         db.findOne(Bag, {userId: userId}, 'userId orderItems', function(result)  {
             res.send(result);
@@ -701,26 +706,35 @@ const controller = {
         });
     },
 
+    getBagView: function(req, res){
+
+    },
+
     getUpdateBagView: function(req, res){
         var _id = req.query._id;
+        console.log("ID : " + _id);
+        Bag.findOne({_id:_id}).populate("orderItems").exec(function(err, result){
+            if(err) return handleError(err);
+            console.log("RESULT : : : : : " + result);
+        })
 
-        db.findOne(Bag, {_id: _id}, );
-
-
-        BestSeller.find().populate("productId").exec(function(err, results){
+       /* Bag.findOne({orderItems:_id}).populate("orderItems").exec(function(err, result){
             if (err) return handleError(err);
 
-            for (var i=0;i < results.length; i++)
-            {
-                var productObj = {
-                    name: results[i].productId.name,
-                    price: results[i].productId.price,
-                    image: results[i].productId.image
-                };
+            var orderItemId = result.orderItemId;
+            var product = result.product;
+            var addOns = result.addOns;
+            var quantity = result.quantity;
+            var totalPrice = result.totalPrice;
 
-                data.bestSellers.push(productObj);
-            }
+            console.log(orderItemId);
+            console.log(product);
+            console.log(addOns);
+            console.log(quantity);
+            console.log(totalPrice);
         });
+
+        */
     },
 
 
@@ -770,6 +784,7 @@ const controller = {
 
                                 console.log(req.session);
 
+<<<<<<< Updated upstream
                                 // creates a new bag for the registered user
                                 var bag = {
                                         userId: id,
@@ -779,6 +794,17 @@ const controller = {
                                 db.insertOne(Bag, bag, function()    {
                                     res.redirect('/');
                                 });
+=======
+                                //add new bag for new user
+                                var bag = {
+                                    userId: req.session.user,
+                                    orderItems: []
+                                }
+                                
+                                db.insertOne(Bag, bag, function(){});
+
+                                res.redirect('/');
+>>>>>>> Stashed changes
                             });
                     });
                 }
