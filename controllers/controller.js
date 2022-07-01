@@ -706,6 +706,7 @@ const controller = {
         
     },
 
+
     getAddAccount: function (req, res) {
         var first = req.query.firstname;
         var last = req.query.lastname;
@@ -730,7 +731,16 @@ const controller = {
                                 req.session.name = result.firstName + " " + result.lastName;
 
                                 console.log(req.session);
-                                res.redirect('/');
+
+                                // creates a new bag for the registered user
+                                var bag = {
+                                        userId: id,
+                                        orderItems: []
+                                }
+
+                                db.insertOne(Bag, bag, function()    {
+                                    res.redirect('/');
+                                });
                             });
                     });
                 }
@@ -795,17 +805,26 @@ const controller = {
         }
     },
 
-    getDeleteAccount: function (req, res) {
+    getDeleteAccount: function (req, res) {;
         db.updateMany(Account, {userID:{$gt:req.session.user}}, {$inc: {userID: -1}}, function(result){
             db.deleteOne(Account, {userID: req.session.user}, function(flag) {
-                    if (req.session)
-                    {
-                        req.session.destroy(() => {
-                            res.clearCookie('connect.sid');
-                            console.log("Session successfully destroyed.");
-                            res.redirect('/signin');
+                
+                    db.updateMany(Bag, {userId:{$gt:req.session.user}}, {$inc: {userId: -1}}, function(result){
+                        // deletes user's bag 
+                        db.deleteOne(Bag, {userId: req.session.user}, function()    {
+                            if (req.session)
+                            {
+                                req.session.destroy(() => {
+                                    res.clearCookie('connect.sid');
+                                    console.log("Session successfully destroyed.");
+                                    res.redirect('/signin');
+                                });
+                            }
                         });
-                    }
+                    });
+
+                    
+
                 });
         });
     },
