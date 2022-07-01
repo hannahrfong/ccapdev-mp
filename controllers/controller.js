@@ -367,6 +367,8 @@ const controller = {
         var pw = req.query.psw;
         var number = req.query.contactno;
         var address = req.query.address;
+        var senior = req.query.scid;
+        var pwd = req.query.pwdid;
         const saltRounds = 10;
 
         db.findMany(Account, {}, "", function(result){
@@ -377,7 +379,7 @@ const controller = {
                     bcrypt.hash(pw, saltRounds, (err, hashed) => {
                         if (!err)
                             Account.create({userID: id, firstName: first, lastName: last, email: email, password: hashed,
-                            contactNumber: number, completeAddress: address}, function(error, result) {
+                            contactNumber: number, completeAddress: address, seniorID: senior, pwdID: pwd}, function(error, result) {
                                 req.session.user = result._id;
                                 req.session.name = result.firstName + " " + result.lastName;
 
@@ -396,7 +398,7 @@ const controller = {
     },
 
     getCheckAccount: function(req, res) {
-        db.findOne(Account, {email: req.query.email}, {firstName: 1, lastName: 1, email: 1, password: 1, contactNumber: 1, completeAddress: 1}, function(user) {
+        db.findOne(Account, {email: req.query.email}, {firstName: 1, lastName: 1, email: 1, password: 1, contactNumber: 1, completeAddress: 1, seniorID: 1, pwdID: 1}, function(user) {
             if (user != null)
             {
                 bcrypt.compare(req.query.psw, user.password, (err, result) => {
