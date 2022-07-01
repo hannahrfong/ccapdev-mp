@@ -1,5 +1,10 @@
 var mongoose = require('mongoose');
 var AccountSchema = new mongoose.Schema({
+    userID: {
+        type: Number,
+        required: true
+    },
+    
     firstName: {
         type: String,
         required: true

@@ -290,19 +290,6 @@ const controller = {
         });
     },
 
-    postAddAccount: function (req, res) {
-        var first = req.body.firstname;
-        var last = req.body.lastname;
-        var email = req.body.email;
-        var pw = req.body.psw;
-        var number = req.body.contactno;
-        var address = req.body.address;
-        
-        db.insertOne(Account, {firstName: first, lastName: last, email: email, password: pw, contactNumber: number, completeAddress: address}, function(flag){
-            res.redirect('/home');
-        })
-    },
-
     getAddOn: function(req, res) {
         var name = req.query.name;
 
@@ -382,25 +369,29 @@ const controller = {
         var address = req.query.address;
         const saltRounds = 10;
 
-        db.findOne(Account, {email: email}, {email: 1}, function(result) {
-            if (result == null)
-            {
-                bcrypt.hash(pw, saltRounds, (err, hashed) => {
-                    if (!err)
-                        Account.create({firstName: first, lastName: last, email: email, password: hashed, contactNumber: number, completeAddress: address}, function(error, result) {
-                            req.session.user = result._id;
-                            req.session.name = result.firstName + " " + result.lastName;
+        db.findMany(Account, {}, "", function(result){
+            id = result.length;
+            db.findOne(Account, {email: email}, {email: 1}, function(result) {
+                if (result == null)
+                {
+                    bcrypt.hash(pw, saltRounds, (err, hashed) => {
+                        if (!err)
+                            Account.create({userID: id, firstName: first, lastName: last, email: email, password: hashed,
+                            contactNumber: number, completeAddress: address}, function(error, result) {
+                                req.session.user = result._id;
+                                req.session.name = result.firstName + " " + result.lastName;
 
-                            console.log(req.session);
-                            res.redirect('/');
-                        });
-                });
-            }
-            else
-            {
-                req.flash('error_msg', 'This account already exists.');
-                res.redirect('/register');
-            }
+                                console.log(req.session);
+                                res.redirect('/');
+                            });
+                    });
+                }
+                else
+                {
+                    req.flash('error_msg', 'This account already exists.');
+                    res.redirect('/register');
+                }
+            });
         });
     },
 
