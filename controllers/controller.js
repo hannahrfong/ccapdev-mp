@@ -123,32 +123,55 @@ const controller = {
     },
 
     getProfile: function (req, res) {
-        const data = {
-            style: ["navbar", "accountdetails", "profile"],
-            name: req.session.name
-        }
-        res.render("profile", data);
+        db.findOne(Account, {userID: req.session.user}, {}, function(user) {
+            if (user != null)
+            {
+                const data = {
+                    style: ["navbar", "accountdetails", "profile"],
+                    first: user.firstName, last: user.lastName, email: user.email
+                }
+                res.render("profile", data);
+            }
+        });
     },
 
     getAddresses: function (req, res) {
-        const data = {
-            style: ["navbar", "accountdetails", "addresses"]
-        }
-        res.render("addresses", data);
+        db.findOne(Account, {userID: req.session.user}, {}, function(user) {
+            if (user != null)
+            {
+                const data = {
+                    style: ["navbar", "accountdetails", "addresses"],
+                    address: user.completeAddress
+                }
+                res.render("addresses", data);
+            }
+        });
     },
 
     getContactNums: function (req, res) {
-        const data = {
-            style: ["navbar", "accountdetails", "contactnums"]
-        }
-        res.render("contactnums", data);
+        db.findOne(Account, {userID: req.session.user}, {}, function(user) {
+            if (user != null)
+            {
+                const data = {
+                    style: ["navbar", "accountdetails", "contactnums"],
+                    contact: user.contactNumber
+                }
+                res.render("contactnums", data);
+            }
+        });
     },
 
     getID: function (req, res) {
-        const data = {
-            style: ["navbar", "accountdetails", "id"]
-        }
-        res.render("id", data);
+        db.findOne(Account, {userID: req.session.user}, {}, function(user) {
+            if (user != null)
+            {
+                const data = {
+                    style: ["navbar", "accountdetails", "id"],
+                    sc: user.seniorID, pwd: user.pwdID
+                }
+                res.render("id", data);
+            }
+        });
     },
 
     getAddToBag: function (req, res) {
@@ -380,7 +403,7 @@ const controller = {
                         if (!err)
                             Account.create({userID: id, firstName: first, lastName: last, email: email, password: hashed,
                             contactNumber: number, completeAddress: address, seniorID: senior, pwdID: pwd}, function(error, result) {
-                                req.session.user = result._id;
+                                req.session.user = result.userID;
                                 req.session.name = result.firstName + " " + result.lastName;
 
                                 console.log(req.session);
@@ -398,13 +421,13 @@ const controller = {
     },
 
     getCheckAccount: function(req, res) {
-        db.findOne(Account, {email: req.query.email}, {firstName: 1, lastName: 1, email: 1, password: 1, contactNumber: 1, completeAddress: 1, seniorID: 1, pwdID: 1}, function(user) {
+        db.findOne(Account, {email: req.query.email}, {}, function(user) {
             if (user != null)
             {
                 bcrypt.compare(req.query.psw, user.password, (err, result) => {
                     if (result)
                     {
-                        req.session.user = user._id;
+                        req.session.user = user.userID;
                         req.session.name = user.firstName + " " + user.lastName;
 
                         console.log(req.session);
