@@ -9,7 +9,7 @@ $(document).ready(function() {
         for (var  i = 0; i < p.children.length; i++)
         {
             var child = p.children[i];
-            if (child.classList.contains("field") && !child.classList.contains("hide"))
+            if (child.classList.contains("field"))
             {
                 var fieldVal = child.children[1];
                 var fieldText = fieldVal.innerHTML;
@@ -32,14 +32,14 @@ $(document).ready(function() {
         var last = document.getElementById("lastName");
         var email = document.getElementById("email");
 
-        $.get('/updateDetails', {firstName: first.value, lastName: last.value, email: email.value});
+        $.get('/updateDetails', {$set:{firstName: first.value, lastName: last.value, email: email.value}});
 
         var p = this.parentNode.parentNode;
     
         for (var  i = 0; i < p.children.length; i++)
         {
             var child = p.children[i];
-            if (child.classList.contains("field") && !child.classList.contains("hide"))
+            if (child.classList.contains("field"))
             {
                 var inputField = child.children[1];
                 var inputText = inputField.value;
