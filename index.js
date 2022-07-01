@@ -37,7 +37,7 @@ app.use(session({
     store: MongoStore.create({mongoUrl: 'mongodb://localhost:27017/ccapdev-mp'}),
     resave: false,
     saveUninitialized: true,
-    cookie: {secure: false, maxAge: 1000*60*60*24*7}
+    cookie: {secure: false, maxAge: 1000*60*60*24*21}
 }))
 
 app.use(flash());
