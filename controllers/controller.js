@@ -2,13 +2,15 @@ const db = require("../models/db.js");
 const Product = require("../models/ProductModel.js");
 const Feedback = require("../models/FeedbackModel.js");
 const BestSeller = require("../models/BestSellerModel.js");
-const { populate } = require("../models/ProductModel.js");
+const { populate, findOne, listenerCount } = require("../models/ProductModel.js");
 const AddOn = require("../models/AddOnModel.js")
 const OrderItem = require("../models/OrderItemModel.js");
 const Bag = require("../models/BagModel.js");
 const Order = require("../models/OrderModel.js");
 const Account = require("../models/AccountModel.js");
 const bcrypt = require("bcrypt");
+const { localsAsTemplateData } = require("hbs");
+const { listeners } = require("../models/FeedbackModel.js");
 
 const controller = {
 
@@ -210,12 +212,15 @@ const controller = {
         
     },
 
+    /*
     getCheckout: function (req, res) {
 
         var userId = 0; //remove
 
         var query = {userID: userId};
         var projection = 'firstName lastName email password contactNumber completeAddress seniorID pwdID';
+
+        
 
         db.findOne(Account, query, projection, function(result) {
             var accountDetails = {
@@ -232,28 +237,261 @@ const controller = {
             var bagQuery = {userId: userId};
             var bagProjection = 'userId orderItems';
 
-            /*
+            
             db.findOne(Bag, bagQuery, bagProjection, function (bagResult)   {
                 
+                bagList = bagResult.orderItems;
+                bagList.length;
+                console.log("bagList length: " + bagList.length);
+
+                
+                const data = {
+                    style: ["bootstrap", "navbar", "checkout"],
+                    script: ["bootstrap"],
+                    accountDetails: accountDetails,
+                    orderItems: []
+                }
+                console.log('baglist');
+                console.log(bagList);
 
 
+                for (var i = 0; i < bagList.length; i++)
+                {
+                    var orderItemQuery = {_id: bagList[i]};
+                    var orderItemProjection = 'orderItemId product addOns quantity totalPrice';
+                    
+                    
+                    db.findOne(OrderItem, orderItemQuery, orderItemProjection, function (orderItemResult)   {
+
+                        data.orderItems.push(orderItemResult._id);
+                        
+                       // var productQuery = {_id: orderItemResult.product};
+                       // var productProjection = 'name';
+                        
+
+
+                        /*
+                        db.findOne(Product, productQuery, productProjection, function (productResult)   {
+
+                            var addOnIds = orderItemResult.addOns;
+                            
+
+                            const orderItemObj = {
+                                orderItemId: orderItemResult.orderItemId,
+                                productName: productResult.name,
+                                addOns: [],
+                                quantity: orderItemResult.quantity,
+                                totalPrice: orderItemResult.totalPrice
+                            }
+                            
+    
+                            /*
+                            console.log("addOns Length: " + addOnIds.length);
+                            for (var j = 0; j < addOnIds.length; j++)
+                            {
+                                var addOnObjId = addOnIds[j]; 
+                                var addOnQuery = {_id: addOnObjId};
+                                var addOnProjection = 'name';
+
+                                db.findOne(AddOn, addOnQuery, addOnProjection, function (addOnResult)   {
+
+                                    var addOnName = addOnResult.name;
+
+                                    orderItemObj.addOns.push(addOnName);
+
+
+                                    
+                                    // data.orderItems.push(orderItemObj)
+                                    
+
+                                });  
+                            }
+                            
+                           /*
+                           data.orderItems.push(orderItemObj);
+                            
+                           console.log('data: ');
+                           console.log(data);
+
+                           console.log('numi: ' + i); 
+                           if (numi == bagList.length - 1)
+                           {
+                               console.log('last numi')
+                           }
+
+                        });
+                        
+                       
+                        numi += 1;
+                        
+                    });
+                    
+                }
+
+                
+                console.log('orderItems:');
+                console.log(data.orderItems);
+               
+               
+                res.render("checkout", data);
             });
-            */
-
-            
-            const data = {
-                style: ["bootstrap", "navbar", "checkout"],
-                script: ["bootstrap"],
-                accountDetails: accountDetails,
-                bagContents:    [] 
-            }
-            res.render("checkout", data);
-            
+        
             
         });
 
     
     },
+    */
+
+    getCheckout: function (req, res) {
+
+        var userId = 0; 
+        console.log('session user: ' + req.session.user);
+
+        var query = {userID: userId};
+        var projection = 'firstName lastName email password contactNumber completeAddress seniorID pwdID';
+        
+        
+        db.findOne(Account, query, projection, function(result) {
+            var accountDetails = {
+                firstName: result.firstName,
+                lastName: result.lastName,
+                email: result.email,
+                password: result.password,
+                contactNumber: result.contactNumber,
+                completeAddress: result.completeAddress,
+                seniorID: result.seniorID,
+                pwdID: result.pwdID
+            };
+
+            var bagQuery = {userId: userId};
+            var bagProjection = 'userId orderItems';
+
+            db.findOne(Bag, bagQuery, bagProjection, async function (bagResult)   {
+
+                var bagList = bagResult.orderItems;
+
+                const data = {
+                    style: ["bootstrap", "navbar", "checkout"],
+                    script: ["bootstrap", "checkout"],
+                    accountDetails: accountDetails,
+                    orderItems: [],
+                    subTotal: 0,
+                    deliveryFee: 50,
+                    finalTotal: 0
+                }   
+   
+                var num = 0;
+                bagList.forEach(async (item) => {
+                    var orderItemQuery = {_id: item};
+                    const orderItemDoc = await OrderItem.findOne(orderItemQuery);
+                    
+                    var productQuery = {_id: orderItemDoc.product};
+                    const productDoc = await Product.findOne(productQuery);
+
+                    const orderItemObj = {
+                        orderItemId: orderItemDoc.orderItemId,
+                        productName: productDoc.name,
+                        addOns: [],
+                        quantity: orderItemDoc.quantity,
+                        totalPrice: orderItemDoc.totalPrice
+                    }
+
+                    data.subTotal += orderItemDoc.totalPrice;
+                    data.finalTotal = data.subTotal + data.deliveryFee;
+
+                    /*
+                    var addOnsList = orderItemDoc.addOns;
+
+                    var num2 = 0;
+
+
+                    if (addOnsList.length > 0)
+                    {
+                        addOnsList.forEach(async (addOn) => { 
+                            var addOnQuery = {_id: addOn};
+                            const addOnDoc = await AddOn.findOne(addOnQuery);
+    
+                            orderItemObj.addOns.push(addOnDoc.name);
+    
+                            console.log('IF');
+                            console.log('addOns length: ' + addOnsList.length);
+                            console.log('num: ' + num);
+                            console.log('bagList: ' + bagList.length);
+
+                            console.log('num2: ' + num2);
+                            console.log('addOnsList length: ' + addOnsList.length);
+                            
+
+                            if(num2 == addOnsList.length - 1)
+                            {
+                                data.orderItems.push(orderItemObj);
+                                
+                            }
+    
+                            if (num == bagList.length && num2 == addOnsList.length - 1)
+                            {
+                                
+                                console.log('data.orderItems.length:' + data.orderItems.length);
+                                console.log('RENDERED ON IF!!!');
+                                res.render("checkout", data);
+                            }
+                            num2 = num2 + 1;
+    
+    
+                        });
+                    }
+                    else
+                    {
+                        data.orderItems.push(orderItemObj)
+
+                        console.log('ELSE');
+                        console.log('num: ' + num);
+                        console.log('baglist length: ' + bagList.length);
+
+                        if (num == bagList.length - 1)
+                        {
+                            
+                            console.log('data.orderItems.length:' + data.orderItems.length);
+                            console.log('RENDERED ON IF!!!');
+                            console.log('RENDERED ON ELSE!!!');
+                            res.render("checkout", data);
+                        }
+                    }    
+                    */
+
+                    data.orderItems.push(orderItemObj);
+                    
+                    if (num == bagList.length - 1)
+                        {
+                            console.log('data.orderItems');
+                            console.log(data.orderItems);
+                            res.render("checkout", data);
+                        }
+                    num = num + 1;
+                });
+
+               
+                
+
+            
+                    
+                
+                
+                
+                
+                
+
+
+                
+            });
+
+        });
+
+            
+
+    },
+
 
     getConfirmation: function (req, res) {
         const data = {
@@ -350,6 +588,16 @@ const controller = {
             res.send(result);
         });
     },
+
+    getAccount: function(req, res) {
+        var userId = req.query.userId;
+        var projection = 'firstName lastName email password contactNumber completeAddress seniorID pwdID'
+
+        db.findOne(Account, {userId: userId}, projection, function(result)  {
+            res.send(result);
+        });
+    },
+
 
     getAllOrderItems: function(req, res){
         

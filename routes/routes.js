@@ -39,6 +39,7 @@ app.get('/confirmation', controller.isPrivate, controller.getConfirmation);
 app.get('/addOrderItem', controller.isPrivate, controller.getAddOrderItem);
 app.get('/getProduct', controller.isPrivate, controller.getProduct);
 app.get('/getBag', controller.isPrivate, controller.getBag);
+app.get('/getAccount', controller.isPrivate, controller.getAccount);
 app.get('/getAllOrderItems', controller.isPrivate, controller.getAllOrderItems);
 app.get('/getOrderItem', controller.isPrivate, controller.getOrderItem);
 app.get('/updateBagItems', controller.isPrivate, controller.getUpdateBagItems);

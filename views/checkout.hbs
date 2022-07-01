@@ -1,7 +1,7 @@
 <div class="break"></div>
 
     <div class="container overflow-hidden"> 
-        <form class="row justify-content-center mb-5" action="/confirmation">
+        <form class="row justify-content-center mb-5" id="checkoutForm" action="/confirmation">
 
             <div class="col-sm-auto col-md-auto col-lg-7" >
                 <div class="card mt-5 ms-4 border-dark" style="border: 1px #888888; border-radius: 25px; box-shadow: 2px 2px 2px 2px #888888; background-color: white">
@@ -75,14 +75,14 @@
                         <div class="row g-2 mt-3">
                             <div class="col-md me-4">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="floatingInputGrid9" placeholder="SCIDEx" value="{{this.accountDetails.seniorID}}" >
-                                    <label style="color: #6c757d;" for="floatingInputGrid9">Senior Citizen ID</label>
+                                    <input type="text" class="form-control discountID" id="seniorInput" placeholder="SCIDEx" value="{{this.accountDetails.seniorID}}" >
+                                    <label style="color: #6c757d;" for="seniorInput">Senior Citizen ID</label>
                                 </div>
                             </div>
                             <div class="col-md">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="floatingInputGrid10" placeholder="PWDIDEx" value="{{this.accountDetails.pwdID}}" >
-                                    <label style="color: #6c757d;" for="floatingInputGrid10">PWD ID</label>
+                                    <input type="text" class="form-control discountID" id="pwdInput" placeholder="PWDIDEx" value="{{this.accountDetails.pwdID}}" >
+                                    <label style="color: #6c757d;" for="pwdInput">PWD ID</label>
                                 </div>
                             </div>
                         </div>
@@ -99,16 +99,16 @@
                         <div class="row g-2">
                             <div class="col-md">
                                 <div class="form-check mt-3">
-                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                                    <label class="form-check-label" for="flexRadioDefault2">
+                                    <input class="form-check-input paymentOption" type="radio" name="flexRadioDefault" id="codRadio">
+                                    <label class="form-check-label" for="codRadio">
                                     Cash on Delivery
                                     </label>
                                 </div>
                             </div>
                             <div class="col-md">
                                 <div class="form-floating">
-                                    <input type="number" class="form-control" id="floatingInputGrid11" placeholder="AmountEx" value="">
-                                    <label style="color: #6c757d;" for="floatingInputGrid11">Change for</label>
+                                    <input type="number" class="form-control" id="codInput" placeholder="AmountEx" value="" name="changeFor">
+                                    <label style="color: #6c757d;" for="codInput">Change for</label>
                                 </div>
                             </div>
                         </div>
@@ -116,16 +116,22 @@
                         <div class="row g-2 mt-4">
                             <div class="col-md">
                                 <div class="form-check mt-3">
-                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
-                                    <label class="form-check-label" for="flexRadioDefault2">
+                                    <input class="form-check-input paymentOption" type="radio" name="flexRadioDefault" id="cardRadio">
+                                    <label class="form-check-label" for="cardRadio">
                                     Credit Card
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-md">
+                            <div class="col-md-5 me-4">
                                 <div class="form-floating">
-                                    <input type="number" class="form-control" id="floatingInputGrid11" placeholder="AmountEx" value="">
-                                    <label style="color: #6c757d;" for="floatingInputGrid11">Card No</label>
+                                    <input type="number" class="form-control cardInput" id="cardInpu1t" placeholder="AmountEx" value="">
+                                    <label style="color: #6c757d;" for="cardInput1">Card No</label>
+                                </div>
+                            </div>
+                            <div class="col-md-2 ">
+                                <div class="form-floating">
+                                    <input type="number" class="form-control cardInput" id="cardInput2" placeholder="AmountEx" value="">
+                                    <label style="color: #6c757d;" for="cardInput2">CVV</label>
                                 </div>
                             </div>
                         </div>
@@ -135,31 +141,44 @@
             </div>
 
 
-            <div class="col-sm-auto col-md-auto col-lg-3" >
+            <div class="col-sm-auto col-md-auto col-lg-5" >
                 <div class="card mt-5 ms-3" id="ordersummary">
                     
-                    <div class="card-body">
-                        <div class="row">
+                    <div class="card-body mx-3">
+                        <div class="row mb-4 mt-3">
                             <div class="col ">
-                                <h5 class="card-title fw-bold text-center">Order Summary</h5>
-                            </div>
-                        </div>
-                        <div class="row mx-1 my-2" id="orders">
-                            <div class="col-8 my-2 text-start">
-                                <p>x1 Twister Fries with Dip</p>
-                            </div>
-                            <div class="col-4 my-2 text-end">
-                                <p>₱180</p>
-                                
+                                <h5 class="card-title fw-bold text-center" style="font-size: 1.8rem;">Order Summary</h5>
                             </div>
                         </div>
 
-                        <div class="row mx-1 mt-3" style=" height: 2rem;">
+                        <div id="orders">
+                            {{#each this.orderItems as |orderItem|}}
+                                <div class="row mx-1 my-1">
+
+                                    <div class="col-2 my-1 text-start">
+                                        <p style="font-weight:bold;">x{{orderItem.quantity}} </p>
+                                    </div>
+
+                                    <div class="col-6 my-1 text-start">
+                                        <p>{{orderItem.productName}}</p>
+                                    </div>
+                                    <div class="col-4 my-1 text-end">
+                                        <p style="font-weight: bold;" class="price">{{orderItem.totalPrice}}</p>
+                                        
+                                    </div>
+
+                                </div>
+                            {{/each}}
+                        
+                        </div>
+                    
+                        
+                        <div class="row mx-1 mt-3" style=" height: 2rem;" id="subtotalDiv">
                             <div class="col text-start">
                                 <p>Subtotal</p>
                             </div>
                             <div class="col text-end">
-                                <p>₱180</p>
+                                <p style="font-weight: bold" class="price">{{this.subTotal}}</p>
                                 
                             </div>
                         </div>
@@ -169,24 +188,28 @@
                                 <p>Delivery Fee</p>
                             </div>
                             <div class="col text-end">
-                                <p>₱50</p>
+                                <p style="font-weight:bold" class="price" >{{this.deliveryFee}}</p>
                                 
                             </div>
                         </div>
 
-                        <div class="row mx-1">
+                        <div class="row mx-1" style=" height: 2rem;" id="discount">
+                            
+                        </div>
+
+                        <div class="row mx-1 mt-3">
                             <div class="col">
-                                <h4 class="text-start fw-bold">Total</h4>
+                                <h4 class="text-start fw-bold" style="font-size: 1.6rem">Total</h4>
                             </div>
                             <div class="col">
-                                <h4 class="text-end fw-bold">₱230</h4>
+                                <h4 class="text-end fw-bold price" style="font-size: 1.6rem" id="finalTotal">{{this.finalTotal}}</h4>
                                 
                             </div>
                         </div>
 
                     </div>
                 </div>
-                <div class="row mt-4" style="width: 21rem;">
+                <div class="row mt-4" style="width: 33.3rem;">
                     <div class="col text-center">
                         <input href="/confirmation" type="submit" value="Place Order" class="btn btn-danger mt-1 mb-2 fw-bold rounded-pill" id="placeorder"></input>
                     </div>
