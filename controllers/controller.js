@@ -505,26 +505,13 @@ const controller = {
                     
                     if (num == bagList.length - 1)
                         {
-                            console.log('data.orderItems');
-                            console.log(data.orderItems);
+                            // console.log('data.orderItems');
+                            // console.log(data.orderItems);
                             res.render("checkout", data);
                         }
                     num = num + 1;
                 });
-
-               
-                
-
-            
-                    
-                
-                
-                
-                
-                
-
-
-                
+    
             });
 
         });
@@ -533,15 +520,13 @@ const controller = {
 
     },
 
-    /*
-    getSession: function(req, res)  {
-        var userId = req.session.user;
-        console.log('session: ' + userId);
-        // res.send(userId);
-        
+
+    postAddOrder:   function(req, res)  {
+        console.log('postAddOrder');
+        res.redirect('/confirmation');
     },
-    */
-   getUserId:   function(req, res)  {
+
+    getUserId:   function(req, res)  {
 
         var userId = req.session.user;
         var query = {userID: userId};
@@ -551,7 +536,7 @@ const controller = {
             res.send(result);
         });
 
-   }, 
+    }, 
 
 
     getConfirmation: function (req, res) {
