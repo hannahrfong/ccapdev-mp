@@ -128,9 +128,11 @@ const controller = {
             {
                 const data = {
                     style: ["navbar", "accountdetails", "profile"],
+                    script: ["profile"],
+                    partialName: ["profile"],
                     first: user.firstName, last: user.lastName, email: user.email
                 }
-                res.render("profile", data);
+                res.render("account", data);
             }
         });
     },
@@ -141,9 +143,10 @@ const controller = {
             {
                 const data = {
                     style: ["navbar", "accountdetails", "addresses"],
+                    partialName: ["addresses"],
                     address: user.completeAddress
                 }
-                res.render("addresses", data);
+                res.render("account", data);
             }
         });
     },
@@ -154,9 +157,10 @@ const controller = {
             {
                 const data = {
                     style: ["navbar", "accountdetails", "contactnums"],
+                    partialName: ["contactnums"],
                     contact: user.contactNumber
                 }
-                res.render("contactnums", data);
+                res.render("account", data);
             }
         });
     },
@@ -167,9 +171,10 @@ const controller = {
             {
                 const data = {
                     style: ["navbar", "accountdetails", "id"],
+                    partialName: ["id"],
                     sc: user.seniorID, pwd: user.pwdID
                 }
-                res.render("id", data);
+                res.render("account", data);
             }
         });
     },
@@ -470,8 +475,8 @@ const controller = {
                 res.redirect('/signin');
             });
         }
-    }
-/*
+    },
+
     getDeleteAccount: function (req, res) {
         db.deleteOne(Account, {userID: req.session.user}, function(flag) {
             if (req.session)
@@ -482,7 +487,11 @@ const controller = {
                 });
             }
         });
-    }*/
+    },
+
+    getUpdateDetails: function (req, res) {
+        db.updateOne(Account, {userID: req.session.user}, {$set: req.query}, function (result) {});
+    }
 }
 
 module.exports = controller;

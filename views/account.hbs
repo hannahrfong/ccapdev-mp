@@ -1,0 +1,29 @@
+<div class="break1"></div>
+
+<div class="container">
+    <div class="acc-details-list">
+        <p id="mini-header">My Account</p>
+        <ul class="list-proper">
+            <li>
+                <a class="account-details-nav" href="/profile">Profile</a>
+            </li>
+            <li>
+                <a class="account-details-nav" href="/addresses">Addresses</a>
+            </li>
+            <li>
+                <a class="account-details-nav" href="/contactnums">Contact Numbers</a>
+            </li>
+            <li>
+                <a class="account-details-nav" href="/id">SC/PWD IDs</a>
+            </li>
+            <li>
+                <a class="account-details-nav" href="/delete">Delete Account</a>
+            </li>
+            <li>
+                <a class="account-details-nav" href="/logout">Log Out</a>
+            </li>
+        </ul>
+    </div>
+    
+    {{> (lookup . 'partialName')}}
+</div>
