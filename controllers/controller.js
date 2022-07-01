@@ -2,7 +2,6 @@ const db = require("../models/db.js");
 const Product = require("../models/ProductModel.js");
 const Feedback = require("../models/FeedbackModel.js");
 const BestSeller = require("../models/BestSellerModel.js");
-const { populate } = require("../models/ProductModel.js");
 const AddOn = require("../models/AddOnModel.js")
 const OrderItem = require("../models/OrderItemModel.js");
 const Bag = require("../models/BagModel.js");
@@ -393,6 +392,28 @@ const controller = {
 
         db.updateOne(Bag, {_id: _id}, {orderItems: orderItems}, function()    {
             res.redirect('/menu');
+        });
+    },
+
+    getUpdateBagView: function(req, res){
+        var _id = req.query._id;
+
+        db.findOne(Bag, {_id: _id}, );
+
+
+        BestSeller.find().populate("productId").exec(function(err, results){
+            if (err) return handleError(err);
+
+            for (var i=0;i < results.length; i++)
+            {
+                var productObj = {
+                    name: results[i].productId.name,
+                    price: results[i].productId.price,
+                    image: results[i].productId.image
+                };
+
+                data.bestSellers.push(productObj);
+            }
         });
     },
 

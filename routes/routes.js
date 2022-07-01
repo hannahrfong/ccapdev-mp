@@ -42,6 +42,7 @@ app.get('/getBag', controller.isPrivate, controller.getBag);
 app.get('/getAllOrderItems', controller.isPrivate, controller.getAllOrderItems);
 app.get('/getOrderItem', controller.isPrivate, controller.getOrderItem);
 app.get('/updateBagItems', controller.isPrivate, controller.getUpdateBagItems);
+app.get('/updateBagView', controller.isPrivate, controller.getUpdateBagView);
 app.get('/search', controller.isPrivate, controller.getSearch);
 app.get('/searchresults', controller.isPrivate, controller.getSearchResults);
 app.get('/addfeedback', controller.isPrivate, controller.getAddFeedback);

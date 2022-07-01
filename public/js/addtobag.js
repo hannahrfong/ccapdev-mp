@@ -304,6 +304,7 @@ $(document).ready(function(){
               orderItems.push(curOrderItem._id);
               var _id = newRes._id;
               $.get('/updateBagItems', {_id: _id, orderItems: orderItems}, function() {});
+              $.get('/updateBagView', {})
             });
             
             window.location.assign('/menu');                    
