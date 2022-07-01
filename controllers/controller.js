@@ -143,8 +143,10 @@ const controller = {
             {
                 const data = {
                     style: ["navbar", "accountdetails", "addresses"],
+                    script: ["addresses"],
                     partialName: ["addresses"],
-                    address: user.completeAddress
+                    address: user.completeAddress,
+                    disableDel: Boolean(user.completeAddress.length == 1)
                 }
                 res.render("account", data);
             }
@@ -187,6 +189,20 @@ const controller = {
                     style: ["navbar", "accountdetails", "profile"],
                     script: ["changepw"],
                     partialName: ["changepw"],
+                }
+                res.render("account", data);
+            }
+        });
+    },
+
+    getAddAddress: function (req, res) {
+        db.findOne(Account, {userID: req.session.user}, {}, function(user) {
+            if (user != null)
+            {
+                const data = {
+                    style: ["navbar", "accountdetails", "profile"],
+                    script: ["addaddress"],
+                    partialName: ["addaddress"],
                 }
                 res.render("account", data);
             }
@@ -402,15 +418,15 @@ const controller = {
         
     },
 
-    getAddAccount: function (req, res) {
-        var first = req.query.firstname;
-        var last = req.query.lastname;
-        var email = req.query.email;
-        var pw = req.query.psw;
-        var number = req.query.contactno;
-        var address = req.query.address;
-        var senior = req.query.scid;
-        var pwd = req.query.pwdid;
+    postAddAccount: function (req, res) {
+        var first = req.body.firstname;
+        var last = req.body.lastname;
+        var email = req.body.email;
+        var pw = req.body.psw;
+        var number = req.body.contactno;
+        var address = req.body.address;
+        var senior = req.body.scid;
+        var pwd = req.body.pwdid;
         const saltRounds = 10;
 
         db.findMany(Account, {}, "", function(result){
@@ -439,11 +455,11 @@ const controller = {
         });
     },
 
-    getCheckAccount: function(req, res) {
-        db.findOne(Account, {email: req.query.email}, {}, function(user) {
+    postCheckAccount: function(req, res) {
+        db.findOne(Account, {email: req.body.email}, {}, function(user) {
             if (user != null)
             {
-                bcrypt.compare(req.query.psw, user.password, (err, result) => {
+                bcrypt.compare(req.body.psw, user.password, (err, result) => {
                     if (result)
                     {
                         req.session.user = user.userID;
@@ -508,7 +524,7 @@ const controller = {
 
     getUpdateDetails: function (req, res) {
         if (req.query.newpsw == undefined)
-            db.updateOne(Account, {userID: req.session.user}, {$set: req.query}, function (result) {});
+            db.updateOne(Account, {userID: req.session.user}, req.query, function (result) {});
         else
         {
             db.findOne(Account, {userID: req.session.user}, {}, function(user) {
