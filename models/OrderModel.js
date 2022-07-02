@@ -78,11 +78,11 @@ var OrderSchema = new mongoose.Schema({
     },
 
     cardNo: {
-        type: Number
+        type: String
     },
 
     CVV: {
-        type: Number
+        type: String
     }
 
     

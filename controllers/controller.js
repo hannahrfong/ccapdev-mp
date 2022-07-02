@@ -554,10 +554,10 @@ const controller = {
 
             db.findOne(Account, {userID: userID}, "", function (accountRes) {
                 
-                db.findOne(Bag, {userId: userID}, "orderItems", function (bagRes){
+                db.findOne(Bag, {userId: userID}, "orderItems total", function (bagRes){
                     var orderTotalCost = bagRes.total;
-
-                    if (typeof req.body.seniorID == "undefined" && typeof req.body.pwdID == "undefined")
+                   
+                    if (req.body.seniorID.trim() != "" || req.body.pwdID.trim() != "")
                     {
                         orderTotalCost = orderTotalCost * 0.8;
                     }
@@ -580,7 +580,6 @@ const controller = {
                                             ETAMax:     datePlus30,
                                             firstName: req.body.firstName,
                                             lastName:   req.body.lastName,
-
                                             contactNumber:  req.body.contactNumber,
                                             completeAddress: req.body.completeAddress,
                                             notes:  req.body.notes,
@@ -590,18 +589,21 @@ const controller = {
                                             changeFor:  req.body.changeFor,
                                             cardNo: hashedCardNo,   
                                             CVV: hashedCVV       
-                                
                                         };
+
                                         
                                         
                                         // insert new order
-                                        //db.insertOne(Order, orderObj, function()    {});
+                                        db.insertOne(Order, orderObj, function(flag)    {
+                                            
+                                        });
+                                        
 
                                         // empty bag contents
-                                        // db.updateOne(Bag, {userId: userID}, {orderItems: [], subtotal: 0, tota: 0}, function()  {});
+                                        db.updateOne(Bag, {userId: userID}, {orderItems: [], subtotal: 0, total: 0}, function()  {
+                                           
+                                        });
                                         
-                                        console.log('orderObj');
-                                        console.log(orderObj);
 
                                         var url = '/confirmation/' + newOrderId;
                                         res.redirect(url);
@@ -646,13 +648,10 @@ const controller = {
                         };
 
                         // insert new order
-                        //db.insertOne(Order, orderObj, function()    {});
+                        db.insertOne(Order, orderObj, function()    {});
 
                         // empty bag contents
-                        // db.updateOne(Bag, {userId: userID}, {orderItems: [], subtotal: 0, tota: 0}, function()  {});
-
-                        console.log('orderObj');
-                        console.log(orderObj);
+                        db.updateOne(Bag, {userId: userID}, {orderItems: [], subtotal: 0, total: 0}, function()  {});
                 
                         var url = '/confirmation/' + newOrderId;
                         res.redirect(url);
