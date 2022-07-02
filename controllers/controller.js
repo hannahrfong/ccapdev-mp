@@ -73,11 +73,11 @@ const controller = {
                 if (err) return handleError(err);
 
                 var bag = {
-                    userId: 0,
+                    userId: 0, //fix!
                     orderItems: [],
-                    subtotal: 0,
-                    deliveryFee: 0,
-                    total: 0,
+                    subtotal: res[0].subtotal,
+                    deliveryFee: res[0].deliveryFee,
+                    total: res[0].total,
                 };
 
                 for (var i = 0; i < res[0].orderItems.length; i++)
@@ -94,8 +94,6 @@ const controller = {
                         },
                         addOns: []
                     }
-
-                    bag.subtotal += orderItem.totalPrice;
 
                     for (var j = 0; j < res[0].orderItems[i].product.addOn.length; j++)
                     {
@@ -130,7 +128,6 @@ const controller = {
                 }
 
                 data.bag = bag;
-                data.bag.total = bag.subtotal + bag.deliveryFee; 
                 resolve("Success");
                 reject("Failed");
             }) 
@@ -847,47 +844,36 @@ const controller = {
     getUpdateBagItems: function(req, res)   {
         var _id = req.query._id;
         var orderItems = req.query.orderItems;
+        var orderItemsLen = orderItems.length;
+        var orderItemObjId = orderItems[orderItemsLen - 1];
 
-        console.log('update bag items');
-        console.log('orderItems: ');
-        console.log(orderItems);
+        console.log("1 " + orderItems);
+        console.log("2 " + orderItemsLen);
+        console.log("3 " + orderItemObjId);
 
         db.updateOne(Bag, {_id: _id}, {orderItems: orderItems}, function()    {
-            res.redirect('/menu');
+            db.findOne(Bag, {_id: _id}, "", function(result1){
+                var subtotal = result1.subtotal;
+                var deliveryFee = result1.deliveryFee;
+
+                console.log("4 " + subtotal);
+                console.log("5 " + deliveryFee);
+
+                db.findOne(OrderItem, {_id: orderItemObjId}, "totalPrice", function(result2){
+                    var newSubtotal = subtotal + result2.totalPrice;
+                    var newTotal = newSubtotal + deliveryFee;
+
+                    console.log("6 " + newSubtotal);
+                    console.log("7 " + newTotal);
+
+                    db.updateOne(Bag, {_id: _id}, {subtotal: newSubtotal, total: newTotal}, function(flag){
+                        console.log(flag);
+                    });
+                });
+            });
         });
+        res.redirect('/menu');
     },
-
-    getBagView: function(req, res){
-
-    },
-
-    getUpdateBagView: function(req, res){
-        var _id = req.query._id;
-        console.log("ID : " + _id);
-        Bag.findOne({_id:_id}).populate("orderItems").exec(function(err, result){
-            if(err) return handleError(err);
-            console.log("RESULT : : : : : " + result);
-        })
-
-       /* Bag.findOne({orderItems:_id}).populate("orderItems").exec(function(err, result){
-            if (err) return handleError(err);
-
-            var orderItemId = result.orderItemId;
-            var product = result.product;
-            var addOns = result.addOns;
-            var quantity = result.quantity;
-            var totalPrice = result.totalPrice;
-
-            console.log(orderItemId);
-            console.log(product);
-            console.log(addOns);
-            console.log(quantity);
-            console.log(totalPrice);
-        });
-
-        */
-    },
-
 
     getAddOrderItem: function(req, res) {
         var orderItemId = req.query.orderItemId;
@@ -904,10 +890,7 @@ const controller = {
             totalPrice: totalPrice
         };
 
-        db.insertOne(OrderItem, orderItem, function()   {
-        });
-
-        
+        db.insertOne(OrderItem, orderItem, function()   {});        
     },
 
     postAddAccount: function (req, res) {
@@ -946,7 +929,10 @@ const controller = {
                                 //add new bag for new user
                                 var bag = {
                                     userId: req.session.user,
-                                    orderItems: []
+                                    orderItems: [],
+                                    subtotal: 0,
+                                    deliveryFee: 50,
+                                    total: 0 
                                 }
                                 
                                 db.insertOne(Bag, bag, function(){});
@@ -1034,9 +1020,6 @@ const controller = {
                             }
                         });
                     });
-
-                    
-
                 });
         });
     },
@@ -1114,30 +1097,196 @@ const controller = {
     getAddQuantity: function (req, res){
         var orderItemId = req.query.orderItemId;
 
-        db.findOne(OrderItem, {orderItemId: orderItemId}, {"quantity": 1, "totalPrice": 1, "_id": 0}, function(result){
+        db.findOne(OrderItem, {orderItemId: orderItemId}, "", function(result){
+            var _id = result._id;
             var oldPrice = result.totalPrice;
             var newQuantity = result.quantity + 1;
             var newTotalPrice = (result.totalPrice / result.quantity) * newQuantity;
 
             db.updateOne(OrderItem, {orderItemId: orderItemId}, {quantity: newQuantity, totalPrice: newTotalPrice}, function(){
                 
-                var newValues = {
-                    oldPrice: oldPrice,
-                    newQuantity: newQuantity,
-                    newTotalPrice: newTotalPrice
-                }
+                db.findOne(Bag, {orderItems: _id}, "", function(result1){
+                    var subtotal = result1.subtotal;
+                    var deliveryFee = result1.deliveryFee;
+    
+                    var newSubtotal = subtotal - oldPrice + newTotalPrice;
+                    var newTotal = newSubtotal + deliveryFee;
+    
+                    db.updateOne(Bag, {orderItems: _id}, {subtotal: newSubtotal, total: newTotal}, function(flag){});
 
-                console.log("INSIDE CONTROLLER oldPrice " + oldPrice + " " + typeof(oldPrice));
-                console.log("INSIDE CONTROLLER newQuantity " + newQuantity + " " + typeof(newQuantity));
-                console.log("INSIDE CONTROLLER newTotalPrice " + newTotalPrice + " " + typeof(newTotalPrice));
-
-                res.send(newValues);
+                    var newValues = {
+                        newQuantity: newQuantity,
+                        newTotalPrice: newTotalPrice,
+                        newSubtotal: newSubtotal,
+                        deliveryFee: deliveryFee,
+                        newTotal: newTotal,
+                    }
+                    res.send(newValues);
+                });
             })
         })
     },
 
     getSubtractQuantity: function (req, res){
         var orderItemId = req.query.orderItemId;
+
+        db.findOne(OrderItem, {orderItemId: orderItemId}, "", function(result){
+            if (result.quantity > 1)
+            {
+                var _id = result._id;
+                var oldPrice = result.totalPrice;
+                var newQuantity = result.quantity - 1;
+                var newTotalPrice = (result.totalPrice / result.quantity) * newQuantity;
+
+                db.updateOne(OrderItem, {orderItemId: orderItemId}, {quantity: newQuantity, totalPrice: newTotalPrice}, function(){
+                    
+                    db.findOne(Bag, {orderItems: _id}, "", function(result1){
+                        var subtotal = result1.subtotal;
+                        var deliveryFee = result1.deliveryFee;
+        
+                        var newSubtotal = subtotal - oldPrice + newTotalPrice;
+                        var newTotal = newSubtotal + deliveryFee;
+        
+                        db.updateOne(Bag, {orderItems: _id}, {subtotal: newSubtotal, total: newTotal}, function(flag){});
+
+                        var newValues = {
+                            newQuantity: newQuantity,
+                            newTotalPrice: newTotalPrice,
+                            newSubtotal: newSubtotal,
+                            deliveryFee: deliveryFee,
+                            newTotal: newTotal,
+                        }
+                        res.send(newValues);
+                    });
+                })
+            }
+            else 
+                res.send(false);
+        })
+    },
+
+    getDeleteOrderItem: function(req, res){
+        var orderItemId = req.query.orderItemId;
+
+        db.findOne(OrderItem, {orderItemId: orderItemId}, "", function(result){
+            
+            var id = result._id;
+            var totalPrice = result.totalPrice;
+            
+            db.findOne(Bag, {orderItems: id}, "", function(result){
+                var newSubtotal = result.subtotal - totalPrice;
+                var deliveryFee = result.deliveryFee;
+                var newTotal;
+
+                var itemQuantity = result.orderItems.length - 1;
+                if (itemQuantity == 0)
+                    newTotal = newSubtotal;
+                else 
+                    newTotal = newSubtotal + deliveryFee; 
+                
+                var newValues = {
+                    newSubtotal: newSubtotal,
+                    newTotal: newTotal,
+                    deliveryFee: deliveryFee
+                };
+                
+                db.updateOne(Bag, {orderItems: id}, {$pull: { orderItems: id}, subtotal: newSubtotal, total: newTotal}, function(flag){
+                    if (flag){
+                        db.deleteOne(OrderItem, {_id: id}, function(flag){
+                            if (flag)
+                                res.send(newValues);
+                        });
+                    }
+                })
+            });
+
+
+
+/*
+            db.updateOne(Bag, {orderItems: id}, {$pull: { orderItems: id}}, function(flag){
+                if (flag)
+                {
+                    db.findOne(Bag, {orderItems: id}, "", function(result){
+                        var newSubtotal = result.subtotal - totalPrice;
+                        var newTotal = newSubtotal + result.deliveryFee; 
+                        
+                        db.updateOne(Bag, {orderItems: id}, {subtotal: newSubtotal, total: newTotal}, function(flag){
+                            if (flag){
+                                db.deleteOne(OrderItem, {_id: id}, function(flag){
+                                    res.send(flag);
+                                });
+                            }
+                        })
+                    });
+                }
+            })*/
+        })
+    },
+
+    /*
+
+    
+    getDeleteOrderItem: function(req, res){
+        var orderItemId = req.query.orderItemId;
+
+        db.findOne(OrderItem, {orderItemId: orderItemId}, "", function(result){
+            
+            var totalPrice = result.totalPrice;
+
+            var id = result._id;
+            Bag.findOneAndUpdate({orderItems: id}, {$pull: { orderItems: id}}, function(result){
+
+                var newSubtotal = result.subtotal - totalPrice;
+                var newTotal = newSubtotal + result.deliveryFee; 
+                
+                db.updateOne(Bag, {orderItems: id}, {subtotal: newSubtotal, total: newTotal}, function(flag){
+                    if (flag){
+                        db.deleteOne(OrderItem, {_id: id}, function(flag){
+                            res.send(flag);
+                        });
+                    }
+                })
+            })
+        })
+    },
+
+            db.findOne(OrderItem, {orderItemId: orderItemId}, "", function(result){
+            var _id = result._id;
+            var oldPrice = result.totalPrice;
+            var newQuantity = result.quantity + 1;
+            var newTotalPrice = (result.totalPrice / result.quantity) * newQuantity;
+
+            db.updateOne(OrderItem, {orderItemId: orderItemId}, {quantity: newQuantity, totalPrice: newTotalPrice}, function(){
+                
+                db.findOne(Bag, {orderItems: _id}, "", function(result1){
+                    var subtotal = result1.subtotal;
+                    var deliveryFee = result1.deliveryFee;
+    
+                    var newSubtotal = subtotal - oldPrice + newTotalPrice;
+                    var newTotal = newSubtotal + deliveryFee;
+    
+                    db.updateOne(Bag, {orderItems: _id}, {subtotal: newSubtotal, total: newTotal}, function(flag){});
+
+                    var newValues = {
+                        newQuantity: newQuantity,
+                        newTotalPrice: newTotalPrice,
+                        newSubtotal: newSubtotal,
+                        deliveryFee: deliveryFee,
+                        newTotal: newTotal,
+                    }
+                    res.send(newValues);
+                });
+            })
+        })
+    */
+
+
+
+
+
+
+    /*
+    var orderItemId = req.query.orderItemId;
 
         db.findOne(OrderItem, {orderItemId: orderItemId}, {"quantity": 1, "totalPrice": 1, "_id": 0}, function(result){
 
@@ -1179,7 +1328,7 @@ const controller = {
                 });
             })
         })
-    },
+    */
 
     getItemQuantity: function (req, res){
         db.findOne(Bag, {userId: req.session.user}, "", function(result){
