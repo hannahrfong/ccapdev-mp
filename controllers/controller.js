@@ -525,55 +525,59 @@ const controller = {
     postCheckout:   function(req, res)  {
 
         var userID = req.session.user;
-        /*
-        bcrypt.hash(req.body.newpsw, saltRounds, (err, hashed) => {
-            if (!err)
-                db.updateOne(Account, {userID: req.session.user}, {$set: {password: hashed}}, function (result) {
-                    res.redirect('/profile');
+        const saltRounds = 10;
+        var newOrderId;
+
+        db.findMany(Order, {}, "", function(result){
+            newOrderId = result.length + 1;
+            db.findOne(Account, {userID: userID}, "", function (accountRes) {
+                db.findOne(Bag, {userID: userID}, "orderItems", function (bagRes){
+                    bcrypt.hash(req.body.cardNo, saltRounds, (err, hashedCardNo) => {
+                        if (!err)
+                        {
+                            bcrypt.hash(req.body.cardNo, saltRounds, (err, hashedCVV) => {
+                                if (!err)
+                                {
+                                    var orderObj = {
+                                        orderId: newOrderId,  
+                                        account: accountRes._id,  
+                                        orderItems: bagRes.orderItems,  
+                                        //orderTotalCost: , // get from jquery
+                                        //orderDate: ,    // generate from now date
+                                        //ETA:    ,   // generate from orderDate
+                                        firstName: req.body.firstName,
+                                        lastName:   req.body.lastName,
+                                        email:  req.body.email,
+                                        contactNumber:  req.body.contactNumber,
+                                        completeAddress: req.body.completeAddress,
+                                        notes:  req.body.notes,
+                                        seniorID:   req.body.seniorID,
+                                        pwdID:  req.body.pwdID,
+                                        changeFor:  req.body.changeFor,
+                                        cardNo: req.body.cardNo,    // hash
+                                        CVV: req.body.CVV       // hash
+                            
+                                    };
+                            
+                                    console.log('postAddOrder');
+                                    console.log('test query: ' + req.query.test);
+                                    console.log('test boyd: ' + req.body.test);
+                                    console.log('test params: ' + req.params.test);
+                                    console.log('test: ' + req.test);
+                                    console.log('first name: ' + req.body.firstName);
+                                    res.redirect('/confirmation');
+                                }
+                            });
+                        }
+                    });
                 });
+            });
         });
-        */
-        var orderObj = {
-            //orderId: ,  // generate based on size/biggest order id
-            //account: ,  // retrieve using userid from session
-            //orderItems: ,   // load from bag
-            //orderTotalCost: , // get from jquery
-            //orderDate: ,    // generate from now date
-            //ETA:    ,   // generate from orderDate
-            firstName: req.body.firstName,
-            lastName:   req.body.lastName,
-            email:  req.body.email,
-            contactNumber:  req.body.contactNumber,
-            completeAddress: req.body.completeAddress,
-            notes:  req.body.notes,
-            seniorID:   req.body.seniorID,
-            pwdID:  req.body.pwdID,
-            changeFor:  req.body.changeFor,
-            cardNo: req.body.cardNo,    // hash
-            CVV: req.body.CVV       // hash
-
-        };
-
-        console.log('postAddOrder');
-        console.log('test query: ' + req.query.test);
-        console.log('test boyd: ' + req.body.test);
-        console.log('test params: ' + req.params.test);
-        console.log('test: ' + req.test);
-        console.log('first name: ' + req.body.firstName);
-        res.redirect('/confirmation');
+        
+        
+        
     },
 
-    getUserId:   function(req, res)  {
-
-        var userId = req.session.user;
-        var query = {userID: userId};
-        var projection = 'userID';
-        
-        db.findOne(Account, query, projection, function(result) {
-            res.send(result);
-        });
-
-    }, 
 
     getConfirmation: function (req, res) {
         const data = {
@@ -664,7 +668,7 @@ const controller = {
     },
 
     getBag: function(req, res) {
-        var userId = req.session.userId;
+        var userId = req.session.user;
 
         db.findOne(Bag, {userId: userId}, 'userId orderItems', function(result)  {
             res.send(result);
@@ -699,6 +703,10 @@ const controller = {
     getUpdateBagItems: function(req, res)   {
         var _id = req.query._id;
         var orderItems = req.query.orderItems;
+
+        console.log('update bag items');
+        console.log('orderItems: ');
+        console.log(orderItems);
 
         db.updateOne(Bag, {_id: _id}, {orderItems: orderItems}, function()    {
             res.redirect('/menu');
