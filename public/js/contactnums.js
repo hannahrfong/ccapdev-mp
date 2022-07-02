@@ -20,7 +20,7 @@ $(document).ready(function() {
 
     $('#numbers').on('click', '.save', function () {
         var num = this.parentNode.previousElementSibling;
-        $.get('/updateelement', {frm: "contact", val: orig, newVal: num.value});
+        $.post('/updateelement', {frm: "contact", val: orig, newVal: num.value});
 
         var p = this.parentNode.parentNode;
         var child = p.children[1];
@@ -45,7 +45,7 @@ $(document).ready(function() {
         var p = this.parentNode.parentNode;
         var child = p.children[1];
 
-        $.get('/updateDetails', {$pull:{contactNumber: child.innerHTML}}, function (res) {});
+        $.post('/updateDetails', {$pull:{contactNumber: child.innerHTML}}, function (res) {});
         window.location.assign('/contactnums');
     });
 });

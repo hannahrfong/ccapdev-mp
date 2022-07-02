@@ -981,22 +981,22 @@ const controller = {
         });
     },
 
-    getUpdateDetails: function (req, res) {
-        if (req.query.newpsw == undefined)
-            db.updateOne(Account, {userID: req.session.user}, req.query, function (result) {});
+    postUpdateDetails: function (req, res) {
+        if (req.body.newpsw == undefined)
+            db.updateOne(Account, {userID: req.session.user}, req.body, function (result) {});
         else
         {
             db.findOne(Account, {userID: req.session.user}, {}, function(user) {
                 if (user != null)
                 {
-                    bcrypt.compare(req.query.oldpsw, user.password, (err, result) => {
+                    bcrypt.compare(req.body.oldpsw, user.password, (err, result) => {
                         if (result)
                         {
-                            bcrypt.compare(req.query.newpsw, user.password, (err, result) => {
+                            bcrypt.compare(req.body.newpsw, user.password, (err, result) => {
                                 if (!result)
                                 {
                                     const saltRounds = 10;
-                                    bcrypt.hash(req.query.newpsw, saltRounds, (err, hashed) => {
+                                    bcrypt.hash(req.body.newpsw, saltRounds, (err, hashed) => {
                                         if (!err)
                                             db.updateOne(Account, {userID: req.session.user}, {$set: {password: hashed}}, function (result) {
                                                 res.redirect('/profile');
@@ -1021,14 +1021,14 @@ const controller = {
         }
     },
 
-    getUpdateArrayElement: function (req, res) {
-        var val = req.query.val;
-        var newVal = req.query.newVal;
+    postUpdateArrayElement: function (req, res) {
+        var val = req.body.val;
+        var newVal = req.body.newVal;
 
-        if (req.query.frm == "address")
+        if (req.body.frm == "address")
             db.updateOne(Account, {userID: req.session.user, completeAddress: val}, {$set:{"completeAddress.$": newVal}}, function (result) {});
         else
-            if (req.query.frm == "contact")
+            if (req.body.frm == "contact")
                 db.updateOne(Account, {userID: req.session.user, contactNumber: val}, {$set:{"contactNumber.$": newVal}}, function (result) {});
     },
 

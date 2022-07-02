@@ -15,7 +15,7 @@ $(document).ready(function () {
     }
 
     add.onclick = function () {
-        $.get('/updateDetails', {$addToSet:{contactNumber: newNum.value}});
+        $.post('/updateDetails', {$addToSet:{contactNumber: newNum.value}});
         window.location.assign('/contactnums');
     }
 })

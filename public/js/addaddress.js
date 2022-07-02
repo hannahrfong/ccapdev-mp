@@ -15,7 +15,7 @@ $(document).ready(function () {
     }
 
     add.onclick = function () {
-        $.get('/updateDetails', {$addToSet:{completeAddress: newAdd.value}});
+        $.post('/updateDetails', {$addToSet:{completeAddress: newAdd.value}});
         window.location.assign('/addresses');
     }
 })

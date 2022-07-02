@@ -32,7 +32,7 @@ $(document).ready(function() {
         var last = document.getElementById("lastName");
         var email = document.getElementById("email");
 
-        $.get('/updateDetails', {$set:{firstName: first.value, lastName: last.value, email: email.value}});
+        $.post('/updateDetails', {$set:{firstName: first.value, lastName: last.value, email: email.value}});
 
         var p = this.parentNode.parentNode;
     
