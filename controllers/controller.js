@@ -26,33 +26,134 @@ const controller = {
         res.render("register");
     },
 
+    /*getBagContents: function (req, res){
+        //get bag contents
+        Bag.find({userId: req.session.user}).populate({
+            path: "orderItems", 
+            populate: {
+                path: "product",
+                path: "addOns"
+            }
+        }).exec(function(err, res){
+           console.log("RESULT!: " + res); 
+        });
+    },*/
+
     getIndex: function (req, res) {
-        console.log("USER: " + req.session.user);
         const data = {
             style: ["navbar", "index"],
             script: ["index"], 
             bestSellers: [],
-            bag: {
-
-            }
+            bag: {}
         }
 
-        BestSeller.find().populate("productId").exec(function(err, results){
-            if (err) return handleError(err);
+        let p = new Promise((resolve, reject) =>{
+            Bag.find({userId: req.session.user}).populate([
+                {
+                    path: "orderItems",
+                    model: "OrderItem",
+                    populate: [{
+                        path: "product", 
+                        model: "Product",
+                        populate: [{
+                            path: "addOn",
+                            model: "AddOn"
+                        }]
+                    },
+                    {
+                        path: "addOns", 
+                        model: "AddOn"
+                    }
+                ]
+    
+                }
+            ]).exec(function(err, res){
+                if (err) return handleError(err);
 
-            for (var i=0;i < results.length; i++)
-            {
-                var productObj = {
-                    name: results[i].productId.name,
-                    price: results[i].productId.price,
-                    image: results[i].productId.image
+                var bag = {
+                    userId: 0,
+                    orderItems: [],
+                    subtotal: 0,
+                    deliveryFee: 50,
+                    total: 0,
                 };
 
-                data.bestSellers.push(productObj);
-            }
-        });
+                for (var i = 0; i < res[0].orderItems.length; i++)
+                {
+                    var orderItem = {
+                        orderItemId: res[0].orderItems[i].orderItemId,
+                        quantity: res[0].orderItems[i].quantity,
+                        totalPrice: res[0].orderItems[i].totalPrice,
+                        product: {
+                            id: res[0].orderItems[i].product.id,
+                            name: res[0].orderItems[i].product.name,
+                            addOn: [],
+                            inclusion: []
+                        },
+                        addOns: []
+                    }
 
-        res.render("index", data);
+                    bag.subtotal += orderItem.totalPrice;
+
+                    for (var j = 0; j < res[0].orderItems[i].product.addOn.length; j++)
+                    {
+                        var addOn = {
+                            name: res[0].orderItems[i].product.addOn[j].name,
+                            price: res[0].orderItems[i].product.addOn[j].price
+                        }
+                        
+                        orderItem.product.addOn.push(addOn);
+                    }
+
+                    for (var k = 0; k < res[0].orderItems[i].product.inclusion.length; k++)
+                    {
+                        var inclusion = {
+                            productName: res[0].orderItems[i].product.inclusion[k].productName,
+                            quantity: res[0].orderItems[i].product.inclusion[k].quantity
+                        };    
+                        orderItem.product.inclusion.push(inclusion);   
+                    }
+
+                    for (var l = 0; l < res[0].orderItems[i].addOns.length; l++)
+                    {
+                        var addOnOuter = {
+                            id: res[0].orderItems[i].addOns[l].id,
+                            name: res[0].orderItems[i].addOns[l].name,
+                            price: res[0].orderItems[i].addOns[l].price
+                        }
+                        orderItem.addOns.push(addOnOuter);
+                    }
+
+                    bag.orderItems.push(orderItem);
+                }
+
+                data.bag = bag;
+                data.bag.total = bag.subtotal + bag.deliveryFee; 
+                resolve("Success");
+                reject("Failed");
+            }) 
+        })
+
+        p.then((message) => {
+            BestSeller.find().populate("productId").exec(function(err, results){
+                if (err) return handleError(err);
+    
+                for (var i=0;i < results.length; i++)
+                {
+                    var productObj = {
+                        name: results[i].productId.name,
+                        price: results[i].productId.price,
+                        image: results[i].productId.image
+                    };
+    
+                    data.bestSellers.push(productObj);
+                }
+            });
+            res.render("index", data);
+        }).catch((message) => {
+            console.log("This is in catch" + message);
+        })
+    
     },
 
     getMenu: function (req, res) {
@@ -86,7 +187,7 @@ const controller = {
         {
             var productObj = {
                 name: products[i].name,
-                price: products[i].price,
+                price: parseFloat(products[i].price),
                 image: products[i].image
             };
             switch (products[i].category){
@@ -575,7 +676,6 @@ const controller = {
 
     }, 
 
-
     getConfirmation: function (req, res) {
         const data = {
             style: ["bootstrap", "navbar", "confirmation"],
@@ -930,7 +1030,57 @@ const controller = {
         else
             if (req.query.frm == "contact")
                 db.updateOne(Account, {userID: req.session.user, contactNumber: val}, {$set:{"contactNumber.$": newVal}}, function (result) {});
+    },
+
+    getAddQuantity: function (req, res){
+        var orderItemId = req.query.orderItemId;
+
+        db.findOne(OrderItem, {orderItemId: orderItemId}, {"quantity": 1, "totalPrice": 1, "_id": 0}, function(result){
+            var oldPrice = result.totalPrice;
+            var newQuantity = result.quantity + 1;
+            var newTotalPrice = (result.totalPrice / result.quantity) * newQuantity;
+
+            db.updateOne(OrderItem, {orderItemId: orderItemId}, {quantity: newQuantity, totalPrice: newTotalPrice}, function(){
+                console.log("NEW QUANT" + newQuantity);
+                var newValues = {
+                    oldPrice: oldPrice,
+                    newQuantity: newQuantity,
+                    newTotalPrice: newTotalPrice
+                }
+                res.send(newValues);
+            })
+        })
     }
 }
 
 module.exports = controller;
+
+
+                /*
+                Bag
+                    - userId```````````````
+                    - orderItems[]
+                        - orderItemId`````````````````
+                        - product
+                            - id`````````````````
+                            - name ```````````````````````
+                            - category``````````````````````
+                            - price````````````````````````
+                            - image``````````````````````````
+                            - addOn[]
+                                - id````````````````
+                                - name````````````````````````
+                                - price````````````````
+                                - flavor[]
+                            - inclusion[]
+                                - productName````````````
+                                - quantity````````````````````
+
+                        - addOns[]
+                            - id
+                            - name
+                            - price
+                            - flavor[]
+                        - quantity``````````````````
+                        - totalPrice```````````````````````
+                */

@@ -338,12 +338,8 @@ $(document).ready(function(){
               orderItems.push(curOrderItem._id);
               var _id = newRes._id;
               $.get('/updateBagItems', {_id: _id, orderItems: orderItems}, function() {});
-<<<<<<< Updated upstream
               $.get('/updateBagView', {})
               */
-=======
-              $.get('/updateBagView', {_id: _id}, function(){});
->>>>>>> Stashed changes
             });
            
           });

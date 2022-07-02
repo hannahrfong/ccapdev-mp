@@ -2,25 +2,29 @@
     <div class="bag-item-container">
         <div class="header">My Bag</div>
         <div class="list-container">
-            {{#each order}}
-                <div class="order-container 1">
+            {{#each orderItems}}
+                <div class="order-container" id="{{orderItemId}}">
                     <div class="quantity-container">
-                        <button class="minus" id="minus-bag"><img src="/images/minus.png" width="18" height="18"></button>
+                        <button class="minus"><img src="/images/minus.png" width="18" height="18"></button>
                         <div class="quantity">{{quantity}}</div>
-                        <button class="plus" id="plus-bag"><img src="/images/plus.png" width="18" height="18"></button>
+                        <button class="plus"><img src="/images/plus.png" width="18" height="18"></button>
                     </div>
 
                     <div class="detail-container">
                         <div class="product-name">{{product.name}}</div>
                         {{#each product.inclusion}}
-                            <div class="product-inclusion">x{{quantity}} {{productName}}</div>
+                            <div class="product-inclusion">{{quantity}} {{productName}}</div>
                         {{/each}}
-                        <a href="/addtobag/{{name}}" class="edit" id="edit-bag">Edit</a> | 
-                        <button class="delete 1" id="delete-bag">Delete</button>
+                            
+                        {{#each addOns}}
+                            <div class="product-inclusion">{{name}}</div>
+                        {{/each}}
+                        <a href="/addtobag/{{product.name}}" class="edit" class="edit-bag">Edit</a> | 
+                        <button class="delete" class="delete-bag">Delete</button>
                     </div>
 
                     <div class="price-container">
-                        ₱ {{product.price}}.00 
+                        ₱ {{totalPrice}}
                     </div>
                 </div>
             {{/each}}
@@ -30,17 +34,17 @@
     <div class="payment-container">
         <div class="subtotal-container">
             <div class="sub">Subtotal</div>
-            <div class="sub">₱ {{subtotal}}.00</div>
+            <div class="sub subTotal">₱ {{subtotal}}</div>
         </div>
 
         <div class="delivery-fee-container">
             <div class="sub">Delivery Fee</div>
-            <div class="sub">₱ {{shippingFee}}.00</div>
+            <div class="sub">₱ {{deliveryFee}}</div>
         </div>
 
         <div class="total-container">
             <div class="main">Total</div>
-            <div class="main">₱ {{total}}.00</div>
+            <div class="main overallTotal">₱ {{total}}.00</div>
         </div>
 
         <div class="checkout-button"><a href="/checkout">Proceed to Checkout</a></div>

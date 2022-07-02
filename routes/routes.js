@@ -58,4 +58,5 @@ app.get('/changepw', controller.isPrivate, controller.getChangePassword);
 app.get('/addaddress', controller.isPrivate, controller.getAddAddress);
 app.get('/addnumber', controller.isPrivate, controller.getAddNumber);
 app.get('/updateelement', controller.isPrivate, controller.getUpdateArrayElement);
+app.get('/addQuantity', controller.isPrivate, controller.getAddQuantity);
 module.exports = app;
