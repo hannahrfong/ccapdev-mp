@@ -9,88 +9,6 @@ const Order = require("../models/OrderModel.js");
 const Account = require("../models/AccountModel.js");
 const bcrypt = require("bcrypt");
 
-function getBagContents(userId, resolve, reject){
-    Bag.find({userId: userId}).populate([
-        {
-            path: "orderItems",
-            model: "OrderItem",
-            populate: [{
-                path: "product", 
-                model: "Product",
-                populate: [{
-                    path: "addOn",
-                    model: "AddOn"
-                }]
-            },
-            {
-                path: "addOns", 
-                model: "AddOn"
-            }
-        ]
-
-        }
-    ]).exec(function(err, res){
-        if (err) return handleError(err);
-
-        var bag = {
-            userId: 0, //fix!
-            orderItems: [],
-            subtotal: parseFloat(res[0].subtotal).toFixed(2),
-            deliveryFee: parseFloat(res[0].deliveryFee).toFixed(2),
-            total: parseFloat(res[0].total).toFixed(2),
-        };
-
-        for (var i = 0; i < res[0].orderItems.length; i++)
-        {
-            var orderItem = {
-                orderItemId: res[0].orderItems[i].orderItemId,
-                quantity: res[0].orderItems[i].quantity,
-                totalPrice: parseFloat(res[0].orderItems[i].totalPrice).toFixed(2),
-                product: {
-                    id: res[0].orderItems[i].product.id,
-                    name: res[0].orderItems[i].product.name,
-                    addOn: [],
-                    inclusion: []
-                },
-                addOns: []
-            }
-
-            for (var j = 0; j < res[0].orderItems[i].product.addOn.length; j++)
-            {
-                var addOn = {
-                    name: res[0].orderItems[i].product.addOn[j].name,
-                    price: parseFloat(res[0].orderItems[i].product.addOn[j].price).toFixed(2)
-                }
-                
-                orderItem.product.addOn.push(addOn);
-            }
-
-            for (var k = 0; k < res[0].orderItems[i].product.inclusion.length; k++)
-            {
-                var inclusion = {
-                    productName: res[0].orderItems[i].product.inclusion[k].productName,
-                    quantity: res[0].orderItems[i].product.inclusion[k].quantity
-                };    
-                orderItem.product.inclusion.push(inclusion);   
-            }
-
-            for (var l = 0; l < res[0].orderItems[i].addOns.length; l++)
-            {
-                var addOnOuter = {
-                    id: res[0].orderItems[i].addOns[l].id,
-                    name: res[0].orderItems[i].addOns[l].name,
-                    price: parseFloat(res[0].orderItems[i].addOns[l].price).toFixed(2)
-                }
-                orderItem.addOns.push(addOnOuter);
-            }
-
-            bag.orderItems.push(orderItem);
-        }
-        resolve(bag);
-        reject("Failed");
-    }) 
-}
-
 const controller = {
 
     getFavicon: function (req, res) {
@@ -114,12 +32,90 @@ const controller = {
         }
 
         let p = new Promise((resolve, reject) =>{
-            return getBagContents(req.session.user, resolve, reject);
+            Bag.find({userId: req.session.user}).populate([
+                {
+                    path: "orderItems",
+                    model: "OrderItem",
+                    populate: [{
+                        path: "product", 
+                        model: "Product",
+                        populate: [{
+                            path: "addOn",
+                            model: "AddOn"
+                        }]
+                    },
+                    {
+                        path: "addOns", 
+                        model: "AddOn"
+                    }
+                ]
+    
+                }
+            ]).exec(function(err, res){
+                if (err) return handleError(err);
+
+                var bag = {
+                    userId: 0, //fix!
+                    orderItems: [],
+                    subtotal: parseFloat(res[0].subtotal).toFixed(2),
+                    deliveryFee: parseFloat(res[0].deliveryFee).toFixed(2),
+                    total: parseFloat(res[0].total).toFixed(2),
+                };
+
+                for (var i = 0; i < res[0].orderItems.length; i++)
+                {
+                    var orderItem = {
+                        orderItemId: res[0].orderItems[i].orderItemId,
+                        quantity: res[0].orderItems[i].quantity,
+                        totalPrice: parseFloat(res[0].orderItems[i].totalPrice).toFixed(2),
+                        product: {
+                            id: res[0].orderItems[i].product.id,
+                            name: res[0].orderItems[i].product.name,
+                            addOn: [],
+                            inclusion: []
+                        },
+                        addOns: []
+                    }
+
+                    for (var j = 0; j < res[0].orderItems[i].product.addOn.length; j++)
+                    {
+                        var addOn = {
+                            name: res[0].orderItems[i].product.addOn[j].name,
+                            price: parseFloat(res[0].orderItems[i].product.addOn[j].price).toFixed(2)
+                        }
+                        
+                        orderItem.product.addOn.push(addOn);
+                    }
+
+                    for (var k = 0; k < res[0].orderItems[i].product.inclusion.length; k++)
+                    {
+                        var inclusion = {
+                            productName: res[0].orderItems[i].product.inclusion[k].productName,
+                            quantity: res[0].orderItems[i].product.inclusion[k].quantity
+                        };    
+                        orderItem.product.inclusion.push(inclusion);   
+                    }
+
+                    for (var l = 0; l < res[0].orderItems[i].addOns.length; l++)
+                    {
+                        var addOnOuter = {
+                            id: res[0].orderItems[i].addOns[l].id,
+                            name: res[0].orderItems[i].addOns[l].name,
+                            price: parseFloat(res[0].orderItems[i].addOns[l].price).toFixed()
+                        }
+                        orderItem.addOns.push(addOnOuter);
+                    }
+
+                    bag.orderItems.push(orderItem);
+                }
+
+                data.bag = bag;
+                resolve("Success");
+                reject("Failed");
+            }) 
         })
 
-        p.then((bag) => {
-            data.bag = bag;
-            console.log(data.bag.orderItems);
+        p.then((message) => {
             BestSeller.find().populate("productId").exec(function(err, results){
                 if (err) return handleError(err);
     
@@ -143,11 +139,7 @@ const controller = {
     },
 
     getMenu: function (req, res) {
-        let p = new Promise((resolve, reject) =>{
-            return getBagContents(req.session.user, resolve, reject);
-        })
 
-        p.then((bag) => {
         db.findMany(Product, {}, "", function(products){
             var main = {
                 id: 'main',
@@ -193,12 +185,10 @@ const controller = {
         const data = {
             style: ["navbarMenu", "menu"],
             topbar: true,
-            category: [main, snack, dnd, bundle],
-            bag: bag
+            category: [main, snack, dnd, bundle]
         }
         res.render("menu", data);
         });
-    })
     },
 
     getContact: function (req, res) {
