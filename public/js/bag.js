@@ -7,14 +7,21 @@ $(document).ready(function(){
         $.get("/addQuantity", {orderItemId: orderItemId}, function(result){
            var newQuantity = result.newQuantity;
            var newTotalPrice = parseFloat(result.newTotalPrice);
-           var curSubTotal = parseFloat($(clickedBtn).parent().parent().parent().parent().siblings(".payment-container").find("subTotal").text().substring(2));
-            var curOverallTotal = parseFloat($(clickedBtn).parent().parent().parent().parent().siblings(".payment-container").find("overallTotal").text().substring(2));
+           var curSubTotal = parseFloat($(clickedBtn).parent().parent().parent().parent().siblings(".payment-container").find(".subTotal").text().substring(2));
+            var curOverallTotal = parseFloat($(clickedBtn).parent().parent().parent().parent().siblings(".payment-container").find(".overallTotal").text().substring(2));
             var newSubTotal =  curSubTotal - result.oldPrice + newTotalPrice;
             var newOverallTotal = newSubTotal + 50;
+
+            console.log("BAGJS curSubTotal: *" + curSubTotal + "*");
+            console.log("BAGJS curOverallTotal: *" + curOverallTotal + "*");
+            
+            console.log("BAGJS newSubTotal: " + newSubTotal);
+            console.log("BAGJS newOverallTotal: " + newOverallTotal);
+
             $(clickedBtn).siblings(".quantity").text(newQuantity);
             $(clickedBtn).parent().siblings(".price-container").text("₱ " + newTotalPrice);
-            $(clickedBtn).parent().parent().parent().parent().siblings(".payment-container").find("subTotal").text(newSubTotal);
-            $(clickedBtn).parent().parent().parent().parent().siblings(".payment-container").find("overallTotal").text(newOverallTotal);
+            $(clickedBtn).parent().parent().parent().parent().siblings(".payment-container").find(".subTotal").text("₱ " + newSubTotal);
+            $(clickedBtn).parent().parent().parent().parent().siblings(".payment-container").find(".overallTotal").text("₱ " + newOverallTotal);
         })
     })
     //minus button

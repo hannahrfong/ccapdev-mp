@@ -949,12 +949,17 @@ const controller = {
             var newTotalPrice = (result.totalPrice / result.quantity) * newQuantity;
 
             db.updateOne(OrderItem, {orderItemId: orderItemId}, {quantity: newQuantity, totalPrice: newTotalPrice}, function(){
-                console.log("NEW QUANT" + newQuantity);
+                
                 var newValues = {
                     oldPrice: oldPrice,
                     newQuantity: newQuantity,
                     newTotalPrice: newTotalPrice
                 }
+
+                console.log("INSIDE CONTROLLER oldPrice " + oldPrice + " " + typeof(oldPrice));
+                console.log("INSIDE CONTROLLER newQuantity " + newQuantity + " " + typeof(newQuantity));
+                console.log("INSIDE CONTROLLER newTotalPrice " + newTotalPrice + " " + typeof(newTotalPrice));
+
                 res.send(newValues);
             })
         })
