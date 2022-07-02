@@ -693,31 +693,51 @@ const controller = {
     getConfirmation: function (req, res) {
         var orderId = req.params.orderId;
 
+        console.log('orderId: ' + orderId);
+
         var query = {orderId: orderId};
-        var projection = 'orderItems orderTotalCost ETAMin ETAMax contactNumber completeAddress notes paymentMethod';
+        var projection = 'total subtotal deliveryFee discount ETAMin ETAMax contactNumber completeAddress paymentMethod changeFor';
 
         db.findOne(Order, query, projection, function(result) {
 
-            var timeMin = result.ETAMin.getHours() + " : " + result.ETAMin.getMinutes();
-            var timeMax = result.ETAMax.getHours() + " : " + result.ETAMax.getMinutes();
 
-            var orderdetails = {
-                total: result.total,
-                subtotal: result.subtotal,
-                deliveryFee: result.deliveryFee,
-                discount: result.discount,
-                ETAMin: timeMin,
-                ETAMax: timeMax,
+            var timeMin = result.ETAMin;
+            var timeMax = result.ETAMax;
+            var ETAMin = timeMin.getHours() + ":" + (timeMin.getMinutes()<10?'0':'') + timeMin.getMinutes();
+            var ETAMax = timeMax.getHours() + ":" + (timeMax.getMinutes()<10?'0':'') + timeMax.getMinutes();
+
+            var discount = result.discount;
+
+            if (typeof discount != "undefined")
+            {
+                discount = discount.toFixed(2);
+            }
+
+            var changeFor = result.changeFor;
+
+            if (typeof changeFor != "undefined")
+            {
+                changeFor = changeFor.toFixed(2);
+            }
+
+            var orderDetails = {
+                orderId: orderId,
+                total: result.total.toFixed(2),
+                subtotal: result.subtotal.toFixed(2),
+                deliveryFee: result.deliveryFee.toFixed(2),
+                discount: discount,
+                ETAMin: ETAMin,
+                ETAMax: ETAMax,
                 contactNumber: result.contactNumber,
                 completeAddress: result.completeAddress,
-                notes: result.notes,
-                paymentMethod: result.paymentMethod
+                paymentMethod: result.paymentMethod,
+                changeFor: changeFor
             };
 
             const data = {
                 style: ["bootstrap", "navbar", "confirmation"],
                 script: ["bootstrap"],
-                orderdetails: orderdetails,
+                orderDetails: orderDetails,
                 order: {}
             };
 
@@ -727,7 +747,10 @@ const controller = {
             })
     
             p.then((order) => {
-                data.bag = order;
+                data.order = order;
+
+                console.log('data');
+                console.log(data);
                 res.render("confirmation", data);
             }).catch((message) => {
                 console.log("This is in catch" + message);

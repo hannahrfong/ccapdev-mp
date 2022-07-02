@@ -25,10 +25,9 @@
                         
                         <div class="row mt-4">
                             <div class="col">
-                                <h3 class="fw-bold">9:45 PM - 9:55 PM</h3>
+                                <h3 class="fw-bold">{{this.orderDetails.ETAMin}} - {{this.orderDetails.ETAMax}}</h3>
                             </div>
                         </div>
-
                         
                     </div>
                 </div>
@@ -42,22 +41,42 @@
                             </div>
                         </div>
 
-                        <div class="row mx-1 my-2" id="orders">
-                            <div class="col-auto my-2 text-start">
-                                <p>x1 Lasagna</p>
-                            </div>
-                            <div class="col my-2 text-end">
-                                <p>₱180</p>
+                        <div id="orders">
+                            {{#each this.order.orderItems}}
+                                <div class="row mx-1 my-3" id="{{orderItemId}}">
+
+                                    <div class="col-2 my-1 text-start">
+                                        <p style="font-weight:bold;">x{{quantity}} </p>
+                                    </div>
+
+                                    <div class="col-6 my-1 text-start">
+                                        <div>{{product.name}}</div>
+                                        {{#each product.inclusion}}
+                                            <div class="inclusion">{{quantity}} {{productName}}</div>
+                                        {{/each}}
+                                        {{#each addOns}}
+                                            <div class="inclusion">{{name}}</div>
+                                        {{/each}}
+                                    </div>
                                 
-                            </div>
+
+                                    <div class="col-4 my-1 text-end">
+                                        <p style="font-weight: bold;" class="price">{{totalPrice}}</p>
+                                        
+                                    </div>
+
+                                </div>
+                            {{/each}}
+                        
                         </div>
 
-                        <div class="row mx-1 mt-3" style=" height: 2rem;">
+
+                        <div class="row mx-1 mt-3" style=" height: 2rem;" id="subtotalDiv">
                             <div class="col text-start">
                                 <p>Subtotal</p>
                             </div>
                             <div class="col text-end">
-                                <p>₱180</p>
+                                <p style="font-weight: bold" class="price">₱{{this.orderDetails.subtotal}}</p>
                                 
                             </div>
                         </div>
@@ -67,17 +86,30 @@
                                 <p>Delivery Fee</p>
                             </div>
                             <div class="col text-end">
-                                <p>₱50</p>
+                                <p style="font-weight:bold" class="price" >₱{{this.orderDetails.deliveryFee}}</p>
                                 
                             </div>
                         </div>
 
-                        <div class="row mx-1">
+                        {{#if this.orderDetails.discount}}
+                            <div class="row mx-1" style=" height: 2rem;" id="discount">
+                                
+                                    <div class="col text-start" id="discountText">
+                                        <p style="color: red">Discount</p>
+                                    </div>
+                                    <div class="col text-end" id="discountValue">
+                                        <p style="font-weight:bold; color: red"> - ₱{{this.orderDetails.discount}}</p>
+                                    </div>
+                                
+                            </div>
+                        {{/if}}
+
+                        <div class="row mx-1 mt-3">
                             <div class="col">
-                                <h4 class="text-start fw-bold">Total</h4>
+                                <h4 class="text-start fw-bold" style="font-size: 1.6rem">Total</h4>
                             </div>
                             <div class="col">
-                                <h4 class="text-end fw-bold">₱230</h4>
+                                <h4 class="text-end fw-bold price" style="font-size: 1.6rem" name="orderTotalCost" id="finalTotal">₱{{this.orderDetails.total}}</h4>
                                 
                             </div>
                         </div>
@@ -94,32 +126,12 @@
                             </div>
                         </div>
 
-                         <div class="row mx-1 mt-3" style=" height: 2rem;">
+                         <div class="row mx-1 mt-4" style=" height: 2rem;">
                             <div class="col text-start">
                                 <p>Order ID:</p>
                             </div>
                             <div class="col text-end">
-                                <p class="fw-bold">XXXXXXXX</p>
-                                
-                            </div>
-                        </div>
-
-                        <div class="row mx-1 my-3 mb-5" style=" height: 2rem;">
-                            <div class="col text-start">
-                                <p>Delivery Address:</p>
-                            </div>
-                            <div class="col text-end">
-                                <p class="fw-bold">17-2 Sandico St., Angeles City, Pampanga</p>
-                                
-                            </div>
-                        </div>
-
-                        <div class="row mx-1 mt-3" style=" height: 2rem;">
-                            <div class="col text-start">
-                                <p>Contact Number:</p>
-                            </div>
-                            <div class="col text-end">
-                                <p class="fw-bold">09274877316</p>
+                                <p class="fw-bold">{{this.orderDetails.orderId}}</p>
                                 
                             </div>
                         </div>
@@ -129,24 +141,43 @@
                                 <p>Payment Method:</p>
                             </div>
                             <div class="col text-end">
-                                <p class="fw-bold">Cash on Delivery</p>
+                                <p class="fw-bold">{{this.orderDetails.paymentMethod}}</p>
                                 
                             </div>
                         </div>
+
+                        {{#if this.orderDetails.changeFor}}
+                            <div class="row mx-1 mt-4" style=" height: 2rem;">
+                                <div class="col text-start">
+                                    <p>Change for:</p>
+                                </div>
+                                <div class="col text-end">
+                                    <p class="fw-bold">₱{{this.orderDetails.changeFor}}</p>
+                                    
+                                </div>
+                            </div>
+                        {{/if}}
 
                         <div class="row mx-1 mt-4" style=" height: 2rem;">
                             <div class="col text-start">
-                                <p>Additional Notes:</p>
+                                <p>Contact Number:</p>
                             </div>
                             <div class="col text-end">
-                                <p class="fw-bold">Cash on Delivery</p>
+                                <p class="fw-bold">{{this.orderDetails.contactNumber}}</p>
                                 
                             </div>
                         </div>
 
-                       
+                        <div class="row mx-1 my-3 mb-5 mt-4" style=" height: 2rem;">
+                            <div class="col-5 text-start">
+                                <p>Delivery Address:</p>
+                            </div>
+                            <div class="col-7 text-end">
+                                <p class="fw-bold">{{this.orderDetails.completeAddress}}</p>
+                                
+                            </div>
+                        </div>
 
-                        
 
                     </div>
                 </div>

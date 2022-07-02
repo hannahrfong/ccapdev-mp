@@ -13,9 +13,14 @@
 
 #orders {
     border-bottom: 3px solid black;
-    min-height: 9rem;
+    font-family: intermedium;
 }
 
 .break {
     height: 5.5rem;
+}
+
+.inclusion{
+  font-size: 0.85rem;
+  color: rgb(112, 108, 108);
 }
