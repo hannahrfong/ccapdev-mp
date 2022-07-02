@@ -1,12 +1,12 @@
 $(document).ready(function() {
     var add = document.getElementById("add");
-    var orig;
+    var orig, save;
 
     $('#numbers').on('click', '.edit', function () {
         var p = this.parentNode.parentNode;
         var child = p.children[1];
         orig = child.innerHTML;
-        var save = this.nextElementSibling;
+        save = this.nextElementSibling;
         var input = document.createElement("input");
 
         input.type = "text";
@@ -16,6 +16,15 @@ $(document).ready(function() {
 
         save.classList.remove("hide");
         this.classList.add("hide");
+    });
+
+    $('#numbers').on('keyup', '.field-value', function () {
+        var patt = /[0-9]+/;
+
+        if (patt.test(this.value) && this.value.length >= 11)
+            save.disabled = false;
+        else
+            save.disabled = true;
     });
 
     $('#numbers').on('click', '.save', function () {

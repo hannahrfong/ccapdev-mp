@@ -15,7 +15,11 @@ $(document).ready(function() {
                 var fieldText = fieldVal.innerHTML;
                 var input = document.createElement("input");
 
-                input.type = "text";
+                if (child.children[0].innerHTML == "Email")
+                    input.type = "email";
+                else
+                    input.type = "text";
+                
                 input.id = fieldVal.id;
                 input.classList.add(fieldVal.classList);
                 input.value = fieldText;
@@ -27,7 +31,7 @@ $(document).ready(function() {
         update.classList.add("hide");
     }
 
-    save.onclick = function () {
+    function submitFunc() {
         var first = document.getElementById("firstName");
         var last = document.getElementById("lastName");
         var email = document.getElementById("email");

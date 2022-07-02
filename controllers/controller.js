@@ -851,6 +851,7 @@ const controller = {
         {
             req.session.destroy(() => {
                 res.clearCookie('connect.sid');
+                console.log("Session successfully destroyed.");
                 res.redirect('/signin');
             });
         }
