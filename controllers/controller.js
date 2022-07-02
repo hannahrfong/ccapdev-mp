@@ -779,6 +779,7 @@ const controller = {
         });        
     },
 
+    // POST - hannah
     getAddFeedback: function(req, res){
         var userID = req.session.user;
         var subject = req.query.subject;
@@ -831,7 +832,6 @@ const controller = {
         });
     },
 
-
     getAllOrderItems: function(req, res){
         
         db.findMany(OrderItem, {}, "", function(result){
@@ -847,30 +847,22 @@ const controller = {
         });
     },
 
-    getUpdateBagItems: function(req, res)   {
-        var _id = req.query._id;
-        var orderItems = req.query.orderItems;
+    // POST - ibz
+    postUpdateBagItems: function(req, res)   {
+       
+        var _id = req.body._id;
+        var orderItems = req.body.orderItems;
         var orderItemsLen = orderItems.length;
         var orderItemObjId = orderItems[orderItemsLen - 1];
-
-        console.log("1 " + orderItems);
-        console.log("2 " + orderItemsLen);
-        console.log("3 " + orderItemObjId);
 
         db.updateOne(Bag, {_id: _id}, {orderItems: orderItems}, function()    {
             db.findOne(Bag, {_id: _id}, "", function(result1){
                 var subtotal = result1.subtotal;
                 var deliveryFee = result1.deliveryFee;
 
-                console.log("4 " + subtotal);
-                console.log("5 " + deliveryFee);
-
                 db.findOne(OrderItem, {_id: orderItemObjId}, "totalPrice", function(result2){
                     var newSubtotal = subtotal + result2.totalPrice;
                     var newTotal = newSubtotal + deliveryFee;
-
-                    console.log("6 " + newSubtotal);
-                    console.log("7 " + newTotal);
 
                     db.updateOne(Bag, {_id: _id}, {subtotal: newSubtotal, total: newTotal}, function(flag){
                         console.log(flag);
@@ -881,12 +873,13 @@ const controller = {
         res.redirect('/menu');
     },
 
-    getAddOrderItem: function(req, res) {
-        var orderItemId = req.query.orderItemId;
-        var product = req.query.product;
-        var addOns = req.query.addOns;
-        var quantity = req.query.quantity;
-        var totalPrice = req.query.totalPrice;
+    // POST - ibz
+    postAddOrderItem: function(req, res) {
+        var orderItemId = req.body.orderItemId;
+        var product = req.body.product;
+        var addOns = req.body.addOns;
+        var quantity = req.body.quantity;
+        var totalPrice = req.body.totalPrice;
 
         var orderItem = {
             orderItemId: orderItemId,
@@ -1100,6 +1093,7 @@ const controller = {
         }
     },
 
+    // POST - hannah
     getAddQuantity: function (req, res){
         var orderItemId = req.query.orderItemId;
 
@@ -1133,6 +1127,7 @@ const controller = {
         })
     },
 
+    // POST - hannah
     getSubtractQuantity: function (req, res){
         var orderItemId = req.query.orderItemId;
 
@@ -1171,6 +1166,7 @@ const controller = {
         })
     },
 
+    // POST - hannah
     getDeleteOrderItem: function(req, res){
         var orderItemId = req.query.orderItemId;
 
