@@ -127,11 +127,6 @@ $(document).ready(function(){
         }
     });
 
-
-   
-
-    
-
     $(".discountID").keyup(function()  {
 
         var seniorInputText = $("#seniorInput").val();
@@ -184,5 +179,11 @@ $(document).ready(function(){
             }
             
         }
+    });
+
+    $("#placeorder").submit(function()  {
+
+        var test = 0;
+        $.post('/checkout', {$set: test}, function()  {});
     });
 });

@@ -2,7 +2,7 @@
 
     <div class="container overflow-hidden"> 
         <form class="row justify-content-center mb-5" id="checkoutForm" method="post" > 
-        <!--<form class="row justify-content-center mb-5" id="checkoutForm" method="post"></form>   -->
+        <!--<form class="row justify-content-center mb-5" id="checkoutForm" method="post" action="/confirmation"></form>   -->
 
             <div class="col-sm-auto col-md-auto col-lg-7" >
                 <div class="card mt-5 ms-4 border-dark" style="border: 1px #888888; border-radius: 25px; box-shadow: 2px 2px 2px 2px #888888; background-color: white">
@@ -13,7 +13,7 @@
                             <div class="col-md me-4">
                                 
                               <div class="form-floating">
-                                   <input type="text" class="form-control" id="floatingInputGrid1" placeholder="firstNameEx" value="{{this.accountDetails.firstName}}" required>
+                                   <input type="text" class="form-control" id="floatingInputGrid1" placeholder="firstNameEx" name="firstName" value="{{this.accountDetails.firstName}}" required>
                                    <label style="color: #676e75;" for="floatingInputGrid1">First Name</label>
                                 </div>
                             </div>
@@ -153,18 +153,26 @@
                         </div>
 
                         <div id="orders">
-                            {{#each this.orderItems as |orderItem|}}
-                                <div class="row mx-1 my-1">
+                            {{#each this.bag.orderItems}}
+                                <div class="row mx-1 my-3" id="{{orderItemId}}">
 
                                     <div class="col-2 my-1 text-start">
-                                        <p style="font-weight:bold;">x{{orderItem.quantity}} </p>
+                                        <p style="font-weight:bold;">x{{quantity}} </p>
                                     </div>
 
                                     <div class="col-6 my-1 text-start">
-                                        <p>{{orderItem.productName}}</p>
+                                        <div>{{product.name}}</div>
+                                        {{#each product.inclusion}}
+                                            <div class="inclusion">{{quantity}} {{productName}}</div>
+                                        {{/each}}
+                                        {{#each addOns}}
+                                            <div class="inclusion">{{name}}</div>
+                                        {{/each}}
                                     </div>
+                                
+
                                     <div class="col-4 my-1 text-end">
-                                        <p style="font-weight: bold;" class="price">{{orderItem.totalPrice}}</p>
+                                        <p style="font-weight: bold;" class="price">{{totalPrice}}</p>
                                         
                                     </div>
 
@@ -179,7 +187,7 @@
                                 <p>Subtotal</p>
                             </div>
                             <div class="col text-end">
-                                <p style="font-weight: bold" class="price">{{this.subTotal}}</p>
+                                <p style="font-weight: bold" class="price">{{this.bag.subtotal}}</p>
                                 
                             </div>
                         </div>
@@ -189,7 +197,7 @@
                                 <p>Delivery Fee</p>
                             </div>
                             <div class="col text-end">
-                                <p style="font-weight:bold" class="price" >{{this.deliveryFee}}</p>
+                                <p style="font-weight:bold" class="price" >{{this.bag.deliveryFee}}</p>
                                 
                             </div>
                         </div>
@@ -203,7 +211,7 @@
                                 <h4 class="text-start fw-bold" style="font-size: 1.6rem">Total</h4>
                             </div>
                             <div class="col">
-                                <h4 class="text-end fw-bold price" style="font-size: 1.6rem" id="finalTotal">{{this.finalTotal}}</h4>
+                                <h4 class="text-end fw-bold price" style="font-size: 1.6rem" id="finalTotal">{{this.bag.total}}</h4>
                                 
                             </div>
                         </div>

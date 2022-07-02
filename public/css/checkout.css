@@ -26,6 +26,7 @@
     border-radius: 25px; 
     background-color: white;
     box-shadow: 1px 1px 2px 2px #888888;
+    font-family: intermedium;
     
 }
 
@@ -41,4 +42,9 @@
 #orders {
   border-top: 3px solid black;
   border-bottom: 3px solid black;
+}
+
+.inclusion{
+  font-size: 0.85rem;
+  color: rgb(112, 108, 108);
 }

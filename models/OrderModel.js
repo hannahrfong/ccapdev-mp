@@ -5,8 +5,8 @@ var OrderSchema = new mongoose.Schema({
         required: true
     },
 
-    userId: {
-        type: Number,
+    account: {
+        type: mongoose.Schema.Types.ObjectId, ref: 'Account',
         required:true
     },
 
@@ -15,7 +15,7 @@ var OrderSchema = new mongoose.Schema({
         required: true
     }],
 
-    orderCost: {
+    orderTotalCost: {
         type: Number,
         required: true
     },
