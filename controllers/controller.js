@@ -1007,21 +1007,47 @@ const controller = {
             db.deleteOne(Account, {userID: req.session.user}, function(flag) {
                 
                     db.updateMany(Bag, {userId:{$gt:req.session.user}}, {$inc: {userId: -1}}, function(result){
-                        // deletes user's bag 
-                        db.deleteOne(Bag, {userId: req.session.user}, function()    {
-                            if (req.session)
-                            {
-                                req.session.destroy(() => {
-                                    res.clearCookie('connect.sid');
-                                    console.log("Session successfully destroyed.");
-                                    res.redirect('/signin');
-                                });
+                        
+                        // delete orderitems
+                        db.findOne(Bag, {userId: req.session.user}, 'orderItems', function(bagRes)    {
+                            var orderItemsList = bagRes.orderItems;
+
+                            orderItemsList.forEach(myFunction);
+
+                            function myFunction(item) {
+                                db.deleteOne(OrderItem, {_id: item}, function() {});
                             }
+
+                            // deletes user's bag 
+                            db.deleteOne(Bag, {userId: req.session.user}, function()    {
+                                if (req.session)
+                                {
+                                    req.session.destroy(() => {
+                                        res.clearCookie('connect.sid');
+                                        console.log("Session successfully destroyed.");
+                                        res.redirect('/signin');
+                                    });
+                                }
+                            });
+
                         });
+
+                        
                     });
                 });
         });
     },
+
+    /*
+    db.updateOne(Bag, {orderItems: id}, {$pull: { orderItems: id}, subtotal: newSubtotal, total: newTotal}, function(flag){
+                    if (flag){
+                        db.deleteOne(OrderItem, {_id: id}, function(flag){
+                            if (flag)
+                                res.send(newValues);
+                        });
+                    }
+                });
+    */
 
     postUpdateDetails: function (req, res) {
         if (req.body.newpsw == undefined && req.body.email == undefined)
@@ -1199,7 +1225,7 @@ const controller = {
                                 res.send(newValues);
                         });
                     }
-                })
+                });
             });
 
 
