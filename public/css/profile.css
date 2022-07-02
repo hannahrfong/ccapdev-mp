@@ -34,4 +34,14 @@
 #category {
     margin-right: 15px;
     border-radius: 6px;
+    font-size: 20px;
+}
+
+#reminder {
+    font-family: poppinsbold;
+    font-size: 15px;
+    text-align: center;
+    word-wrap: normal;
+    max-width: fit-content;
+    padding: 0px 20px 0px 20px;
 }

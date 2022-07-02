@@ -57,18 +57,28 @@ $(document).ready(function(){
             number.classList.remove("valid");
             number.classList.add("invalid");
         }
+
+        if (length.classList.contains("valid") && uppercase.classList.contains("valid") && special.classList.contains("valid") && number.classList.contains("valid")
+            && match.classList.contains("valid"))
+            submit.disabled = false;
+        else
+            submit.disabled = true;
     }
 
     input2.onkeyup = function() {
         if (input.value == input2.value) {
             match.classList.remove("invalid");
             match.classList.add("valid");
-            submit.disabled = false;
         }
         else {
             match.classList.remove("valid");
             match.classList.add("invalid");
-            submit.disabled = true;
         }
+
+        if (length.classList.contains("valid") && uppercase.classList.contains("valid") && special.classList.contains("valid") && number.classList.contains("valid")
+            && match.classList.contains("valid"))
+            submit.disabled = false;
+        else
+            submit.disabled = true;
     }
 });
