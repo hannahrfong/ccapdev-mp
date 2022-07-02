@@ -1,5 +1,10 @@
 $(document).ready(function(){
 
+  function enableProceed()
+  {
+      $("#proceed").attr("href", "/checkout");
+  }
+
   var itemPrice = $("#price").text();
   itemPrice = itemPrice.substring(1);
   itemPrice = parseFloat(itemPrice);
@@ -65,7 +70,6 @@ $(document).ready(function(){
     var totalPrice = itemQuantity * itemPrice;
 
     $("#addtobag").text("Add to Bag - ₱" + totalPrice);
-
   });
 
   $("#subtractbtn").click(function(){
@@ -354,6 +358,6 @@ $(document).ready(function(){
       });
       
     }
-  
+    enableProceed();
   });
 });

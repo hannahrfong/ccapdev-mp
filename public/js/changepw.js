@@ -10,23 +10,31 @@ $(document).ready(function () {
     }
 
     old.onkeyup = function () {
-        if (old.value.length != 0 && newpsw.value.length != 0 && confnew.value.length != 0)
+        if (validatePW(old.value) && validatePW(newpsw.value) && validatePW(confnew.value))
             update.disabled = false;
         else
             update.disabled = true;
     }
 
     newpsw.onkeyup = function () {
-        if (old.value.length != 0 && newpsw.value.length != 0 && confnew.value.length != 0 && (newpsw.value == confnew.value))
+        if (validatePW(old.value) && validatePW(newpsw.value) && validatePW(confnew.value) && (newpsw.value == confnew.value))
             update.disabled = false;
         else
             update.disabled = true;
     }
 
     confnew.onkeyup = function () {
-        if (old.value.length != 0 && newpsw.value.length != 0 && confnew.value.length != 0 && (newpsw.value == confnew.value))
+        if (validatePW(old.value) && validatePW(newpsw.value) && validatePW(confnew.value) && (newpsw.value == confnew.value))
             update.disabled = false;
         else
             update.disabled = true;
+    }
+
+    function validatePW (pw) {
+        var uppercaseLetters = /[A-Z]/g;
+        var specialChars = /\W|_/g;
+        var numbers = /[0-9]/g;
+        
+        return pw.match(uppercaseLetters) && pw.match(specialChars) && pw.match(numbers) && pw.length >= 8;
     }
 })

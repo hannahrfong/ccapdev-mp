@@ -153,6 +153,10 @@
     align-self: center;
 }
 
+.bag-container .payment-container .checkout-button:hover{
+    cursor: pointer;
+}
+
 .hide{
     display:none;
 }
