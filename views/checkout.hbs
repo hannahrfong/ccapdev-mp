@@ -2,7 +2,6 @@
 
     <div class="container overflow-hidden"> 
         <form class="row justify-content-center mb-5" id="checkoutForm" method="post" > 
-        <!--<form class="row justify-content-center mb-5" id="checkoutForm" method="post" action="/confirmation"></form>   -->
 
             <div class="col-sm-auto col-md-auto col-lg-7" >
                 <div class="card mt-5 ms-4 border-dark" style="border: 1px #888888; border-radius: 25px; box-shadow: 2px 2px 2px 2px #888888; background-color: white">
@@ -26,18 +25,13 @@
                         </div>    
 
                         <div class="row g-2">
-                            <div class="col-md mt-5 me-4">
+                            <div class="col-md mt-5">
                                 <div class="form-floating">
                                     <input type="text" class="form-control" id="floatingInputGrid3" placeholder="MobileNoEx" name="contactNumber" value="{{this.accountDetails.contactNumber}}" required>
                                     <label style="color: #6c757d;" for="floatingInputGrid3">Mobile Number</label>
                                 </div>
                             </div>
-                            <div class="col-md mt-5">
-                                <div class="form-floating">
-                                    <input type="email" class="form-control" id="floatingInputGrid4" placeholder="EmailEx" name="email" value="{{this.accountDetails.email}}" required>
-                                    <label style="color: #6c757d;" for="floatingInputGrid4">Email Address</label>
-                                </div>
-                            </div>
+                            
                         </div>
 
                         
@@ -220,7 +214,7 @@
                 </div>
                 <div class="row mt-4" style="width: 33.3rem;">
                     <div class="col text-center">
-                        <input href="/confirmation" type="submit" value="Place Order" class="btn btn-danger mt-1 mb-2 fw-bold rounded-pill" id="placeorder"></input>
+                        <input type="submit" value="Place Order" class="btn btn-danger mt-1 mb-2 fw-bold rounded-pill" id="placeorder"></input>
                     </div>
                 </div>
                 

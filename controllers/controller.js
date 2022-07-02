@@ -12,6 +12,8 @@ const bcrypt = require("bcrypt");
 const { localsAsTemplateData } = require("hbs");
 const { listeners } = require("../models/FeedbackModel.js");
 
+
+
 const controller = {
 
     getFavicon: function (req, res) {
@@ -188,7 +190,8 @@ const controller = {
             var productObj = {
                 name: products[i].name,
                 price: parseFloat(products[i].price),
-                image: products[i].image
+                image: products[i].image,
+                id: products[i].id
             };
             switch (products[i].category){
                 case 'main': main.products.push(productObj); break;
@@ -349,7 +352,7 @@ const controller = {
     },
 
     getAddToBag: function (req, res) {
-        var query = {name: req.params.name};
+        var query = {id: req.params.id};
         var projection = 'name image price addOn inclusion';
 
         db.findOne(Product, query, projection, function(result) {
@@ -542,49 +545,117 @@ const controller = {
         var userID = req.session.user;
         const saltRounds = 10;
         var newOrderId;
+        var currentDate = new Date();
+        var datePlus20 = new Date();
+        var datePlus30 = new Date();
+        datePlus20.setMinutes(datePlus20.getMinutes() + 20);
+        datePlus30.setMinutes(datePlus30.getMinutes() + 30);
+
+        
 
         db.findMany(Order, {}, "", function(result){
+            
             newOrderId = result.length + 1;
+
             db.findOne(Account, {userID: userID}, "", function (accountRes) {
-                db.findOne(Bag, {userID: userID}, "orderItems", function (bagRes){
-                    bcrypt.hash(req.body.cardNo, saltRounds, (err, hashedCardNo) => {
-                        if (!err)
-                        {
-                            bcrypt.hash(req.body.cardNo, saltRounds, (err, hashedCVV) => {
-                                if (!err)
-                                {
-                                    var orderObj = {
-                                        orderId: newOrderId,  
-                                        account: accountRes._id,  
-                                        orderItems: bagRes.orderItems,  
-                                        //orderTotalCost: , // get from jquery
-                                        //orderDate: ,    // generate from now date
-                                        //ETA:    ,   // generate from orderDate
-                                        firstName: req.body.firstName,
-                                        lastName:   req.body.lastName,
-                                        email:  req.body.email,
-                                        contactNumber:  req.body.contactNumber,
-                                        completeAddress: req.body.completeAddress,
-                                        notes:  req.body.notes,
-                                        seniorID:   req.body.seniorID,
-                                        pwdID:  req.body.pwdID,
-                                        changeFor:  req.body.changeFor,
-                                        cardNo: req.body.cardNo,    // hash
-                                        CVV: req.body.CVV       // hash
+                
+                db.findOne(Bag, {userId: userID}, "orderItems", function (bagRes){
+                    if (typeof req.body.cardNo != "undefined" && typeof req.body.CVV != "undefined")
+                    {
+                        bcrypt.hash(req.body.cardNo, saltRounds, (err, hashedCardNo) => {
+                            if (!err)
+                            {
+                                bcrypt.hash(req.body.CVV, saltRounds, (err, hashedCVV) => {
+                                    if (!err)
+                                    {
+                                        var orderObj = {
+                                            orderId: newOrderId,  
+                                            account: accountRes._id,  
+                                            orderItems: bagRes.orderItems,  
+                                            //orderTotalCost: , // get from bag
+                                            orderDate: currentDate,    
+                                            ETAMin:    datePlus20,   
+                                            ETAMax:     datePlus30,
+                                            firstName: req.body.firstName,
+                                            lastName:   req.body.lastName,
+
+                                            contactNumber:  req.body.contactNumber,
+                                            completeAddress: req.body.completeAddress,
+                                            notes:  req.body.notes,
+                                            seniorID:   req.body.seniorID,
+                                            pwdID:  req.body.pwdID,
+                                            paymentMethod: 'Credit Card',
+                                            changeFor:  req.body.changeFor,
+                                            cardNo: hashedCardNo,   
+                                            CVV: hashedCVV       
+                                
+                                        };
+                                        
+                                        
+                                        // insert new order
+                                        //db.insertOne(Order, orderObj, function()    {});
+
+                                        // empty bag contents
+                                        // db.updateOne(Bag, {userId: userID}, {orderItems: [], subtotal: 0, tota: 0}, function()  {});
+                                        
+                                        console.log('orderObj');
+                                        console.log(orderObj);
+
+                                        var url = '/confirmation/' + newOrderId;
+                                        res.redirect(url);
+                                    }
+                                    else
+                                    {
+                                        console.log('error');   
+                                    }
+                                });
+                            }
+                            else
+                            {
+                                console.log('error');   
+                            }
                             
-                                    };
+                                
                             
-                                    console.log('postAddOrder');
-                                    console.log('test query: ' + req.query.test);
-                                    console.log('test boyd: ' + req.body.test);
-                                    console.log('test params: ' + req.params.test);
-                                    console.log('test: ' + req.test);
-                                    console.log('first name: ' + req.body.firstName);
-                                    res.redirect('/confirmation');
-                                }
-                            });
-                        }
-                    });
+                        });
+                    }
+                    else
+                    {
+                        var orderObj = {
+                            orderId: newOrderId,  
+                            account: accountRes._id,  
+                            orderItems: bagRes.orderItems,  
+                            //orderTotalCost: , // get from bag
+                            orderDate: currentDate,    
+                            ETAMin:    datePlus20,   
+                            ETAMax:     datePlus30,
+                            firstName: req.body.firstName,
+                            lastName:   req.body.lastName,
+                            contactNumber:  req.body.contactNumber,
+                            completeAddress: req.body.completeAddress,
+                            notes:  req.body.notes,
+                            seniorID:   req.body.seniorID,
+                            pwdID:  req.body.pwdID,
+                            paymentMethod: 'Cash on Delivery',
+                            changeFor:  req.body.changeFor,
+                            cardNo: undefined,    
+                            CVV: undefined       
+                
+                        };
+
+                        // insert new order
+                        //db.insertOne(Order, orderObj, function()    {});
+
+                        // empty bag contents
+                        // db.updateOne(Bag, {userId: userID}, {orderItems: [], subtotal: 0, tota: 0}, function()  {});
+
+                        console.log('orderObj');
+                        console.log(orderObj);
+                
+                        var url = '/confirmation/' + newOrderId;
+                        res.redirect(url);
+                    }
+                    
                 });
             });
         });
@@ -594,12 +665,70 @@ const controller = {
     },
 
 
+    
+                        /*
+                        var datetime = "Last Sync: " + currentDate.getDate() + "/"
+                                        + (currentDate.getMonth()+1)  + "/" 
+                                        + currentDate.getFullYear() + " @ "  
+                                        + currentDate.getHours() + ":"  
+                                        + currentDate.getMinutes() + ":" 
+                                        + currentDate.getSeconds();
+                        
+                        var time20 = "Last Sync: "   
+                                            + plus20.getHours() + ":"  
+                                            + plus20.getMinutes() + ":" 
+                                            + plus20.getSeconds();
+
+                        var time30 = "Last Sync: "   
+                                        + plus30.getHours() + ":"  
+                                        + plus30.getMinutes() + ":" 
+                                        + plus30.getSeconds();
+                        
+
+                        console.log('atual date');
+                        console.log(currentDate);
+                        console.log(plus20);
+                        console.log(plus30);
+
+                        console.log('timestamp');
+                        console.log(datetime);
+                        console.log(time20);
+                        console.log(time30)
+                        */
+                       
     getConfirmation: function (req, res) {
-        const data = {
-            style: ["bootstrap", "navbar", "confirmation"],
-            script: ["bootstrap"]
-        }
-        res.render("confirmation", data);
+        var orderId = req.params.orderId;
+
+        var query = {orderId: orderId};
+        var projection = 'orderItems orderTotalCost ETAMin ETAMax contactNumber completeAddress notes paymentMethod';
+
+        db.findOne(Order, query, projection, function(result) {
+
+            var orderdetails = {
+                orderItems: result.orderItems,
+                orderTotalCost: result.orderTotalCost,
+                ETAMin: result.ETAMin,
+                ETAMax: result.ETAMax,
+                contactNumber: result.contactNumber,
+                completeAddress: result.completeAddress,
+                notes: result.notes,
+                paymentMethod: result.paymentMethod
+            };
+
+            const data = {
+                style: ["bootstrap", "navbar", "confirmation"],
+                script: ["bootstrap"],
+                orderdetails: orderdetails
+            };
+
+            // get list of orderitem object(names, add ons, inclusions, etc), refer to getIndex
+
+            res.render("confirmation", data);
+        });
+
+
+
+       
     },
 
     getSearch: function (req, res){

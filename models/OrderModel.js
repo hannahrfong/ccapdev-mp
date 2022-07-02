@@ -25,7 +25,12 @@ var OrderSchema = new mongoose.Schema({
         required: true
     },
 
-    ETA:    {
+    ETAMin:    {
+        type: Date,
+        required: true
+    },
+
+    ETAMax:    {
         type: Date,
         required: true
     },
@@ -40,10 +45,6 @@ var OrderSchema = new mongoose.Schema({
         required: true
     },
 
-    email: {
-        type: String,
-        required: true
-    },
 
     contactNumber: {
         type: String,
@@ -65,6 +66,11 @@ var OrderSchema = new mongoose.Schema({
 
     pwdID: {
         type: String
+    },
+
+    paymentMethod: {
+        type: String,
+        required: true
     },
 
     changeFor: {

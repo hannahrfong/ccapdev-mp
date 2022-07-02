@@ -187,7 +187,7 @@ $(document).ready(function(){
 
   $("#addtobag").click(function(){
 
-    console.log('add to bag is clicked');
+  
 
     var itemQuantity = $("#quantity").text();
     itemQuantity = parseFloat(itemQuantity);
@@ -249,24 +249,22 @@ $(document).ready(function(){
                     
                     
                     $.get('/addOrderItem', query, function() {});
-                    console.log('order item is added');
+                   
                   
                     $.get('/getOrderItem', {orderItemId: orderItemId}, function (curOrderItem)  {
 
-                      console.log('get order item');
+                    
 
                       var orderItems = newRes.orderItems;
-                      console.log(orderItems);
+               
                       orderItems.push(curOrderItem._id);
                       var _id = newRes._id;
                       $.get('/updateBagItems', {_id: _id, orderItems: orderItems}, function() {
 
-                        console.log('update bag items');
 
                       });
                     });
 
-                    console.log('after bag update');
                     
                     window.location.assign('/menu');                    
 
