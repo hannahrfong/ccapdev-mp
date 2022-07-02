@@ -142,7 +142,8 @@ const controller = {
                     var productObj = {
                         name: results[i].productId.name,
                         price: results[i].productId.price,
-                        image: results[i].productId.image
+                        image: results[i].productId.image,
+                        id: results[i].productId.id
                     };
     
                     data.bestSellers.push(productObj);
@@ -460,11 +461,11 @@ const controller = {
                     if (err) return handleError(err);
     
                     var bag = {
-                        userId: 0,
+                        userId: 0, //fix!
                         orderItems: [],
-                        subtotal: 0,
-                        deliveryFee: 50,
-                        total: 0,
+                        subtotal: res[0].subtotal,
+                        deliveryFee: res[0].deliveryFee,
+                        total: res[0].total,
                     };
     
                     for (var i = 0; i < res[0].orderItems.length; i++)
@@ -481,8 +482,6 @@ const controller = {
                             },
                             addOns: []
                         }
-    
-                        bag.subtotal += orderItem.totalPrice;
     
                         for (var j = 0; j < res[0].orderItems[i].product.addOn.length; j++)
                         {
@@ -517,7 +516,6 @@ const controller = {
                     }
     
                     data.bag = bag;
-                    data.bag.total = bag.subtotal + bag.deliveryFee; 
                     resolve("Success");
                     reject("Failed");
                 }) 
@@ -699,6 +697,7 @@ const controller = {
         var query = {orderId: orderId};
         var projection = 'orderItems orderTotalCost ETAMin ETAMax contactNumber completeAddress notes paymentMethod';
 
+        /*
         db.findOne(Order, query, projection, function(result) {
 
             var orderdetails = {
@@ -720,8 +719,17 @@ const controller = {
 
             // get list of orderitem object(names, add ons, inclusions, etc), refer to getIndex
 
-            res.render("confirmation", data);
+           
         });
+        */
+        //remove
+        const data = {
+            style: ["bootstrap", "navbar", "confirmation"],
+            script: ["bootstrap"],
+            
+        };
+
+        res.render("confirmation", data);
 
 
 
@@ -742,7 +750,8 @@ const controller = {
                 var productObj = {
                     name: results[i].name,
                     price: results[i].price,
-                    image: results[i].image
+                    image: results[i].image,
+                    id: results[i].id
                 };
                 data.results.push(productObj);
             }
