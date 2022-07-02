@@ -1,19 +1,24 @@
 $(document).ready(function(){
+    function enableProceed()
+    {
+        $("#proceed").attr("href", "/checkout");
+    } 
 
-    /*$.get("/getItemQuantity", {}, function(result){
-        var itemQuantity = parseInt(result);
+    function disableProceed()
+    {
+        $("#proceed").removeAttr("href");
+    }
+    
+    $.get("/getItemQuantity", {}, function(result){
+    var itemQuantity = parseInt(result);
 
-        console.log("ITEM QTY: " + itemQuantity);
-        if (itemQuantity == 0)
-        {
-            $("#proceed").attr("href", "");
-        }
+    console.log("ITEM QTY: " + itemQuantity);
+    if (itemQuantity == 0) 
+        disableProceed();
 
-        else 
-        {
-            $("#proceed").attr("href", "/checkout");
-        }
-    })*/
+    else 
+        enableProceed();
+})
 
     //plus button
     $(".plus").click(function(){
@@ -77,7 +82,9 @@ $(document).ready(function(){
             $(orderContainer).parent().parent().siblings(".payment-container").find(".deliveryFee").text("₱ " + result.deliveryFee);
             $(orderContainer).parent().parent().siblings(".payment-container").find(".overallTotal").text("₱ " + result.newTotal); 
         
-            $(orderContainer).remove();          
+            $(orderContainer).remove();  
+            if (result.newTotal == 0)
+                disableProceed();        
         });
     })
 
