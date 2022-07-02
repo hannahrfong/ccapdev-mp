@@ -899,6 +899,7 @@ const controller = {
         var pw = req.body.psw;
         var number = req.body.contactno;
         var address = req.body.address;
+        var senior, pwd;
         const saltRounds = 10;
 
         if (req.body.scid == "")
