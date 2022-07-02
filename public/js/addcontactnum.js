@@ -8,7 +8,9 @@ $(document).ready(function () {
     }
 
     newNum.onkeyup = function () {
-        if (newNum.value.length != 0)
+        var patt = /[0-9]+/;
+
+        if (newNum.value.length >= 11 && patt.test(newNum.value))
             add.disabled = false;
         else
             add.disabled = true;
