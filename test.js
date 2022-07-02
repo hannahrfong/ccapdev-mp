@@ -53,9 +53,8 @@ AddOn.deleteMany()
     
         {
             id: counter++,
-            name: "Dip", 
-            price: 30,
-            flavor: ["Garlic Mayo", "Honey Mustard"],
+            name: "Honey Mustard Dip", 
+            price: 30
         }
     ]
 
@@ -97,7 +96,7 @@ AddOn.deleteMany()
     })
     .then(function(result){
         bbqSauce = result._id;
-        return AddOn.findOne({name: "Dip"});
+        return AddOn.findOne({name: "Honey Mustard Dip"});
     })
     .then(function(result){
         dip = result._id;
