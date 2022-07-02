@@ -2,27 +2,31 @@
     <p class="det-header">My Senior Citizen/PWD ID</p>
     <hr class="line-break">
     <div class="break2"></div>
-    <div class="field">
-        <p class="field-name">Senior Citizen</p>
-        <p class="field-value">{{sc}}</p>
-        <div class="buttons modify">
-            <button class="modify-btn"><strong>Edit</strong></button>
-            <button class="modify-btn" disabled><strong>Delete</strong></button>
+
+    <div id="ids">
+        <div class="field">
+            <p class="field-name">Senior Citizen</p>
+            <p class="field-value">{{sc}}</p>
+            <div class="buttons modify">
+                <button class="modify-btn edit"><strong>Edit</strong></button>
+                <button class="modify-btn hide save" disabled><strong>Save</strong></button>
+                <button class="modify-btn del" disabled><strong>Delete</strong></button>
+            </div>
+        </div>
+        <div class="break2"></div>
+        <div class="field">
+            <p class="field-name">PWD</p>
+            <p class="field-value">{{pwd}}</p>
+            <div class="buttons modify">
+                <button class="modify-btn edit"><strong>Edit</strong></button>
+                <button class="modify-btn hide save" disabled><strong>Save</strong></button>
+                <button class="modify-btn del" disabled><strong>Delete</strong></button>
+            </div>
         </div>
     </div>
-    <div class="break2"></div>
-    <div class="field">
-        <p class="field-name">PWD</p>
-        <p class="field-value">{{pwd}}</p>
-        <div class="buttons modify">
-            <button class="modify-btn"><strong>Edit</strong></button>
-            <button class="modify-btn" disabled><strong>Delete</strong></button>
-        </div>
-    </div>
-    <div class="break2"></div>
     <div class="break2"></div>
     <div class="break2"></div>
     <div class="buttons">
-        <button class="btn"><strong>Add New ID</strong></button>
+        <button class="btn" id="add"><strong>Add New ID</strong></button>
     </div>
 </div>

@@ -283,6 +283,7 @@ const controller = {
             {
                 const data = {
                     style: ["navbar", "accountdetails", "id"],
+                    script: ["id"],
                     partialName: ["id"],
                     sc: user.seniorID, pwd: user.pwdID
                 }

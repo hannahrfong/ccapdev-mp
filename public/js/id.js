@@ -2,7 +2,7 @@ $(document).ready(function() {
     var add = document.getElementById("add");
     var orig, save;
 
-    $('#numbers').on('click', '.edit', function () {
+    $('#ids').on('click', '.edit', function () {
         var p = this.parentNode.parentNode;
         var child = p.children[1];
         orig = child.innerHTML;
@@ -18,16 +18,7 @@ $(document).ready(function() {
         this.classList.add("hide");
     });
 
-    $('#numbers').on('keyup', '.field-value', function () {
-        var patt = /^\d+$/;
-
-        if (patt.test(this.value) && this.value.length >= 11)
-            save.disabled = false;
-        else
-            save.disabled = true;
-    });
-
-    $('#numbers').on('click', '.save', function () {
+    $('#ids').on('click', '.save', function () {
         var num = this.parentNode.previousElementSibling;
         $.post('/updateelement', {frm: "contact", val: orig, newVal: num.value});
 
@@ -46,11 +37,11 @@ $(document).ready(function() {
         edit.classList.remove("hide");
     });
 
-    add.onclick = function () {
+    /*add.onclick = function () {
         window.location.assign('/addnumber');
-    }
+    }*/
 
-    $('#numbers').on('click', '.del', function () {
+    $('#ids').on('click', '.del', function () {
         var p = this.parentNode.parentNode;
         var child = p.children[1];
 
