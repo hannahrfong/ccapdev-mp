@@ -20,7 +20,7 @@ $(document).ready(function() {
 
     $('#addresses').on('click', '.save', function () {
         var address = this.parentNode.previousElementSibling;
-        $.get('/updateelement', {frm: "address", val: orig, newVal: address.value});
+        $.post('/updateelement', {frm: "address", val: orig, newVal: address.value});
 
         var p = this.parentNode.parentNode;
         var child = p.children[1];
@@ -45,7 +45,7 @@ $(document).ready(function() {
         var p = this.parentNode.parentNode;
         var child = p.children[1];
 
-        $.get('/updateDetails', {$pull:{completeAddress: child.innerHTML}}, function (res) {});
+        $.post('/updateDetails', {$pull:{completeAddress: child.innerHTML}}, function (res) {});
         window.location.assign('/addresses');
     });
 });
