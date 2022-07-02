@@ -7,8 +7,22 @@ var BagSchema = new mongoose.Schema({
 
     orderItems: [{
         type: mongoose.Schema.Types.ObjectId, ref: 'OrderItem'
-    }]
-   
+    }],
+
+    subtotal: {
+        type: Number,
+        required: true
+    },
+
+    deliveryFee: {
+        type: Number,
+        required: true
+    },
+
+    total: {
+        type: Number, 
+        required: true
+    }
 });
 
 module.exports = mongoose.model('Bag', BagSchema);

@@ -58,4 +58,7 @@ app.get('/addaddress', controller.isPrivate, controller.getAddAddress);
 app.get('/addnumber', controller.isPrivate, controller.getAddNumber);
 app.post('/updateelement', controller.isPrivate, controller.postUpdateArrayElement);
 app.get('/addQuantity', controller.isPrivate, controller.getAddQuantity);
+app.get('/subtractQuantity', controller.isPrivate, controller.getSubtractQuantity);
+app.get('/deleteOrderItem', controller.isPrivate, controller.getDeleteOrderItem);
+app.get('/getItemQuantity', controller.isPrivate, controller.getItemQuantity);
 module.exports = app;

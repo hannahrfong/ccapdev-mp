@@ -74,7 +74,7 @@ const controller = {
                     userId: 0,
                     orderItems: [],
                     subtotal: 0,
-                    deliveryFee: 50,
+                    deliveryFee: 0,
                     total: 0,
                 };
 
@@ -981,6 +981,58 @@ const controller = {
 
                 res.send(newValues);
             })
+        })
+    },
+
+    getSubtractQuantity: function (req, res){
+        var orderItemId = req.query.orderItemId;
+
+        db.findOne(OrderItem, {orderItemId: orderItemId}, {"quantity": 1, "totalPrice": 1, "_id": 0}, function(result){
+
+            if (result.quantity > 1)
+            {
+                var oldPrice = result.totalPrice;
+                var newQuantity = result.quantity - 1;
+                var newTotalPrice = (result.totalPrice / result.quantity) * newQuantity;
+    
+                db.updateOne(OrderItem, {orderItemId: orderItemId}, {quantity: newQuantity, totalPrice: newTotalPrice}, function(){
+                    
+                    var newValues = {
+                        oldPrice: oldPrice,
+                        newQuantity: newQuantity,
+                        newTotalPrice: newTotalPrice
+                    }
+    
+                    console.log("INSIDE CONTROLLER oldPrice " + oldPrice + " " + typeof(oldPrice));
+                    console.log("INSIDE CONTROLLER newQuantity " + newQuantity + " " + typeof(newQuantity));
+                    console.log("INSIDE CONTROLLER newTotalPrice " + newTotalPrice + " " + typeof(newTotalPrice));
+    
+                    res.send(newValues);
+                })
+            }
+            else 
+                res.send(false);
+        })
+    },
+
+    getDeleteOrderItem: function(req, res){
+        var orderItemId = req.query.orderItemId;
+
+        db.findOne(OrderItem, {orderItemId: orderItemId}, "_id", function(result){
+            
+            var id = result._id;
+            db.updateOne(Bag, {orderItems: id}, {$pull: { orderItems: id}}, function(result){
+                db.deleteOne(OrderItem, {_id: id}, function(flag){
+                    res.send(flag);
+                });
+            })
+        })
+    },
+
+    getItemQuantity: function (req, res){
+        db.findOne(Bag, {userId: req.session.user}, "", function(result){
+            var itemQuantity = result.orderItems.length;
+            res.send(itemQuantity.toString());
         })
     }
 }
