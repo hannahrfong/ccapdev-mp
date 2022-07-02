@@ -2,15 +2,12 @@ const db = require("../models/db.js");
 const Product = require("../models/ProductModel.js");
 const Feedback = require("../models/FeedbackModel.js");
 const BestSeller = require("../models/BestSellerModel.js");
-const { populate, findOne, listenerCount } = require("../models/ProductModel.js");
 const AddOn = require("../models/AddOnModel.js")
 const OrderItem = require("../models/OrderItemModel.js");
 const Bag = require("../models/BagModel.js");
 const Order = require("../models/OrderModel.js");
 const Account = require("../models/AccountModel.js");
 const bcrypt = require("bcrypt");
-const { localsAsTemplateData } = require("hbs");
-const { listeners } = require("../models/FeedbackModel.js");
 
 
 
@@ -27,19 +24,6 @@ const controller = {
     getRegister: function (req, res) {
         res.render("register");
     },
-
-    /*getBagContents: function (req, res){
-        //get bag contents
-        Bag.find({userId: req.session.user}).populate({
-            path: "orderItems", 
-            populate: {
-                path: "product",
-                path: "addOns"
-            }
-        }).exec(function(err, res){
-           console.log("RESULT!: " + res); 
-        });
-    },*/
 
     getIndex: function (req, res) {
         const data = {
@@ -75,9 +59,9 @@ const controller = {
                 var bag = {
                     userId: 0, //fix!
                     orderItems: [],
-                    subtotal: res[0].subtotal,
-                    deliveryFee: res[0].deliveryFee,
-                    total: res[0].total,
+                    subtotal: parseFloat(res[0].subtotal).toFixed(2),
+                    deliveryFee: parseFloat(res[0].deliveryFee).toFixed(2),
+                    total: parseFloat(res[0].total).toFixed(2),
                 };
 
                 for (var i = 0; i < res[0].orderItems.length; i++)
@@ -85,7 +69,7 @@ const controller = {
                     var orderItem = {
                         orderItemId: res[0].orderItems[i].orderItemId,
                         quantity: res[0].orderItems[i].quantity,
-                        totalPrice: res[0].orderItems[i].totalPrice,
+                        totalPrice: parseFloat(res[0].orderItems[i].totalPrice).toFixed(2),
                         product: {
                             id: res[0].orderItems[i].product.id,
                             name: res[0].orderItems[i].product.name,
@@ -99,7 +83,7 @@ const controller = {
                     {
                         var addOn = {
                             name: res[0].orderItems[i].product.addOn[j].name,
-                            price: res[0].orderItems[i].product.addOn[j].price
+                            price: parseFloat(res[0].orderItems[i].product.addOn[j].price).toFixed(2)
                         }
                         
                         orderItem.product.addOn.push(addOn);
@@ -119,7 +103,7 @@ const controller = {
                         var addOnOuter = {
                             id: res[0].orderItems[i].addOns[l].id,
                             name: res[0].orderItems[i].addOns[l].name,
-                            price: res[0].orderItems[i].addOns[l].price
+                            price: parseFloat(res[0].orderItems[i].addOns[l].price).toFixed()
                         }
                         orderItem.addOns.push(addOnOuter);
                     }
@@ -141,7 +125,7 @@ const controller = {
                 {
                     var productObj = {
                         name: results[i].productId.name,
-                        price: results[i].productId.price,
+                        price: parseFloat(results[i].productId.price).toFixed(2),
                         image: results[i].productId.image,
                         id: results[i].productId.id
                     };
@@ -187,7 +171,7 @@ const controller = {
         {
             var productObj = {
                 name: products[i].name,
-                price: parseFloat(products[i].price),
+                price: parseFloat(products[i].price).toFixed(2),
                 image: products[i].image,
                 id: products[i].id
             };
@@ -793,7 +777,7 @@ const controller = {
     },
 
     getAddFeedback: function(req, res){
-        var userid = req.query.userid;
+        var userID = req.session.user;
         var subject = req.query.subject;
         var message = req.query.message;
         var id = 0;
@@ -801,9 +785,13 @@ const controller = {
         db.findMany(Feedback, {}, "", function(result){
             id = result.length;
 
-            db.insertOne(Feedback, {userid: userid, id: id, subject: subject, message: message}, function(flag){
-                res.send(flag);
-            })
+            db.findOne(Account, {userID: userID}, "", function(result){
+                userObjID = result._id;
+
+                db.insertOne(Feedback, {userid: userObjID, id: id, subject: subject, message: message}, function(flag){
+                    res.send(flag);
+                })
+            });
         });
     },
 

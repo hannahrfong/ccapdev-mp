@@ -12,13 +12,12 @@ $(document).ready(function(){
     $.get("/getItemQuantity", {}, function(result){
     var itemQuantity = parseInt(result);
 
-    console.log("ITEM QTY: " + itemQuantity);
     if (itemQuantity == 0) 
         disableProceed();
 
     else 
         enableProceed();
-})
+    })
 
     //plus button
     $(".plus").click(function(){
@@ -27,10 +26,10 @@ $(document).ready(function(){
 
         $.get("/addQuantity", {orderItemId: orderItemId}, function(result){
             var newQuantity = result.newQuantity;
-            var newTotalPrice = parseFloat(result.newTotalPrice);
-            var newSubtotal =  parseFloat(result.newSubtotal);
-            var newTotal = parseFloat(result.newTotal);   
-            var deliveryFee = parseFloat(result.deliveryFee);
+            var newTotalPrice = parseFloat(result.newTotalPrice).toFixed(2);
+            var newSubtotal =  parseFloat(result.newSubtotal).toFixed(2);
+            var newTotal = parseFloat(result.newTotal).toFixed(2);   
+            var deliveryFee = parseFloat(result.deliveryFee).toFixed(2);
             
             $(clickedBtn).siblings(".quantity").text(newQuantity);
             $(clickedBtn).parent().siblings(".price-container").text("₱ " + newTotalPrice);
@@ -50,10 +49,10 @@ $(document).ready(function(){
             if (result)
             {
                 var newQuantity = result.newQuantity;
-                var newTotalPrice = parseFloat(result.newTotalPrice);
-                var newSubtotal =  parseFloat(result.newSubtotal);
-                var newTotal = parseFloat(result.newTotal);   
-                var deliveryFee = parseFloat(result.deliveryFee);
+                var newTotalPrice = parseFloat(result.newTotalPrice).toFixed(2);
+                var newSubtotal =  parseFloat(result.newSubtotal).toFixed(2);
+                var newTotal = parseFloat(result.newTotal).toFixed(2);   
+                var deliveryFee = parseFloat(result.deliveryFee).toFixed(2);
 
                 $(clickedBtn).siblings(".quantity").text(newQuantity);
                 $(clickedBtn).parent().siblings(".price-container").text("₱ " + newTotalPrice);
