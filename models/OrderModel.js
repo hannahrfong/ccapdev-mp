@@ -15,9 +15,23 @@ var OrderSchema = new mongoose.Schema({
         required: true
     }],
 
-    orderTotalCost: {
+    total: {
         type: Number,
         required: true
+    },
+
+    subtotal:  {
+        type: Number,
+        required: true
+    },
+
+    deliveryFee:   {
+        type: Number,
+        required: true
+    },
+
+    discount:   {
+        type: Number
     },
 
     orderDate: {

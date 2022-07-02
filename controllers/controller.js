@@ -33,7 +33,6 @@ function getBagContents(userId, resolve, reject){
         if (err) return handleError(err);
 
         var bag = {
-            userId: 0, //fix!
             orderItems: [],
             subtotal: parseFloat(res[0].subtotal).toFixed(2),
             deliveryFee: parseFloat(res[0].deliveryFee).toFixed(2),
@@ -87,6 +86,84 @@ function getBagContents(userId, resolve, reject){
             bag.orderItems.push(orderItem);
         }
         resolve(bag);
+        reject("Failed");
+    }) 
+}
+
+function getOrderContents(orderId, resolve, reject){
+    Order.find({orderId: orderId}).populate([
+        {
+            path: "orderItems",
+            model: "OrderItem",
+            populate: [{
+                path: "product", 
+                model: "Product",
+                populate: [{
+                    path: "addOn",
+                    model: "AddOn"
+                }]
+            },
+            {
+                path: "addOns", 
+                model: "AddOn"
+            }
+        ]
+
+        }
+    ]).exec(function(err, res){
+        if (err) return handleError(err);
+
+        var order = {
+            orderItems: [],
+        };
+
+        for (var i = 0; i < res[0].orderItems.length; i++)
+        {
+            var orderItem = {
+                orderItemId: res[0].orderItems[i].orderItemId,
+                quantity: res[0].orderItems[i].quantity,
+                totalPrice: parseFloat(res[0].orderItems[i].totalPrice).toFixed(2),
+                product: {
+                    id: res[0].orderItems[i].product.id,
+                    name: res[0].orderItems[i].product.name,
+                    addOn: [],
+                    inclusion: []
+                },
+                addOns: []
+            }
+
+            for (var j = 0; j < res[0].orderItems[i].product.addOn.length; j++)
+            {
+                var addOn = {
+                    name: res[0].orderItems[i].product.addOn[j].name,
+                    price: parseFloat(res[0].orderItems[i].product.addOn[j].price).toFixed(2)
+                }
+                
+                orderItem.product.addOn.push(addOn);
+            }
+
+            for (var k = 0; k < res[0].orderItems[i].product.inclusion.length; k++)
+            {
+                var inclusion = {
+                    productName: res[0].orderItems[i].product.inclusion[k].productName,
+                    quantity: res[0].orderItems[i].product.inclusion[k].quantity
+                };    
+                orderItem.product.inclusion.push(inclusion);   
+            }
+
+            for (var l = 0; l < res[0].orderItems[i].addOns.length; l++)
+            {
+                var addOnOuter = {
+                    id: res[0].orderItems[i].addOns[l].id,
+                    name: res[0].orderItems[i].addOns[l].name,
+                    price: parseFloat(res[0].orderItems[i].addOns[l].price).toFixed(2)
+                }
+                orderItem.addOns.push(addOnOuter);
+            }
+
+            order.orderItems.push(orderItem);
+        }
+        resolve(order);
         reject("Failed");
     }) 
 }
@@ -429,98 +506,17 @@ const controller = {
             }
     
             let p = new Promise((resolve, reject) =>{
-                Bag.find({userId: req.session.user}).populate([
-                    {
-                        path: "orderItems",
-                        model: "OrderItem",
-                        populate: [{
-                            path: "product", 
-                            model: "Product",
-                            populate: [{
-                                path: "addOn",
-                                model: "AddOn"
-                            }]
-                        },
-                        {
-                            path: "addOns", 
-                            model: "AddOn"
-                        }
-                    ]
-        
-                    }
-                ]).exec(function(err, res){
-                    if (err) return handleError(err);
-    
-                    var bag = {
-                        userId: 0, //fix!
-                        orderItems: [],
-                        subtotal: res[0].subtotal,
-                        deliveryFee: res[0].deliveryFee,
-                        total: res[0].total,
-                    };
-    
-                    for (var i = 0; i < res[0].orderItems.length; i++)
-                    {
-                        var orderItem = {
-                            orderItemId: res[0].orderItems[i].orderItemId,
-                            quantity: res[0].orderItems[i].quantity,
-                            totalPrice: res[0].orderItems[i].totalPrice,
-                            product: {
-                                id: res[0].orderItems[i].product.id,
-                                name: res[0].orderItems[i].product.name,
-                                addOn: [],
-                                inclusion: []
-                            },
-                            addOns: []
-                        }
-    
-                        for (var j = 0; j < res[0].orderItems[i].product.addOn.length; j++)
-                        {
-                            var addOn = {
-                                name: res[0].orderItems[i].product.addOn[j].name,
-                                price: res[0].orderItems[i].product.addOn[j].price
-                            }
-                            
-                            orderItem.product.addOn.push(addOn);
-                        }
-    
-                        for (var k = 0; k < res[0].orderItems[i].product.inclusion.length; k++)
-                        {
-                            var inclusion = {
-                                productName: res[0].orderItems[i].product.inclusion[k].productName,
-                                quantity: res[0].orderItems[i].product.inclusion[k].quantity
-                            };    
-                            orderItem.product.inclusion.push(inclusion);   
-                        }
-    
-                        for (var l = 0; l < res[0].orderItems[i].addOns.length; l++)
-                        {
-                            var addOnOuter = {
-                                id: res[0].orderItems[i].addOns[l].id,
-                                name: res[0].orderItems[i].addOns[l].name,
-                                price: res[0].orderItems[i].addOns[l].price
-                            }
-                            orderItem.addOns.push(addOnOuter);
-                        }
-    
-                        bag.orderItems.push(orderItem);
-                    }
-    
-                    data.bag = bag;
-                    resolve("Success");
-                    reject("Failed");
-                }) 
+                return getBagContents(req.session.user, resolve, reject);
             })
     
-            p.then((message) => {
-                
+            p.then((bag) => {
+                data.bag = bag;
                 res.render("checkout", data);
             }).catch((message) => {
                 console.log("This is in catch" + message);
             })
         });
 
-        
     
     },
 
@@ -543,11 +539,15 @@ const controller = {
 
             db.findOne(Account, {userID: userID}, "", function (accountRes) {
                 
-                db.findOne(Bag, {userId: userID}, "orderItems total", function (bagRes){
+                db.findOne(Bag, {userId: userID}, "orderItems subtotal deliveryFee total", function (bagRes){
                     var orderTotalCost = bagRes.total;
+                    var subtotal = bagRes.subtotal;
+                    var deliveryFee = bagRes.deliveryFee;
+                    var discount = undefined;
                    
                     if (req.body.seniorID.trim() != "" || req.body.pwdID.trim() != "")
                     {
+                        discount = orderTotalCost * 0.2;
                         orderTotalCost = orderTotalCost * 0.8;
                     }
 
@@ -563,7 +563,10 @@ const controller = {
                                             orderId: newOrderId,  
                                             account: accountRes._id,  
                                             orderItems: bagRes.orderItems,  
-                                            orderTotalCost: orderTotalCost, 
+                                            total: orderTotalCost, 
+                                            subtotal: subtotal,
+                                            deliveryFee: deliveryFee,
+                                            discount: discount,
                                             orderDate: currentDate,    
                                             ETAMin:    datePlus20,   
                                             ETAMax:     datePlus30,
@@ -618,7 +621,10 @@ const controller = {
                             orderId: newOrderId,  
                             account: accountRes._id,  
                             orderItems: bagRes.orderItems,  
-                            orderTotalCost: orderTotalCost,
+                            total: orderTotalCost, 
+                            subtotal: subtotal,
+                            deliveryFee: deliveryFee,
+                            discount: discount,
                             orderDate: currentDate,    
                             ETAMin:    datePlus20,   
                             ETAMax:     datePlus30,
@@ -690,14 +696,18 @@ const controller = {
         var query = {orderId: orderId};
         var projection = 'orderItems orderTotalCost ETAMin ETAMax contactNumber completeAddress notes paymentMethod';
 
-        /*
         db.findOne(Order, query, projection, function(result) {
 
+            var timeMin = result.ETAMin.getHours() + " : " + result.ETAMin.getMinutes();
+            var timeMax = result.ETAMax.getHours() + " : " + result.ETAMax.getMinutes();
+
             var orderdetails = {
-                orderItems: result.orderItems,
-                orderTotalCost: result.orderTotalCost,
-                ETAMin: result.ETAMin,
-                ETAMax: result.ETAMax,
+                total: result.total,
+                subtotal: result.subtotal,
+                deliveryFee: result.deliveryFee,
+                discount: result.discount,
+                ETAMin: timeMin,
+                ETAMax: timeMax,
                 contactNumber: result.contactNumber,
                 completeAddress: result.completeAddress,
                 notes: result.notes,
@@ -707,25 +717,25 @@ const controller = {
             const data = {
                 style: ["bootstrap", "navbar", "confirmation"],
                 script: ["bootstrap"],
-                orderdetails: orderdetails
+                orderdetails: orderdetails,
+                order: {}
             };
 
-            // get list of orderitem object(names, add ons, inclusions, etc), refer to getIndex
-
+            // get list of orderitem object(names, add ons, inclusions, etc), refer to getCheckout
+            let p = new Promise((resolve, reject) =>{
+                return getOrderContents(orderId, resolve, reject);
+            })
+    
+            p.then((order) => {
+                data.bag = order;
+                res.render("confirmation", data);
+            }).catch((message) => {
+                console.log("This is in catch" + message);
+            })
            
         });
-        */
-        //remove
-        const data = {
-            style: ["bootstrap", "navbar", "confirmation"],
-            script: ["bootstrap"],
-            
-        };
-
-        res.render("confirmation", data);
-
-
-
+    
+        //res.render("confirmation", data);
        
     },
 
