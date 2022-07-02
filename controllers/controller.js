@@ -331,6 +331,20 @@ const controller = {
         });
     },
 
+    getAddID: function (req, res) {
+        db.findOne(Account, {userID: req.session.user}, {}, function(user) {
+            if (user != null)
+            {
+                const data = {
+                    style: ["navbar", "accountdetails", "profile"],
+                    script: ["addid"],
+                    partialName: ["addid"]
+                }
+                res.render("account", data);
+            }
+        });
+    },
+
     getAddToBag: function (req, res) {
         var query = {name: req.params.name};
         var projection = 'name image price addOn inclusion';
@@ -757,9 +771,17 @@ const controller = {
         var pw = req.body.psw;
         var number = req.body.contactno;
         var address = req.body.address;
-        var senior = req.body.scid;
-        var pwd = req.body.pwdid;
         const saltRounds = 10;
+
+        if (req.body.scid == "")
+            senior = [];
+        else
+            senior = req.body.scid;
+        
+        if (req.body.pwdid == "")
+            pwd = [];
+        else
+            pwd = req.body.scid;
 
         db.findMany(Account, {}, "", function(result){
             id = result.length+1;
@@ -934,12 +956,13 @@ const controller = {
     postUpdateArrayElement: function (req, res) {
         var val = req.body.val;
         var newVal = req.body.newVal;
-
-        if (req.body.frm == "address")
-            db.updateOne(Account, {userID: req.session.user, completeAddress: val}, {$set:{"completeAddress.$": newVal}}, function (result) {});
-        else
-            if (req.body.frm == "contact")
-                db.updateOne(Account, {userID: req.session.user, contactNumber: val}, {$set:{"contactNumber.$": newVal}}, function (result) {});
+        
+        switch(req.body.frm) {
+            case "address": db.updateOne(Account, {userID: req.session.user, completeAddress: val}, {$set:{"completeAddress.$": newVal}}, function (result) {}); break;
+            case "contact": db.updateOne(Account, {userID: req.session.user, contactNumber: val}, {$set:{"contactNumber.$": newVal}}, function (result) {}); break;
+            case "scid": db.updateOne(Account, {userID: req.session.user, seniorID: val}, {$set:{"seniorID.$": newVal}}, function (result) {}); break;
+            case "pwdid": db.updateOne(Account, {userID: req.session.user, pwdID: val}, {$set:{"pwdID.$": newVal}}, function (result) {}); break;
+        }
     },
 
     getAddQuantity: function (req, res){

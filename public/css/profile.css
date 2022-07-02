@@ -30,3 +30,8 @@
     font-family: poppinsbold;
     text-align: center;
 }
+
+#category {
+    margin-right: 15px;
+    border-radius: 6px;
+}

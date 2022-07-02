@@ -4,25 +4,30 @@
     <div class="break2"></div>
 
     <div id="ids">
-        <div class="field">
-            <p class="field-name">Senior Citizen</p>
-            <p class="field-value">{{sc}}</p>
-            <div class="buttons modify">
-                <button class="modify-btn edit"><strong>Edit</strong></button>
-                <button class="modify-btn hide save" disabled><strong>Save</strong></button>
-                <button class="modify-btn del" disabled><strong>Delete</strong></button>
+        {{#each sc}}
+            <div class="field">
+                <p class="field-name">Senior Citizen</p>
+                <p class="field-value">{{this}}</p>
+                <div class="buttons modify">
+                    <button class="modify-btn edit"><strong>Edit</strong></button>
+                    <button class="modify-btn hide save"><strong>Save</strong></button>
+                    <button class="modify-btn del"><strong>Delete</strong></button>
+                </div>
             </div>
-        </div>
-        <div class="break2"></div>
-        <div class="field">
-            <p class="field-name">PWD</p>
-            <p class="field-value">{{pwd}}</p>
-            <div class="buttons modify">
-                <button class="modify-btn edit"><strong>Edit</strong></button>
-                <button class="modify-btn hide save" disabled><strong>Save</strong></button>
-                <button class="modify-btn del" disabled><strong>Delete</strong></button>
+            <div class="break2"></div>
+        {{/each}}
+        {{#each pwd}}
+            <div class="field">
+                <p class="field-name">PWD</p>
+                <p class="field-value">{{this}}</p>
+                <div class="buttons modify">
+                    <button class="modify-btn edit"><strong>Edit</strong></button>
+                    <button class="modify-btn hide save"><strong>Save</strong></button>
+                    <button class="modify-btn del"><strong>Delete</strong></button>
+                </div>
             </div>
-        </div>
+            <div class="break2"></div>
+        {{/each}}
     </div>
     <div class="break2"></div>
     <div class="break2"></div>
