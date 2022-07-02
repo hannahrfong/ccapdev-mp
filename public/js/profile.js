@@ -2,6 +2,7 @@ $(document).ready(function() {
     var update = document.getElementById("update");
     var save = document.getElementById("save");
     var change = document.getElementById("changepw");
+    var email;
 
     update.onclick = function () {
         var p = this.parentNode.parentNode;
@@ -19,8 +20,8 @@ $(document).ready(function() {
                     input.type = "email";
                 else
                     input.type = "text";
-                
-                input.id = fieldVal.id;
+
+                input.name = fieldVal.id;
                 input.classList.add(fieldVal.classList);
                 input.value = fieldText;
                 child.replaceChild(input, fieldVal);
@@ -29,12 +30,12 @@ $(document).ready(function() {
 
         save.classList.remove("hide");
         update.classList.add("hide");
+        email = document.getElementById("email");
     }
 
-    function submitFunc() {
+    /*save.onclick = function () {
         var first = document.getElementById("firstName");
         var last = document.getElementById("lastName");
-        var email = document.getElementById("email");
 
         $.post('/updateDetails', {$set:{firstName: first.value, lastName: last.value, email: email.value}});
 
@@ -58,7 +59,7 @@ $(document).ready(function() {
 
         save.classList.add("hide");
         update.classList.remove("hide");
-    }
+    }*/
 
     change.onclick = function () {
         window.location.assign('/changepw');

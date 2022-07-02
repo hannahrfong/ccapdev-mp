@@ -2,7 +2,8 @@
     <p class="det-header">My Profile</p>
     <hr class="line-break">
     <div class="break2"></div>
-    <form action=submitFunc()>
+
+    <form action="/updateDetails" method="post">
         <div class="field">
             <p class="field-name">First Name</p>
             <p class="field-value" id="firstName">{{first}}</p>
@@ -18,6 +19,7 @@
             <p class="field-value" id="email">{{email}}</p>
         </div>
         <div class="break2"></div>
+        <p id="error">{{error_msg}}</p>
         <div class="break2"></div>
         <div class="buttons">
             <button type="button" class="btn" id="update"><strong>Update Details</strong></button>

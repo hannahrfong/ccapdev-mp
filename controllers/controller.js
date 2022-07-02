@@ -890,43 +890,61 @@ const controller = {
     },
 
     postUpdateDetails: function (req, res) {
-        if (req.body.newpsw == undefined)
+        if (req.body.newpsw == undefined && req.body.email == undefined)
             db.updateOne(Account, {userID: req.session.user}, req.body, function (result) {});
         else
-        {
-            db.findOne(Account, {userID: req.session.user}, {}, function(user) {
-                if (user != null)
-                {
-                    bcrypt.compare(req.body.oldpsw, user.password, (err, result) => {
-                        if (result)
-                        {
-                            bcrypt.compare(req.body.newpsw, user.password, (err, result) => {
-                                if (!result)
-                                {
-                                    const saltRounds = 10;
-                                    bcrypt.hash(req.body.newpsw, saltRounds, (err, hashed) => {
-                                        if (!err)
-                                            db.updateOne(Account, {userID: req.session.user}, {$set: {password: hashed}}, function (result) {
-                                                res.redirect('/profile');
-                                            });
-                                    });
-                                }
-                                else
-                                {
-                                    req.flash('error_msg', 'Password must differ from current password. Please try again.');
-                                    res.redirect('/changepw');
-                                }
+            if (req.body.newpsw != undefined && req.body.email == undefined)
+            {
+                db.findOne(Account, {userID: req.session.user}, {}, function(user) {
+                    if (user != null)
+                    {
+                        bcrypt.compare(req.body.oldpsw, user.password, (err, result) => {
+                            if (result)
+                            {
+                                bcrypt.compare(req.body.newpsw, user.password, (err, result) => {
+                                    if (!result)
+                                    {
+                                        const saltRounds = 10;
+                                        bcrypt.hash(req.body.newpsw, saltRounds, (err, hashed) => {
+                                            if (!err)
+                                                db.updateOne(Account, {userID: req.session.user}, {$set: {password: hashed}}, function (result) {
+                                                    res.redirect('/profile');
+                                                });
+                                        });
+                                    }
+                                    else
+                                    {
+                                        req.flash('error_msg', 'Password must differ from current password. Please try again.');
+                                        res.redirect('/changepw');
+                                    }
+                                });
+                            }
+                            else
+                            {
+                                req.flash('error_msg', 'Incorrect current password. Please try again.');
+                                res.redirect('/changepw');
+                            }
+                        });
+                    }
+                });
+            }
+            else
+            {
+                db.findOne(Account, {$and:[{email: req.body.email}, {userID: {$ne: req.session.user}}]}, {}, function(user) {
+                    if (user != null)
+                    {
+                        req.flash('error_msg', 'Email already in use. Please try again.');
+                        res.redirect('/profile');
+                    }
+                    else
+                    {
+                        db.updateOne(Account, {userID: req.session.user}, {$set: {firstName: req.body.firstName, lastName: req.body.lastName,
+                            email: req.body.email}}, function (result) {
+                                res.redirect('/profile');
                             });
-                        }
-                        else
-                        {
-                            req.flash('error_msg', 'Incorrect current password. Please try again.');
-                            res.redirect('/changepw');
-                        }
-                    });
-                }
-            });
-        }
+                    }
+                })
+            }
     },
 
     postUpdateArrayElement: function (req, res) {
