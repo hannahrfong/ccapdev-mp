@@ -90,7 +90,17 @@ $(document).ready(function(){
         var changeForVal = $(this).val();
         changeForVal = parseFloat(changeForVal);
 
-        if ($('#codRadio').is(':checked') && changeForVal < totalVal)
+        var curTotalVal = $("#finalTotal").text();
+        curTotalVal = parseFloat(totalVal);
+
+
+        if($("#discountText").length > 0 && $("#discountValue").length > 0) {
+
+            curTotalVal = curTotalVal  * 0.8;
+
+        }
+
+        if ($('#codRadio').is(':checked') && changeForVal < curTotalVal)
         {
             $("#placeorder").prop('disabled', true);
         }
@@ -145,6 +155,9 @@ $(document).ready(function(){
         var discount = finalTotal * 0.2;
         discount = discount.toFixed(2);
 
+
+        var changeForVal = $("#codInput").val();
+
         if(seniorInputText == "" && pwdInputText == "")
         {
             if($("#discountText").length > 0 && $("#discountValue").length > 0) {
@@ -161,7 +174,21 @@ $(document).ready(function(){
 
                 $("#discountText").remove();
                 $("#discountValue").remove();
+
+                if (typeof changeForVal != "undefined")
+                {
+                    changeForVal = parseFloat(changeForVal);
+                    if (changeForVal < oldFinalTotal)
+                    {
+                        $("#placeorder").prop('disabled', true);
+                    }
+                    else
+                    {
+                        $("#placeorder").prop('disabled', false);
+                    }
+                }
             }
+        
         }
         else
         {
@@ -178,6 +205,19 @@ $(document).ready(function(){
                 newFinalTotal = newFinalTotal.toFixed(2);
 
                 $("#finalTotal").text("₱" + newFinalTotal);
+
+                if (typeof changeForVal != "undefined")
+                {
+                    changeForVal = parseFloat(changeForVal);
+                    if (changeForVal < newFinalTotal)
+                    {
+                        $("#placeorder").prop('disabled', true);
+                    }
+                    else
+                    {
+                        $("#placeorder").prop('disabled', false);
+                    }
+                }
             }
             
         }

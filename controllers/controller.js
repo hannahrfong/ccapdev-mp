@@ -591,13 +591,9 @@ const controller = {
             }).catch((message) => {
                 console.log("This is in catch" + message);
             })
-<<<<<<< Updated upstream
         });
 
     
-=======
-        });    
->>>>>>> Stashed changes
     },
 
     postCheckout:   function(req, res)  {
@@ -837,20 +833,7 @@ const controller = {
             })
            
         });
-<<<<<<< Updated upstream
     
-        //res.render("confirmation", data);
-=======
-        */
-        //remove
-        const data = {
-            style: ["bootstrap", "navbar", "confirmation"],
-            script: ["bootstrap"],
-            
-        };
-
-        res.render("confirmation", data);
->>>>>>> Stashed changes
        
     },
 
