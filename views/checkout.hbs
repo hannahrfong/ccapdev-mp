@@ -19,7 +19,7 @@
                             </div>
                             <div class="col-md">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="floatingInputGrid2" placeholder="lastNameEx" value="{{this.accountDetails.lastName}}" required>
+                                    <input type="text" class="form-control" id="floatingInputGrid2" placeholder="lastNameEx" name="lastName" value="{{this.accountDetails.lastName}}" required>
                                     <label style="color: #6c757d;" for="floatingInputGrid2">Last Name</label>
                                 </div>
                             </div>
@@ -28,13 +28,13 @@
                         <div class="row g-2">
                             <div class="col-md mt-5 me-4">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="floatingInputGrid3" placeholder="MobileNoEx" value="{{this.accountDetails.contactNumber}}" required>
+                                    <input type="text" class="form-control" id="floatingInputGrid3" placeholder="MobileNoEx" name="contactNumber" value="{{this.accountDetails.contactNumber}}" required>
                                     <label style="color: #6c757d;" for="floatingInputGrid3">Mobile Number</label>
                                 </div>
                             </div>
                             <div class="col-md mt-5">
                                 <div class="form-floating">
-                                    <input type="email" class="form-control" id="floatingInputGrid4" placeholder="EmailEx" value="{{this.accountDetails.email}}" required>
+                                    <input type="email" class="form-control" id="floatingInputGrid4" placeholder="EmailEx" name="email" value="{{this.accountDetails.email}}" required>
                                     <label style="color: #6c757d;" for="floatingInputGrid4">Email Address</label>
                                 </div>
                             </div>
@@ -51,7 +51,7 @@
                         <div class="row g-2">
                             <div class="col-md">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="floatingInputGrid5" placeholder="AddressEx" value="{{this.accountDetails.completeAddress}}" required>
+                                    <input type="text" class="form-control" id="floatingInputGrid5" placeholder="AddressEx" name="completeAddress" value="{{this.accountDetails.completeAddress}}" required>
                                     <label style="color: #6c757d;" for="floatingInputGrid5">Complete Address</label>
                                 </div>
                             </div>
@@ -60,7 +60,7 @@
                         <div class="row g-2 mt-4">
                             <div class="col-md">
                                 <div class="form-floating">
-                                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 9rem"></textarea>
+                                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" name="notes" style="height: 9rem"></textarea>
                                     <label style="color: #6c757d;" for="floatingTextarea2">Special Requests / Notes to Rider</label>
                                 </div>
                             </div>
@@ -76,13 +76,13 @@
                         <div class="row g-2 mt-3">
                             <div class="col-md me-4">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control discountID" id="seniorInput" placeholder="SCIDEx" value="{{this.accountDetails.seniorID}}" >
+                                    <input type="text" class="form-control discountID" id="seniorInput" placeholder="SCIDEx" name="seniorID" value="{{this.accountDetails.seniorID}}" >
                                     <label style="color: #6c757d;" for="seniorInput">Senior Citizen ID</label>
                                 </div>
                             </div>
                             <div class="col-md">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control discountID" id="pwdInput" placeholder="PWDIDEx" value="{{this.accountDetails.pwdID}}" >
+                                    <input type="text" class="form-control discountID" id="pwdInput" placeholder="PWDIDEx" name="pwdID" value="{{this.accountDetails.pwdID}}" >
                                     <label style="color: #6c757d;" for="pwdInput">PWD ID</label>
                                 </div>
                             </div>
@@ -125,13 +125,13 @@
                             </div>
                             <div class="col-md-5 me-4">
                                 <div class="form-floating">
-                                    <input type="number" class="form-control cardInput" id="cardInpu1t" placeholder="AmountEx" value="">
+                                    <input type="number" class="form-control cardInput" id="cardInpu1t" placeholder="AmountEx" name="cardNo" value="">
                                     <label style="color: #6c757d;" for="cardInput1">Card No</label>
                                 </div>
                             </div>
                             <div class="col-md-2 ">
                                 <div class="form-floating">
-                                    <input type="number" class="form-control cardInput" id="cardInput2" placeholder="AmountEx" value="">
+                                    <input type="number" class="form-control cardInput" id="cardInput2" placeholder="AmountEx" name="CVV" value="">
                                     <label style="color: #6c757d;" for="cardInput2">CVV</label>
                                 </div>
                             </div>
@@ -211,7 +211,7 @@
                                 <h4 class="text-start fw-bold" style="font-size: 1.6rem">Total</h4>
                             </div>
                             <div class="col">
-                                <h4 class="text-end fw-bold price" style="font-size: 1.6rem" id="finalTotal">{{this.bag.total}}</h4>
+                                <h4 class="text-end fw-bold price" style="font-size: 1.6rem" name="orderTotalCost" id="finalTotal">{{this.bag.total}}</h4>
                                 
                             </div>
                         </div>

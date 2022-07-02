@@ -523,8 +523,42 @@ const controller = {
 
 
     postCheckout:   function(req, res)  {
+
+        var userID = req.session.user;
+        /*
+        bcrypt.hash(req.body.newpsw, saltRounds, (err, hashed) => {
+            if (!err)
+                db.updateOne(Account, {userID: req.session.user}, {$set: {password: hashed}}, function (result) {
+                    res.redirect('/profile');
+                });
+        });
+        */
+        var orderObj = {
+            //orderId: ,  // generate based on size/biggest order id
+            //account: ,  // retrieve using userid from session
+            //orderItems: ,   // load from bag
+            //orderTotalCost: , // get from jquery
+            //orderDate: ,    // generate from now date
+            //ETA:    ,   // generate from orderDate
+            firstName: req.body.firstName,
+            lastName:   req.body.lastName,
+            email:  req.body.email,
+            contactNumber:  req.body.contactNumber,
+            completeAddress: req.body.completeAddress,
+            notes:  req.body.notes,
+            seniorID:   req.body.seniorID,
+            pwdID:  req.body.pwdID,
+            changeFor:  req.body.changeFor,
+            cardNo: req.body.cardNo,    // hash
+            CVV: req.body.CVV       // hash
+
+        };
+
         console.log('postAddOrder');
-        console.log('test: ' + req.body.test);
+        console.log('test query: ' + req.query.test);
+        console.log('test boyd: ' + req.body.test);
+        console.log('test params: ' + req.params.test);
+        console.log('test: ' + req.test);
         console.log('first name: ' + req.body.firstName);
         res.redirect('/confirmation');
     },

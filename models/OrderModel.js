@@ -25,6 +25,11 @@ var OrderSchema = new mongoose.Schema({
         required: true
     },
 
+    ETA:    {
+        type: Date,
+        required: true
+    },
+
     firstName: {
         type: String,
         required: true
@@ -50,6 +55,10 @@ var OrderSchema = new mongoose.Schema({
         required: true
     },
 
+    notes: {
+        type: String
+    },
+
     seniorID: {
         type: String
     },
@@ -66,7 +75,7 @@ var OrderSchema = new mongoose.Schema({
         type: Number
     },
 
-    cvv: {
+    CVV: {
         type: Number
     }
 

@@ -184,6 +184,6 @@ $(document).ready(function(){
     $("#placeorder").submit(function()  {
 
         var test = 0;
-        $.post('/checkout', {$set: test}, function()  {});
+        $.post('/checkout', {$set: {test: test}}, function()  {});
     });
 });
