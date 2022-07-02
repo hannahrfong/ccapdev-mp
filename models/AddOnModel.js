@@ -13,11 +13,7 @@ var AddOnSchema = new mongoose.Schema({
     price: {
         type: Number,
         required: true
-    },
-
-    flavor: [{
-        type: String
-    }]
+    }
 });
 
 module.exports = mongoose.model('AddOn', AddOnSchema);
