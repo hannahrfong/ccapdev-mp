@@ -27,7 +27,7 @@ $(document).ready(function(){
 
             else //both are filled up
             {
-                $.get("/addfeedback", {userid: 0, subject: subject, message: message}, function(flag){
+                $.get("/addfeedback", {subject: subject, message: message}, function(flag){
                     if (flag){
                         $("#subject").css("border", "1px solid lightgray");
                         $("#message").css("border", "1px solid lightgray");

@@ -6,7 +6,7 @@ var FeedbackSchema = new mongoose.Schema({
     },
 
     userid: {
-        type: Number, 
+        type: mongoose.Schema.Types.ObjectId, ref: 'Account',
         required: true
     },
 
