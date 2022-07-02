@@ -279,28 +279,54 @@ const controller = {
     },
 
     getContact: function (req, res) {
+        let p = new Promise((resolve, reject) =>{
+            return getBagContents(req.session.user, resolve, reject);
+        })
+
+        p.then((bag) => {
         const data = {
             style: ["navbar", "contact"],
-            script: ["contact"]
+            script: ["contact"],
+            bag:bag
         }
-        res.render("contact", data);
+        res.render("contact", data);})
     },
 
     getOrderHistory: function (req, res) {
+        let p = new Promise((resolve, reject) =>{
+            return getBagContents(req.session.user, resolve, reject);
+        })
+
+        p.then((bag) => {
         const data = {
-            style: ["navbar", "orderhistory"]
+            style: ["navbar", "orderhistory"],
+            bag: bag
         }
         res.render("orderhistory", data);
+    })
     },
 
     getAbout: function (req, res) {
+
+        let p = new Promise((resolve, reject) =>{
+            return getBagContents(req.session.user, resolve, reject);
+        })
+
+        p.then((bag) => {
         const data = {
-            style: ["navbar", "about"]
+            style: ["navbar", "about"],
+            bag: bag
         }
         res.render("about", data);
+    })
     },
 
     getProfile: function (req, res) {
+        let p = new Promise((resolve, reject) =>{
+            return getBagContents(req.session.user, resolve, reject);
+        })
+
+        p.then((bag) => {
         db.findOne(Account, {userID: req.session.user}, {}, function(user) {
             if (user != null)
             {
@@ -308,14 +334,20 @@ const controller = {
                     style: ["navbar", "accountdetails", "profile"],
                     script: ["profile"],
                     partialName: ["profile"],
-                    first: user.firstName, last: user.lastName, email: user.email
+                    first: user.firstName, last: user.lastName, email: user.email,
+                    bag: bag
                 }
                 res.render("account", data);
             }
-        });
+        });})
     },
 
     getAddresses: function (req, res) {
+        let p = new Promise((resolve, reject) =>{
+            return getBagContents(req.session.user, resolve, reject);
+        })
+
+        p.then((bag) => {
         db.findOne(Account, {userID: req.session.user}, {}, function(user) {
             if (user != null)
             {
@@ -324,14 +356,20 @@ const controller = {
                     script: ["addresses"],
                     partialName: ["addresses"],
                     address: user.completeAddress,
-                    disableDel: Boolean(user.completeAddress.length == 1)
+                    disableDel: Boolean(user.completeAddress.length == 1),
+                    bag: bag
                 }
                 res.render("account", data);
             }
-        });
+        });})
     },
 
     getContactNums: function (req, res) {
+        let p = new Promise((resolve, reject) =>{
+            return getBagContents(req.session.user, resolve, reject);
+        })
+
+        p.then((bag) => {
         db.findOne(Account, {userID: req.session.user}, {}, function(user) {
             if (user != null)
             {
@@ -340,85 +378,121 @@ const controller = {
                     script:["contactnums"],
                     partialName: ["contactnums"],
                     contact: user.contactNumber,
-                    disableDel: Boolean(user.contactNumber.length == 1)
+                    disableDel: Boolean(user.contactNumber.length == 1),
+                    bag: bag
                 }
                 res.render("account", data);
             }
-        });
+        });})
     },
 
     getID: function (req, res) {
         db.findOne(Account, {userID: req.session.user}, {}, function(user) {
+            let p = new Promise((resolve, reject) =>{
+                return getBagContents(req.session.user, resolve, reject);
+            })
+    
+            p.then((bag) => {
             if (user != null)
             {
                 const data = {
                     style: ["navbar", "accountdetails", "id"],
                     script: ["id"],
                     partialName: ["id"],
-                    sc: user.seniorID, pwd: user.pwdID
+                    sc: user.seniorID, pwd: user.pwdID,
+                    bag: bag
                 }
                 res.render("account", data);
-            }
+            }})
         });
     },
 
     getChangePassword: function (req, res) {
+        let p = new Promise((resolve, reject) =>{
+            return getBagContents(req.session.user, resolve, reject);
+        })
+
+        p.then((bag) => {
         db.findOne(Account, {userID: req.session.user}, {}, function(user) {
             if (user != null)
             {
                 const data = {
                     style: ["navbar", "accountdetails", "profile"],
                     script: ["changepw"],
-                    partialName: ["changepw"]
+                    partialName: ["changepw"],
+                    bag: bag
                 }
                 res.render("account", data);
             }
-        });
+        });})
     },
 
     getAddAddress: function (req, res) {
+        let p = new Promise((resolve, reject) =>{
+            return getBagContents(req.session.user, resolve, reject);
+        })
+
+        p.then((bag) => {
         db.findOne(Account, {userID: req.session.user}, {}, function(user) {
             if (user != null)
             {
                 const data = {
                     style: ["navbar", "accountdetails", "profile"],
                     script: ["addaddress"],
-                    partialName: ["addaddress"]
+                    partialName: ["addaddress"],
+                    bag: bag
                 }
                 res.render("account", data);
             }
-        });
+        });})
     },
 
     getAddNumber: function (req, res) {
+        let p = new Promise((resolve, reject) =>{
+            return getBagContents(req.session.user, resolve, reject);
+        })
+
+        p.then((bag) => {
         db.findOne(Account, {userID: req.session.user}, {}, function(user) {
             if (user != null)
             {
                 const data = {
                     style: ["navbar", "accountdetails", "profile"],
                     script: ["addcontactnum"],
-                    partialName: ["addcontactnum"]
+                    partialName: ["addcontactnum"],
+                    bag: bag
                 }
                 res.render("account", data);
             }
-        });
+        });})
     },
 
     getAddID: function (req, res) {
+        let p = new Promise((resolve, reject) =>{
+            return getBagContents(req.session.user, resolve, reject);
+        })
+
+        p.then((bag) => {
         db.findOne(Account, {userID: req.session.user}, {}, function(user) {
             if (user != null)
             {
                 const data = {
                     style: ["navbar", "accountdetails", "profile"],
                     script: ["addid"],
-                    partialName: ["addid"]
+                    partialName: ["addid"],
+                    bag: bag
                 }
                 res.render("account", data);
             }
-        });
+        });})
     },
 
     getAddToBag: function (req, res) {
+        let p = new Promise((resolve, reject) =>{
+            return getBagContents(req.session.user, resolve, reject);
+        })
+
+        p.then((bag) => {
         var query = {id: req.params.id};
         var projection = 'name image price addOn inclusion';
 
@@ -443,7 +517,8 @@ const controller = {
                 productdetails: productdetails,
                 addOns: [],
                 inclusions: [],
-                bCustomizable: bool
+                bCustomizable: bool,
+                bag: bag
             }
 
             for (var i = 0; i < productdetails.addOn.length; i++)
@@ -472,6 +547,7 @@ const controller = {
             }
 
             res.render("addtobag", data);
+        })
             
         });
         
@@ -515,9 +591,13 @@ const controller = {
             }).catch((message) => {
                 console.log("This is in catch" + message);
             })
+<<<<<<< Updated upstream
         });
 
     
+=======
+        });    
+>>>>>>> Stashed changes
     },
 
     postCheckout:   function(req, res)  {
@@ -757,18 +837,36 @@ const controller = {
             })
            
         });
+<<<<<<< Updated upstream
     
         //res.render("confirmation", data);
+=======
+        */
+        //remove
+        const data = {
+            style: ["bootstrap", "navbar", "confirmation"],
+            script: ["bootstrap"],
+            
+        };
+
+        res.render("confirmation", data);
+>>>>>>> Stashed changes
        
     },
 
     getSearch: function (req, res){
+        let p = new Promise((resolve, reject) =>{
+            return getBagContents(req.session.user, resolve, reject);
+        })
+
+        p.then((bag) => {
         db.findMany(Product, {name: {$regex: req.query.q, $options: 'i'}}, "", function (results) {
             const data = {
                 style: ["navbarMenu", "search"],
                 q: req.query.q, 
                 nResults: results.length,
-                results: []
+                results: [],
+                bag: bag
             }
 
             for (var i = 0; i < results.length; i++)
@@ -782,17 +880,23 @@ const controller = {
                 data.results.push(productObj);
             }
             
-            res.render("search", data);
+            res.render("search", data);})
         });
     },
 
     getSearchResults: function(req, res){
+        let p = new Promise((resolve, reject) =>{
+            return getBagContents(req.session.user, resolve, reject);
+        })
+
+        p.then((bag) => {
         db.findMany(Product, {name: {$regex: req.query.q, $options: 'i'}}, "", function (results) {
             const data = {
                 q: req.query.q, 
                 nResults: results.length,
                 layout: false,
-                results: []
+                results: [],
+                bag: bag
             }
 
             for (var i = 0; i < results.length; i++)
@@ -809,14 +913,13 @@ const controller = {
                 if (err) throw err;
                 res.send(html);
             });
-        });        
+        }); })       
     },
 
-    // POST - hannah
-    getAddFeedback: function(req, res){
+    postAddFeedback: function(req, res){
         var userID = req.session.user;
-        var subject = req.query.subject;
-        var message = req.query.message;
+        var subject = req.body.subject;
+        var message = req.body.message;
         var id = 0;
         
         db.findMany(Feedback, {}, "", function(result){
@@ -1153,9 +1256,8 @@ const controller = {
         }
     },
 
-    // POST - hannah
-    getAddQuantity: function (req, res){
-        var orderItemId = req.query.orderItemId;
+    postAddQuantity: function (req, res){
+        var orderItemId = req.body.orderItemId;
 
         db.findOne(OrderItem, {orderItemId: orderItemId}, "", function(result){
             var _id = result._id;
@@ -1187,9 +1289,8 @@ const controller = {
         })
     },
 
-    // POST - hannah
-    getSubtractQuantity: function (req, res){
-        var orderItemId = req.query.orderItemId;
+    postSubtractQuantity: function (req, res){
+        var orderItemId = req.body.orderItemId;
 
         db.findOne(OrderItem, {orderItemId: orderItemId}, "", function(result){
             if (result.quantity > 1)
@@ -1226,9 +1327,8 @@ const controller = {
         })
     },
 
-    // POST - hannah
-    getDeleteOrderItem: function(req, res){
-        var orderItemId = req.query.orderItemId;
+    postDeleteOrderItem: function(req, res){
+        var orderItemId = req.body.orderItemId;
 
         db.findOne(OrderItem, {orderItemId: orderItemId}, "", function(result){
             

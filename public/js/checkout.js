@@ -1,5 +1,7 @@
 $(document).ready(function(){
-    
+
+    $("#bag-icon").off();
+
     var seniorInputText = $("#seniorInput").val();
     seniorInputText = $.trim(seniorInputText);
 

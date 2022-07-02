@@ -9,7 +9,7 @@ $(document).ready(function(){
     const icon = document.getElementById("bag-icon");
     const  bag = document.getElementById("bag-container");
     
-    icon.addEventListener("click", ()=>{
+    $("#bag-icon").on("click", ()=>{
         bag.classList.toggle("hide");
     })
 
@@ -41,15 +41,3 @@ $(document).ready(function(){
 
 
 });
-
-/*
-        if(window.location.href.indexOf("search") == -1){
-            window.location.href = "http://localhost:3000/search";
-        }
-
-            if(window.location.href.indexOf("search") != -1)
-        $("#searchbar-input").focus();
-        $("#searchbar-input").on("focus", function(e){
-            $("#searchbar-input").delay(13).caretToEnd();
-        });
-*/ 

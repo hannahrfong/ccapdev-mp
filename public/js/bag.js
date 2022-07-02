@@ -24,7 +24,7 @@ $(document).ready(function(){
         var clickedBtn = $(this);
         var orderItemId = $(this).parent().parent().attr("id");
 
-        $.get("/addQuantity", {orderItemId: orderItemId}, function(result){
+        $.post("/addQuantity", {orderItemId: orderItemId}, function(result){
             var newQuantity = result.newQuantity;
             var newTotalPrice = parseFloat(result.newTotalPrice).toFixed(2);
             var newSubtotal =  parseFloat(result.newSubtotal).toFixed(2);
@@ -44,7 +44,7 @@ $(document).ready(function(){
         var clickedBtn = $(this);
         var orderItemId = $(this).parent().parent().attr("id");
 
-        $.get("/subtractQuantity", {orderItemId: orderItemId}, function(result){
+        $.post("/subtractQuantity", {orderItemId: orderItemId}, function(result){
 
             if (result)
             {
@@ -63,23 +63,16 @@ $(document).ready(function(){
         })       
     })
 
-
-    //edit button
-    $(".edit-bag").click(function(){
-        
-    })
-
-
     //delete button
     $(".delete").click(function(){
         var orderItemId = $(this).parent().parent().attr("id");
         var orderContainer = $(this).parent().parent();
 
-        $.get("/deleteOrderItem", {orderItemId: orderItemId}, function(result){
+        $.post("/deleteOrderItem", {orderItemId: orderItemId}, function(result){
 
-            $(orderContainer).parent().parent().siblings(".payment-container").find(".subtotal").text("₱ " + result.newSubtotal);
-            $(orderContainer).parent().parent().siblings(".payment-container").find(".deliveryFee").text("₱ " + result.deliveryFee);
-            $(orderContainer).parent().parent().siblings(".payment-container").find(".overallTotal").text("₱ " + result.newTotal); 
+            $(orderContainer).parent().parent().siblings(".payment-container").find(".subtotal").text("₱ " + parseFloat(result.newSubtotal).toFixed(2));
+            $(orderContainer).parent().parent().siblings(".payment-container").find(".deliveryFee").text("₱ " + parseFloat(result.deliveryFee).toFixed(2));
+            $(orderContainer).parent().parent().siblings(".payment-container").find(".overallTotal").text("₱ " + parseFloat(result.newTotal).toFixed(2)); 
         
             $(orderContainer).remove();  
             if (result.newTotal == 0)
