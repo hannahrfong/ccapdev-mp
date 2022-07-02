@@ -555,6 +555,13 @@ const controller = {
             db.findOne(Account, {userID: userID}, "", function (accountRes) {
                 
                 db.findOne(Bag, {userId: userID}, "orderItems", function (bagRes){
+                    var orderTotalCost = bagRes.total;
+
+                    if (typeof req.body.seniorID == "undefined" && typeof req.body.pwdID == "undefined")
+                    {
+                        orderTotalCost = orderTotalCost * 0.8;
+                    }
+
                     if (typeof req.body.cardNo != "undefined" && typeof req.body.CVV != "undefined")
                     {
                         bcrypt.hash(req.body.cardNo, saltRounds, (err, hashedCardNo) => {
@@ -567,7 +574,7 @@ const controller = {
                                             orderId: newOrderId,  
                                             account: accountRes._id,  
                                             orderItems: bagRes.orderItems,  
-                                            //orderTotalCost: , // get from bag
+                                            orderTotalCost: orderTotalCost, 
                                             orderDate: currentDate,    
                                             ETAMin:    datePlus20,   
                                             ETAMax:     datePlus30,
@@ -620,7 +627,7 @@ const controller = {
                             orderId: newOrderId,  
                             account: accountRes._id,  
                             orderItems: bagRes.orderItems,  
-                            //orderTotalCost: , // get from bag
+                            orderTotalCost: orderTotalCost,
                             orderDate: currentDate,    
                             ETAMin:    datePlus20,   
                             ETAMax:     datePlus30,
