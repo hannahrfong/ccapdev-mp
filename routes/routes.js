@@ -50,7 +50,7 @@ app.get('/addfeedback', controller.isPrivate, controller.getAddFeedback);
 app.post('/addaccount', controller.postAddAccount);
 app.post('/checkaccount', controller.postCheckAccount);
 app.get('/logout', controller.isPrivate, controller.getLogout);
-app.get('/delete', controller.isPrivate, controller.getDeleteAccount);
+app.get('/delete', controller.isPrivate, controller.postDeleteAccount);
 app.post('/updateDetails', controller.isPrivate, controller.postUpdateDetails);
 app.get('/changepw', controller.isPrivate, controller.getChangePassword);
 app.get('/addaddress', controller.isPrivate, controller.getAddAddress);

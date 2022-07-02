@@ -1009,7 +1009,7 @@ const controller = {
         }
     },
 
-    getDeleteAccount: function (req, res) {;
+    postDeleteAccount: function (req, res) {;
         db.updateMany(Account, {userID:{$gt:req.session.user}}, {$inc: {userID: -1}}, function(result){
             db.deleteOne(Account, {userID: req.session.user}, function(flag) {
                 
