@@ -509,8 +509,7 @@ const controller = {
             })
     
             p.then((message) => {
-                console.log('data: ');
-                console.log(data.bag.orderItems);
+                
                 res.render("checkout", data);
             }).catch((message) => {
                 console.log("This is in catch" + message);
