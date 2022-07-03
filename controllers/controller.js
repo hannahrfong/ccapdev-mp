@@ -42,7 +42,7 @@ function getBagContents(userId, resolve, reject){
         for (var i = 0; i < res[0].orderItems.length; i++)
         {
             var orderItem = {
-                orderItemId: res[0].orderItems[i].orderItemId,
+                orderItemId: res[0].orderItems[i]._id,
                 quantity: res[0].orderItems[i].quantity,
                 totalPrice: parseFloat(res[0].orderItems[i].totalPrice).toFixed(2),
                 product: {
@@ -1240,15 +1240,14 @@ const controller = {
     },
 
     postAddQuantity: function (req, res){
-        var orderItemId = req.body.orderItemId;
+        var _id = req.body._id;
 
-        db.findOne(OrderItem, {orderItemId: orderItemId}, "", function(result){
-            var _id = result._id;
+        db.findOne(OrderItem, {_id: _id}, "", function(result){
             var oldPrice = result.totalPrice;
             var newQuantity = result.quantity + 1;
             var newTotalPrice = (result.totalPrice / result.quantity) * newQuantity;
 
-            db.updateOne(OrderItem, {orderItemId: orderItemId}, {quantity: newQuantity, totalPrice: newTotalPrice}, function(){
+            db.updateOne(OrderItem, {_id: _id}, {quantity: newQuantity, totalPrice: newTotalPrice}, function(){
                 
                 db.findOne(Bag, {orderItems: _id}, "", function(result1){
                     var subtotal = result1.subtotal;
@@ -1273,18 +1272,17 @@ const controller = {
     },
 
     postSubtractQuantity: function (req, res){
-        var orderItemId = req.body.orderItemId;
+        var _id = req.body._id;
 
-        db.findOne(OrderItem, {orderItemId: orderItemId}, "", function(result){
+        db.findOne(OrderItem, {_id: _id}, "", function(result){
             if (result.quantity > 1)
             {
-                var _id = result._id;
+                var orderItemId = result.orderItemId;
                 var oldPrice = result.totalPrice;
                 var newQuantity = result.quantity - 1;
                 var newTotalPrice = (result.totalPrice / result.quantity) * newQuantity;
 
-                db.updateOne(OrderItem, {orderItemId: orderItemId}, {quantity: newQuantity, totalPrice: newTotalPrice}, function(){
-                    
+                db.updateOne(OrderItem, {_id: _id}, {quantity: newQuantity, totalPrice: newTotalPrice}, function(){
                     db.findOne(Bag, {orderItems: _id}, "", function(result1){
                         var subtotal = result1.subtotal;
                         var deliveryFee = result1.deliveryFee;
@@ -1303,7 +1301,7 @@ const controller = {
                         }
                         res.send(newValues);
                     });
-                })
+                });
             }
             else 
                 res.send(false);
@@ -1311,14 +1309,14 @@ const controller = {
     },
 
     postDeleteOrderItem: function(req, res){
-        var orderItemId = req.body.orderItemId;
+        var _id = req.body._id;
 
-        db.findOne(OrderItem, {orderItemId: orderItemId}, "", function(result){
-            
-            var id = result._id;
+        db.findOne(OrderItem, {_id: _id}, "", function(result){
+            var orderItemId = result.orderItemId;
             var totalPrice = result.totalPrice;
+            var productObjId = result.product;
             
-            db.findOne(Bag, {orderItems: id}, "", function(result){
+            db.findOne(Bag, {orderItems: _id}, "", function(result){
                 var newSubtotal = result.subtotal - totalPrice;
                 var deliveryFee = result.deliveryFee;
                 var newTotal;
@@ -1332,39 +1330,31 @@ const controller = {
                 var newValues = {
                     newSubtotal: newSubtotal,
                     newTotal: newTotal,
-                    deliveryFee: deliveryFee
+                    deliveryFee: deliveryFee,
+                    productId: 0
                 };
                 
-                db.updateOne(Bag, {orderItems: id}, {$pull: { orderItems: id}, subtotal: newSubtotal, total: newTotal}, function(flag){
-                    if (flag){
-                        db.deleteOne(OrderItem, {_id: id}, function(flag){
-                            if (flag)
-                                res.send(newValues);
+                db.updateOne(Bag, {orderItems: _id}, {$pull: {orderItems: _id}, subtotal: newSubtotal, total: newTotal}, function(flag){
+                    if (flag)
+                    {
+                        db.updateMany(OrderItem, {orderItemId:{$gt:orderItemId}}, {$inc: {orderItemId: -1}}, function(flag){
+                            if (flag){
+                                db.deleteOne(OrderItem, {_id: _id}, function(flag){
+                                    if (flag)
+                                    {
+                                        db.findOne(Product, {_id: productObjId}, "", function(result){
+                                            var productId = result.id;
+                                            newValues.productId = productId;
+                                            res.send(newValues);
+                                        });
+                                    }
+                                        
+                                });
+                            }
                         });
                     }
                 });
             });
-
-
-
-/*
-            db.updateOne(Bag, {orderItems: id}, {$pull: { orderItems: id}}, function(flag){
-                if (flag)
-                {
-                    db.findOne(Bag, {orderItems: id}, "", function(result){
-                        var newSubtotal = result.subtotal - totalPrice;
-                        var newTotal = newSubtotal + result.deliveryFee; 
-                        
-                        db.updateOne(Bag, {orderItems: id}, {subtotal: newSubtotal, total: newTotal}, function(flag){
-                            if (flag){
-                                db.deleteOne(OrderItem, {_id: id}, function(flag){
-                                    res.send(flag);
-                                });
-                            }
-                        })
-                    });
-                }
-            })*/
         })
     },
 

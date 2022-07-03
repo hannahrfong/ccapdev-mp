@@ -22,9 +22,9 @@ $(document).ready(function(){
     //plus button
     $(".plus").click(function(){
         var clickedBtn = $(this);
-        var orderItemId = $(this).parent().parent().attr("id");
+        var _id = $(this).parent().parent().attr("id");
 
-        $.post("/addQuantity", {orderItemId: orderItemId}, function(result){
+        $.post("/addQuantity", {_id: _id}, function(result){
             var newQuantity = result.newQuantity;
             var newTotalPrice = parseFloat(result.newTotalPrice).toFixed(2);
             var newSubtotal =  parseFloat(result.newSubtotal).toFixed(2);
@@ -42,9 +42,9 @@ $(document).ready(function(){
     //minus button
     $(".minus").click(function(){
         var clickedBtn = $(this);
-        var orderItemId = $(this).parent().parent().attr("id");
+        var _id = $(this).parent().parent().attr("id");
 
-        $.post("/subtractQuantity", {orderItemId: orderItemId}, function(result){
+        $.post("/subtractQuantity", {_id: _id}, function(result){
 
             if (result)
             {
@@ -65,10 +65,10 @@ $(document).ready(function(){
 
     //delete button
     $(".delete").click(function(){
-        var orderItemId = $(this).parent().parent().attr("id");
+        var _id = $(this).parent().parent().attr("id");
         var orderContainer = $(this).parent().parent();
 
-        $.post("/deleteOrderItem", {orderItemId: orderItemId}, function(result){
+        $.post("/deleteOrderItem", {_id: _id}, function(result){
 
             $(orderContainer).parent().parent().siblings(".payment-container").find(".subtotal").text("₱ " + parseFloat(result.newSubtotal).toFixed(2));
             $(orderContainer).parent().parent().siblings(".payment-container").find(".deliveryFee").text("₱ " + parseFloat(result.deliveryFee).toFixed(2));
@@ -80,36 +80,22 @@ $(document).ready(function(){
         });
     })
 
-/*
-    $(".delete").click(function(deleteItem){
-        $(".order-container").each(function(){
+    $(".edit").click(function(){
+        var _id = $(this).parent().parent().attr("id");
+        var orderContainer = $(this).parent().parent();
+
+        $.post('/deleteOrderItem', {_id: _id}, function(result){
             
-            if ($(this).hasClass($(deleteItem.target).attr("class").substr(7, 7)))
-                $(this).css("display", "none");
+            $(orderContainer).parent().parent().siblings(".payment-container").find(".subtotal").text("₱ " + parseFloat(result.newSubtotal).toFixed(2));
+            $(orderContainer).parent().parent().siblings(".payment-container").find(".deliveryFee").text("₱ " + parseFloat(result.deliveryFee).toFixed(2));
+            $(orderContainer).parent().parent().siblings(".payment-container").find(".overallTotal").text("₱ " + parseFloat(result.newTotal).toFixed(2)); 
+        
+            $(orderContainer).remove();  
+            if (result.newTotal == 0)
+                disableProceed();        
+            console.log("RESULT PRODUCT ID: " + result.productId);
+            window.location.href = "http://localhost:3000/addtobag/" + result.productId;
+
         })
-
-        console.log($(deleteItem.target).hasClass("1"));
-        console.log(this);
     })
-*/
-
-/*
-var newQuantity = result.newQuantity;
-           var newTotalPrice = parseFloat(result.newTotalPrice);
-           var curSubTotal = parseFloat($(clickedBtn).parent().parent().parent().parent().siblings(".payment-container").find(".subTotal").text().substring(2));
-            var curOverallTotal = parseFloat($(clickedBtn).parent().parent().parent().parent().siblings(".payment-container").find(".overallTotal").text().substring(2));
-            var newSubTotal =  curSubTotal - result.oldPrice + newTotalPrice;
-            var newOverallTotal = newSubTotal + 50;
-
-            console.log("BAGJS curSubTotal: *" + curSubTotal + "*");
-            console.log("BAGJS curOverallTotal: *" + curOverallTotal + "*");
-            
-            console.log("BAGJS newSubTotal: " + newSubTotal);
-            console.log("BAGJS newOverallTotal: " + newOverallTotal);
-
-            $(clickedBtn).siblings(".quantity").text(newQuantity);
-            $(clickedBtn).parent().siblings(".price-container").text("₱ " + newTotalPrice);
-            $(clickedBtn).parent().parent().parent().parent().siblings(".payment-container").find(".subTotal").text("₱ " + newSubTotal);
-            $(clickedBtn).parent().parent().parent().parent().siblings(".payment-container").find(".overallTotal").text("₱ " + newOverallTotal);
-*/
 })
