@@ -1,5 +1,12 @@
 $(document).ready(function(){
 
+  function callMenuFunc()
+  {
+    $.get("/menu", {}, function(){
+
+    });
+  }
+
   function enableProceed()
   {
       $("#proceed").attr("href", "/checkout");
@@ -263,7 +270,7 @@ $(document).ready(function(){
                     });
                    
 
-                    
+                    callMenuFunc();
                     window.location.assign('/menu');                    
 
                   });
@@ -311,7 +318,7 @@ $(document).ready(function(){
               $.post('/updateBagItems', {_id: _id, orderItems: orderItems}, function() {});
 
             });
-            
+            callMenuFunc();
             window.location.assign('/menu');                    
           });
          

@@ -182,7 +182,7 @@ function insertProducts(garlicBread, parmesanGarlicBread, cornCarrots, bacon, ch
             id: counter++,
             name: ribs + " (Single Rack)",
             category: main,
-            price: 1125,
+            price: 1195,
             image: '/images/products/ribs-single.png',
             addOn: [cornCarrots, bbqSauce],
             inclusion: [{productName: "Corn and Carrots"}]
@@ -192,7 +192,7 @@ function insertProducts(garlicBread, parmesanGarlicBread, cornCarrots, bacon, ch
             id: counter++,
             name: ribs + " (Double Rack)",
             category: main,
-            price: 2225,
+            price: 2295,
             image: '/images/products/ribs-double.png',
             addOn: [cornCarrots, bbqSauce],
             inclusion: [{productName: "Corn and Carrots"}]
@@ -230,7 +230,7 @@ function insertProducts(garlicBread, parmesanGarlicBread, cornCarrots, bacon, ch
             id: counter++,
             name: chicken + getPcs(24),
             category: main,
-            price: 395,
+            price: 880,
             image: '/images/products/chicken-24.png'
         },
 
