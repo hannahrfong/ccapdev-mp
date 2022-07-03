@@ -966,7 +966,6 @@ const controller = {
         });
     },
 
-    // POST - ibz
     postUpdateBagItems: function(req, res)   {
        
         var _id = req.body._id;
@@ -992,7 +991,6 @@ const controller = {
         res.redirect('/menu');
     },
 
-    // POST - ibz
     postAddOrderItem: function(req, res) {
         var orderItemId = req.body.orderItemId;
         var product = req.body.product;
@@ -1006,9 +1004,16 @@ const controller = {
             addOns: addOns,
             quantity: quantity,
             totalPrice: totalPrice
-        };
+        }; 
 
-        db.insertOne(OrderItem, orderItem, function()   {});        
+        OrderItem.create(orderItem, function(error, result) {
+            if (!error)
+            {
+                console.log('Added ' + result);
+                res.send(result._id);
+            }
+        });
+
     },
 
     postAddAccount: function (req, res) {
@@ -1135,7 +1140,16 @@ const controller = {
                             orderItemsList.forEach(myFunction);
 
                             function myFunction(item) {
-                                db.deleteOne(OrderItem, {_id: item}, function() {});
+                                console.log('item: ' + item);
+                                db.updateMany(OrderItem, {_id:{$gt:item}}, {$inc: {orderItemId: -1}}, function(flag){
+                                    if (flag)
+                                    {
+                                        console.log('update');
+                                        db.deleteOne(OrderItem, {_id: item}, function() {
+                                            console.log('delete one');
+                                        });
+                                    }
+                                });
                             }
 
                             // deletes user's bag 

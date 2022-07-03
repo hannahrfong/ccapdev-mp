@@ -236,7 +236,7 @@ $(document).ready(function(){
 
                   $.get('/getAllOrderItems', function(allOrderItems)  {
 
-                    var orderItemId = allOrderItems.length;
+                    var orderItemId = allOrderItems.length + 1;
                     var addOns = addOnsList;
                     var quantity = itemQuantity;
                     var totalPrice = tPrice;
@@ -252,22 +252,16 @@ $(document).ready(function(){
                     };
                     
                     
-                    $.post('/addOrderItem', query, function() {});
-                   
-                  
-                    $.get('/getOrderItem', {orderItemId: orderItemId}, function (curOrderItem)  {
-
-                    
+                    $.post('/addOrderItem', query, function(orderItemIDRes) {
 
                       var orderItems = newRes.orderItems;
-               
-                      orderItems.push(curOrderItem._id);
+                      orderItems.push(orderItemIDRes);
                       var _id = newRes._id;
-                      $.post('/updateBagItems', {_id: _id, orderItems: orderItems}, function() {
 
+                      $.post('/updateBagItems', {_id: _id, orderItems: orderItems}, function() {});
 
-                      });
                     });
+                   
 
                     
                     window.location.assign('/menu');                    
@@ -293,7 +287,7 @@ $(document).ready(function(){
 
           $.get('/getAllOrderItems', function(allOrderItems)  {
 
-            var orderItemId = allOrderItems.length;
+            var orderItemId = allOrderItems.length + 1;
             var addOns = addOnsList;
             var quantity = itemQuantity;
             var totalPrice = tPrice;
@@ -308,15 +302,14 @@ $(document).ready(function(){
               totalPrice: totalPrice,
             };
             
-            
-            $.post('/addOrderItem', query, function() {
-            });
-          
-            $.get('/getOrderItem', {orderItemId: orderItemId}, function (curOrderItem)  {
+            $.post('/addOrderItem', query, function(orderItemIDRes) {
+
               var orderItems = newRes.orderItems;
-              orderItems.push(curOrderItem._id);
+              orderItems.push(orderItemIDRes);
               var _id = newRes._id;
+
               $.post('/updateBagItems', {_id: _id, orderItems: orderItems}, function() {});
+
             });
             
             window.location.assign('/menu');                    
