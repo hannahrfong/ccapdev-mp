@@ -292,18 +292,83 @@ const controller = {
         res.render("contact", data);})
     },
 
+    getOrderHistoryInd: function (req, res) {
+        db.findOne(Account, {userID: req.session.user}, {}, function(user) {
+            if (user != null)
+            {
+                var userObjectID = user._id;
+
+                Order.find({account: userObjectID}).lean().then((orderList) => {
+                    var startInd = orderList.length;
+
+                    res.redirect('/orderhistory/' + startInd);
+                });
+            }
+        });
+    },
+
     getOrderHistory: function (req, res) {
+        var orderNum = req.params.ordernum - 1;
+        
         let p = new Promise((resolve, reject) =>{
             return getBagContents(req.session.user, resolve, reject);
         })
 
         p.then((bag) => {
-        const data = {
-            style: ["navbar", "orderhistory"],
-            bag: bag
-        }
-        res.render("orderhistory", data);
-    })
+            db.findOne(Account, {userID: req.session.user}, {}, function(user) {
+                if (user != null)
+                {
+                    var userObjectID = user._id;
+
+                    Order.find({account: userObjectID}).lean().then((orderList) => {
+                        var particulars = [];
+                        var curr = orderList[orderNum];
+
+                        for (var i = 0; i < curr.orderItems.length; i++)
+                        {
+                            db.findOne(OrderItem, {_id: curr.orderItems[i]}, {}, function (item) {
+                                db.findOne(Product, {_id: item.product}, {}, function (product) {
+                                    var orderItemObj = {
+                                        name: "",
+                                        addOnsList: [],
+                                        quantity: 0,
+                                        price: 0
+                                    };
+
+                                    orderItemObj.name = product.name;
+                                    orderItemObj.quantity = item.quantity;
+                                    orderItemObj.price = item.totalPrice.toFixed(2);
+
+                                    for (var j = 0; j < item.addOns.length; j++)
+                                    {
+                                        db.findOne(AddOn, {_id: item.addOns[j]}, {}, function (addon) {
+                                            var ao = {
+                                                name: addon.name,
+                                                price: addon.price
+                                            };
+
+                                            orderItemObj.addOnsList.push(ao);
+                                        });
+                                    }
+                                    particulars.push(orderItemObj);
+                                });
+                            });
+                        }
+                        
+                        const data = {
+                            style: ["navbar", "orderhistory"],
+                            orders: orderList.reverse(),
+                            currOrder: curr,
+                            date: curr.orderDate.toLocaleString('en-us', {month: "long", day: "numeric", year: "numeric", hour: "2-digit", minute: "2-digit"}),
+                            particulars: particulars,
+                            discount: Boolean(curr.discount > 0),
+                            bag: bag
+                        }
+                        res.render("orderhistory", data);
+                    });
+                }
+            });
+        })
     },
 
     getAbout: function (req, res) {
@@ -313,12 +378,13 @@ const controller = {
         })
 
         p.then((bag) => {
-        const data = {
-            style: ["navbar", "about"],
-            bag: bag
-        }
-        res.render("about", data);
-    })
+            const data = {
+                style: ["navbar", "about"],
+                libraries: ["express", "bcrypt", "connect-mongo", "express-session", "connect-flash"],
+                bag: bag
+            }
+            res.render("about", data);
+        })
     },
 
     getProfile: function (req, res) {
