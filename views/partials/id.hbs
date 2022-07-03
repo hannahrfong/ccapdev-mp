@@ -4,34 +4,25 @@
     <div class="break2"></div>
 
     <div id="ids">
-        {{#each sc}}
-            <div class="field">
-                <p class="field-name">Senior Citizen</p>
-                <p class="field-value">{{this}}</p>
-                <div class="buttons modify">
-                    <button class="modify-btn edit"><strong>Edit</strong></button>
-                    <button class="modify-btn hide save"><strong>Save</strong></button>
-                    <button class="modify-btn del"><strong>Delete</strong></button>
-                </div>
+        <div class="field">
+            <p class="field-name">Senior Citizen</p>
+            <p class="field-value">{{sc}}</p>
+            <div class="buttons modify">
+                <button class="modify-btn editElement"><strong>Edit</strong></button>
+                <button class="modify-btn hide save"><strong>Save</strong></button>
+                <button class="modify-btn del"><strong>Delete</strong></button>
             </div>
-            <div class="break2"></div>
-        {{/each}}
-        {{#each pwd}}
-            <div class="field">
-                <p class="field-name">PWD</p>
-                <p class="field-value">{{this}}</p>
-                <div class="buttons modify">
-                    <button class="modify-btn edit"><strong>Edit</strong></button>
-                    <button class="modify-btn hide save"><strong>Save</strong></button>
-                    <button class="modify-btn del"><strong>Delete</strong></button>
-                </div>
+        </div>
+        <div class="break2"></div>
+        <div class="field">
+            <p class="field-name">PWD</p>
+            <p class="field-value">{{pwd}}</p>
+            <div class="buttons modify">
+                <button class="modify-btn editElement"><strong>Edit</strong></button>
+                <button class="modify-btn hide save"><strong>Save</strong></button>
+                <button class="modify-btn del"><strong>Delete</strong></button>
             </div>
-            <div class="break2"></div>
-        {{/each}}
-    </div>
-    <div class="break2"></div>
-    <div class="break2"></div>
-    <div class="buttons">
-        <button class="btn" id="add"><strong>Add New ID</strong></button>
+        </div>
+        <div class="break2"></div>
     </div>
 </div>

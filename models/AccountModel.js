@@ -35,13 +35,13 @@ var AccountSchema = new mongoose.Schema({
         required: true
     }],
 
-    seniorID: [{
+    seniorID: {
         type: String,
-    }],
+    },
 
-    pwdID: [{
+    pwdID: {
         type: String,
-    }]
+    }
 });
 
 module.exports = mongoose.model('Account', AccountSchema);

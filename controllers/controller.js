@@ -467,26 +467,6 @@ const controller = {
         });})
     },
 
-    getAddID: function (req, res) {
-        let p = new Promise((resolve, reject) =>{
-            return getBagContents(req.session.user, resolve, reject);
-        })
-
-        p.then((bag) => {
-        db.findOne(Account, {userID: req.session.user}, {}, function(user) {
-            if (user != null)
-            {
-                const data = {
-                    style: ["navbar", "accountdetails", "profile"],
-                    script: ["addid"],
-                    partialName: ["addid"],
-                    bag: bag
-                }
-                res.render("account", data);
-            }
-        });})
-    },
-
     getAddToBag: function (req, res) {
         let p = new Promise((resolve, reject) =>{
             return getBagContents(req.session.user, resolve, reject);
@@ -1023,18 +1003,9 @@ const controller = {
         var pw = req.body.psw;
         var number = req.body.contactno;
         var address = req.body.address;
-        var senior, pwd;
+        var senior = req.body.scid;
+        var pwd = req.body.pwdid;
         const saltRounds = 10;
-
-        if (req.body.scid == "")
-            senior = [];
-        else
-            senior = req.body.scid;
-        
-        if (req.body.pwdid == "")
-            pwd = [];
-        else
-            pwd = req.body.scid;
 
         db.findMany(Account, {}, "", function(result){
             id = result.length+1;
@@ -1248,8 +1219,6 @@ const controller = {
         switch(req.body.frm) {
             case "address": db.updateOne(Account, {userID: req.session.user, completeAddress: val}, {$set:{"completeAddress.$": newVal}}, function (result) {}); break;
             case "contact": db.updateOne(Account, {userID: req.session.user, contactNumber: val}, {$set:{"contactNumber.$": newVal}}, function (result) {}); break;
-            case "scid": db.updateOne(Account, {userID: req.session.user, seniorID: val}, {$set:{"seniorID.$": newVal}}, function (result) {}); break;
-            case "pwdid": db.updateOne(Account, {userID: req.session.user, pwdID: val}, {$set:{"pwdID.$": newVal}}, function (result) {}); break;
         }
     },
 

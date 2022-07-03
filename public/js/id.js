@@ -1,21 +1,28 @@
 $(document).ready(function() {
     var add = document.getElementById("add");
-    var orig, save;
+    var save;
 
-    $('#ids').on('click', '.edit', function () {
+    $('#ids').on('click', '.editElement', function () {
         var p = this.parentNode.parentNode;
         var child = p.children[1];
-        orig = child.innerHTML;
+        var fieldText = child.innerHTML;
         save = this.nextElementSibling;
         var input = document.createElement("input");
 
         input.type = "text";
         input.classList.add(child.classList);
-        input.value = orig;
+        input.value = fieldText;
         p.replaceChild(input, child);
 
         save.classList.remove("hide");
         this.classList.add("hide");
+    });
+
+    $('#ids').on('keyup', '.field-value', function () {
+        if (this.value.length == 0)
+            save.disabled = true;
+        else
+            save.disabled = false;
     });
 
     $('#ids').on('click', '.save', function () {
@@ -23,9 +30,9 @@ $(document).ready(function() {
         var idType = id.previousElementSibling.innerHTML;
 
         if (idType == "Senior Citizen")
-            $.post('/updateelement', {frm: "scid", val: orig, newVal: id.value});
+            $.post('/updateDetails', {seniorID: id.value});
         else
-            $.post('/updateelement', {frm: "pwdid", val: orig, newVal: id.value});
+            $.post('/updateDetails', {pwdID: id.value});
 
         var p = this.parentNode.parentNode;
         var child = p.children[1];
@@ -42,20 +49,16 @@ $(document).ready(function() {
         edit.classList.remove("hide");
     });
 
-    add.onclick = function () {
-        window.location.assign('/addid');
-    }
-
     $('#ids').on('click', '.del', function () {
         var p = this.parentNode.parentNode;
         var child = p.children[1];
         var idType = p.children[0].innerHTML;
         
         if (idType == "Senior Citizen")
-            $.post('/updateDetails', {$pull:{seniorID: child.innerHTML}}, function (res) {});
+            $.post('/updateDetails', {seniorID: ""}, function (res) {});
         else
-            $.post('/updateDetails', {$pull:{pwdID: child.innerHTML}}, function (res) {});
+            $.post('/updateDetails', {pwdID: ""}, function (res) {});
 
-        window.location.assign('/id');
+        child.innerHTML = "";
     });
 });

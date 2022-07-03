@@ -55,7 +55,6 @@ app.post('/updateDetails', controller.isPrivate, controller.postUpdateDetails);
 app.get('/changepw', controller.isPrivate, controller.getChangePassword);
 app.get('/addaddress', controller.isPrivate, controller.getAddAddress);
 app.get('/addnumber', controller.isPrivate, controller.getAddNumber);
-app.get('/addid', controller.isPrivate, controller.getAddID);
 app.post('/updateelement', controller.isPrivate, controller.postUpdateArrayElement);
 app.post('/addQuantity', controller.isPrivate, controller.postAddQuantity);
 app.post('/subtractQuantity', controller.isPrivate, controller.postSubtractQuantity);

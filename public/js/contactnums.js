@@ -2,7 +2,7 @@ $(document).ready(function() {
     var add = document.getElementById("add");
     var orig, save;
 
-    $('#numbers').on('click', '.edit', function () {
+    $('#numbers').on('click', '.editElement', function () {
         var p = this.parentNode.parentNode;
         var child = p.children[1];
         orig = child.innerHTML;
