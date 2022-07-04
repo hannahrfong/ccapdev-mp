@@ -30,7 +30,7 @@
     align-items: flex-start;
     align-content: top;
     flex-wrap: wrap;
-    min-height: 70vh;
+    min-height: 85vh;
 }
 
 .order-history-list {
