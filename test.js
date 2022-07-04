@@ -876,7 +876,10 @@ function insertFeedback()
                                         }
                                     ]
 
-                                    Order.insertMany(orders);
+                                    Order.insertMany(orders)
+                                    .then(function(){
+                                        process.exit(0);
+                                    })
                                 })
                             })
                             
@@ -887,11 +890,11 @@ function insertFeedback()
                 })
             });
         })
-
-        
         
     })
+   
 }
+
 
 
 /*
