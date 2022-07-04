@@ -28,8 +28,9 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    align-content: center;
+    align-content: top;
     flex-wrap: wrap;
+    min-height: 70vh;
 }
 
 .order-history-list {
