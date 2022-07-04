@@ -74,14 +74,6 @@ var OrderSchema = new mongoose.Schema({
         type: String
     },
 
-    seniorID: {
-        type: String
-    },
-
-    pwdID: {
-        type: String
-    },
-
     paymentMethod: {
         type: String,
         required: true

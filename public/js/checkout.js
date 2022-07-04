@@ -1,12 +1,30 @@
 $(document).ready(function(){
 
+
     $("#bag-icon").off();
 
-    var seniorInputText = $("#seniorInput").val();
-    seniorInputText = $.trim(seniorInputText);
-
-    var pwdInputText = $("#pwdInput").val();
-    pwdInputText = $.trim(pwdInputText);
+    $.get('/getCurrentAccount', {}, function (accountRes)    {
+        console.log("seniorID elngth: ");
+        console.log(accountRes.seniorID.length);
+        console.log("pwd id length ");
+        console.log(accountRes.pwdID.length);
+        if (accountRes.seniorID.length == 0)
+        {
+            $("#seniorDiscount").prop('disabled', true);
+        }
+        else
+        {
+            $("#seniorDiscount").prop('disabled', false);
+        }
+        if (accountRes.pwdID.length == 0)
+        {
+            $("#pwdDiscount").prop('disabled', true);
+        }
+        else
+        {
+            $("#pwdDiscount").prop('disabled', false);
+        }
+    });
 
     var finalTotal = $("#finalTotal").text();
     finalTotal = parseFloat(finalTotal);
@@ -15,7 +33,7 @@ $(document).ready(function(){
     var discount = finalTotal * 0.2;
     discount = discount.toFixed(2);
 
-    if(seniorInputText == "" && pwdInputText == "")
+    if(!($('#seniorDiscount').is(':checked')) && !($('#pwdDiscount').is(':checked')))
     {
         if($("#discountText").length > 0 && $("#discountValue").length > 0) {
 
@@ -139,13 +157,7 @@ $(document).ready(function(){
         }
     });
 
-    $(".discountID").keyup(function()  {
-
-        var seniorInputText = $("#seniorInput").val();
-        seniorInputText = $.trim(seniorInputText);
-
-        var pwdInputText = $("#pwdInput").val();
-        pwdInputText = $.trim(pwdInputText);
+    $(".discount").change(function()  {
 
         var finalTotal = $("#finalTotal").text();
         finalTotal = finalTotal.substring(1);
@@ -158,7 +170,7 @@ $(document).ready(function(){
 
         var changeForVal = $("#codInput").val();
 
-        if(seniorInputText == "" && pwdInputText == "")
+        if(!($('#seniorDiscount').is(':checked')) && !($('#pwdDiscount').is(':checked')))
         {
             if($("#discountText").length > 0 && $("#discountValue").length > 0) {
 
@@ -223,6 +235,4 @@ $(document).ready(function(){
         }
     });
 
-    
-    
 });

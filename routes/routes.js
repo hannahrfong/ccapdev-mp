@@ -41,6 +41,7 @@ app.post('/addOrderItem', controller.isPrivate, controller.postAddOrderItem);
 app.get('/getProduct', controller.isPrivate, controller.getProduct);
 app.get('/getBag', controller.isPrivate, controller.getBag);
 app.get('/getAccount', controller.isPrivate, controller.getAccount);
+app.get('/getCurrentAccount', controller.isPrivate, controller.getCurrentAccount);
 app.get('/getAllOrderItems', controller.isPrivate, controller.getAllOrderItems);
 app.get('/getOrderItem', controller.isPrivate, controller.getOrderItem);
 app.post('/updateBagItems', controller.isPrivate, controller.postUpdateBagItems);

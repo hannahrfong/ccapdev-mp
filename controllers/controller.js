@@ -652,7 +652,6 @@ const controller = {
         var datePlus30 = new Date();
         datePlus20.setMinutes(datePlus20.getMinutes() + 20);
         datePlus30.setMinutes(datePlus30.getMinutes() + 30);
-
         
 
         db.findMany(Order, {}, "", function(result){
@@ -667,7 +666,7 @@ const controller = {
                     var deliveryFee = bagRes.deliveryFee;
                     var discount = undefined;
                    
-                    if (req.body.seniorID.trim() != "" || req.body.pwdID.trim() != "")
+                    if (req.body.discount == "on")
                     {
                         discount = orderTotalCost * 0.2;
                         orderTotalCost = orderTotalCost * 0.8;
@@ -697,8 +696,6 @@ const controller = {
                                             contactNumber:  req.body.contactNumber,
                                             completeAddress: req.body.completeAddress,
                                             notes:  req.body.notes,
-                                            seniorID:   req.body.seniorID,
-                                            pwdID:  req.body.pwdID,
                                             paymentMethod: 'Credit Card',
                                             changeFor:  req.body.changeFor,
                                             cardNo: hashedCardNo,   
@@ -755,8 +752,6 @@ const controller = {
                             contactNumber:  req.body.contactNumber,
                             completeAddress: req.body.completeAddress,
                             notes:  req.body.notes,
-                            seniorID:   req.body.seniorID,
-                            pwdID:  req.body.pwdID,
                             paymentMethod: 'Cash on Delivery',
                             changeFor:  req.body.changeFor,
                             cardNo: undefined,    
@@ -777,40 +772,8 @@ const controller = {
                 });
             });
         });
-        
-        
-        
     },
 
-                        /*
-                        var datetime = "Last Sync: " + currentDate.getDate() + "/"
-                                        + (currentDate.getMonth()+1)  + "/" 
-                                        + currentDate.getFullYear() + " @ "  
-                                        + currentDate.getHours() + ":"  
-                                        + currentDate.getMinutes() + ":" 
-                                        + currentDate.getSeconds();
-                        
-                        var time20 = "Last Sync: "   
-                                            + plus20.getHours() + ":"  
-                                            + plus20.getMinutes() + ":" 
-                                            + plus20.getSeconds();
-
-                        var time30 = "Last Sync: "   
-                                        + plus30.getHours() + ":"  
-                                        + plus30.getMinutes() + ":" 
-                                        + plus30.getSeconds();
-                        
-
-                        console.log('atual date');
-                        console.log(currentDate);
-                        console.log(plus20);
-                        console.log(plus30);
-
-                        console.log('timestamp');
-                        console.log(datetime);
-                        console.log(time20);
-                        console.log(time30)
-                        */
                        
     getConfirmation: function (req, res) {
         var orderId = req.params.orderId;
@@ -989,13 +952,23 @@ const controller = {
     },
 
     getAccount: function(req, res) {
-        var userId = req.query.userId;
+        var userID = req.query.userId;
         var projection = 'firstName lastName email password contactNumber completeAddress seniorID pwdID'
 
-        db.findOne(Account, {userId: userId}, projection, function(result)  {
+        db.findOne(Account, {userID: userID}, projection, function(result)  {
             res.send(result);
         });
     },
+
+    getCurrentAccount: function(req, res) {
+        var userID = req.session.user;
+        var projection = 'firstName lastName email password contactNumber completeAddress seniorID pwdID'
+
+        db.findOne(Account, {userID: userID}, projection, function(result)  {
+            res.send(result);
+        });
+    },
+    
 
     getAllOrderItems: function(req, res){
         

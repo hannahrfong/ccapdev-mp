@@ -77,15 +77,19 @@
                         <h5 class="card-title fw-bold mb-3">Discounts</h5>
                         <div class="row g-2 mt-3">
                             <div class="col-md me-4">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control discountID" id="seniorInput" placeholder="SCIDEx" name="seniorID" value="{{this.accountDetails.seniorID}}" >
-                                    <label style="color: #6c757d;" for="seniorInput">Senior Citizen ID</label>
+                                <div class="form-check">
+                                    <input class="form-check-input discount" type="radio" name="discount" id="seniorDiscount">
+                                    <label class="form-check-label" for="seniorDiscount">
+                                        Apply Senior Discount
+                                    </label>
                                 </div>
                             </div>
                             <div class="col-md">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control discountID" id="pwdInput" placeholder="PWDIDEx" name="pwdID" value="{{this.accountDetails.pwdID}}" >
-                                    <label style="color: #6c757d;" for="pwdInput">PWD ID</label>
+                                <div class="form-check">
+                                    <input class="form-check-input discount" type="radio" name="discount" id="pwdDiscount">
+                                    <label class="form-check-label" for="pwdDiscount">
+                                        Apply PWD Discount
+                                    </label>
                                 </div>
                             </div>
                         </div>
