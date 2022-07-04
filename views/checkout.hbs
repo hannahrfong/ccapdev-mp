@@ -27,8 +27,12 @@
                         <div class="row g-2">
                             <div class="col-md mt-5">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="floatingInputGrid3" placeholder="MobileNoEx" name="contactNumber" value="{{this.accountDetails.contactNumber}}" required>
-                                    <label style="color: #6c757d;" for="floatingInputGrid3">Mobile Number</label>
+                                    <select class="form-select"  id="contactNumber" name="contactNumber" required>
+                                        {{#each this.accountDetails.contactNumber as |contactOption|}}
+                                            <option value="{{contactOption}}">{{contactOption}}</option>
+                                        {{/each}}
+                                    </select>
+                                    <label for="contactNumber">Contact Number</label>
                                 </div>
                             </div>
                             
@@ -45,8 +49,12 @@
                         <div class="row g-2">
                             <div class="col-md">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="floatingInputGrid5" placeholder="AddressEx" name="completeAddress" value="{{this.accountDetails.completeAddress}}" required>
-                                    <label style="color: #6c757d;" for="floatingInputGrid5">Complete Address</label>
+                                    <select class="form-select"  id="completeAddress" name="completeAddress" required>
+                                        {{#each this.accountDetails.completeAddress as |addressOption|}}
+                                            <option value="{{addressOption}}">{{addressOption}}</option>
+                                        {{/each}}
+                                    </select>
+                                    <label for="completeAddress">Complete Address</label>
                                 </div>
                             </div>
                         </div> 
