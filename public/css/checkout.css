@@ -55,3 +55,8 @@
   opacity: 0.3;
  
 }
+
+#searchbar-input{
+  font-family: arial;
+  font-size: 0.82rem;
+}
