@@ -61,5 +61,4 @@ app.post('/addQuantity', controller.isPrivate, controller.postAddQuantity);
 app.post('/subtractQuantity', controller.isPrivate, controller.postSubtractQuantity);
 app.post('/deleteOrderItem', controller.isPrivate, controller.postDeleteOrderItem);
 app.get('/getItemQuantity', controller.isPrivate, controller.getItemQuantity);
-app.get('/destroyOnClose', controller.isPrivate, controller.destroyOnClose);
 module.exports = app;
