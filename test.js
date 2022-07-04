@@ -508,6 +508,7 @@ function insertProducts(garlicBread, parmesanGarlicBread, cornCarrots, bacon, ch
     });
 }
 
+/*
 
 // just for testing
 function deleteBags(){
@@ -534,6 +535,7 @@ function createBag(){
 deleteBags();
 createBag();
 
+*/
         
 /*
 db.deleteMany(AddOn, {}, function(){});
