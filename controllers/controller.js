@@ -834,7 +834,7 @@ const controller = {
 
             const data = {
                 style: ["bootstrap", "navbar", "confirmation"],
-                script: ["bootstrap"],
+                script: ["bootstrap", "confirmation"],
                 orderDetails: orderDetails,
                 order: {}
             };
