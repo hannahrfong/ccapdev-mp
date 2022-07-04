@@ -669,7 +669,7 @@ const controller = {
 
         db.findMany(Order, {}, "", function(result){
             
-            newOrderId = result.length + 1;
+            newOrderId = result.length;
 
             db.findOne(Account, {userID: userID}, "", function (accountRes) {
                 

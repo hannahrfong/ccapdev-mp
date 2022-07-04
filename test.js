@@ -6,6 +6,8 @@ const Bag = require("./models/BagModel.js");
 const Account = require("./models/AccountModel.js");
 const Feedback = require("./models/FeedbackModel.js");
 const bcrypt = require("bcrypt");
+const OrderItem = require("./models/OrderItemModel.js");
+const Order = require("./models/OrderModel.js");
 
 db.connect();
 AddOn.deleteMany()
@@ -625,18 +627,269 @@ function insertFeedback()
     ]
         Feedback.insertMany(feedback)
 
+        .then(function (){
+            db.findMany(Product, {}, "", function(productRes) {
+            
+                var orderItems = [
+                    {
+                        orderItemId: 0,
+                        product: productRes[0]._id,
+                        addOns: [],
+                        quantity: 3,
+                        totalPrice: 1185
+                    },
+        
+                    {
+                        orderItemId: 1,
+                        product:   productRes[1]._id,
+                        addOns: [],
+                        quantity: 1,
+                        totalPrice: 795
+                    },
+        
+                    {
+                        orderItemId: 2,
+                        product:    productRes[2]._id,
+                        addOns: [],
+                        quantity: 2,
+                        totalPrice: 2900
+                    },
+        
+                    {
+                        orderItemId: 3,
+                        product:    productRes[3]._id,
+                        addOns: [],
+                        quantity: 4,
+                        totalPrice: 2580
+                    },
+        
+                    {
+                        orderItemId: 4,
+                        product:    productRes[4]._id,
+                        addOns: [],
+                        quantity: 6,
+                        totalPrice: 7170
+                    },
+        
+                    {
+                        orderItemId: 5,
+                        product:    productRes[5]._id,
+                        addOns: [],
+                        quantity: 1,
+                        totalPrice: 2295
+                    },
+        
+                    {
+                        orderItemId: 6,
+                        product:    productRes[6]._id,
+                        addOns: [],
+                        quantity: 1,
+                        totalPrice: 1295
+                    },
+        
+                    {
+                        orderItemId: 7,
+                        product:    productRes[7]._id,
+                        addOns: [],
+                        quantity: 1,
+                        totalPrice: 2495
+                    },
+        
+                    {
+                        orderItemId: 8,
+                        product:    productRes[8]._id,
+                        addOns: [],
+                        quantity: 1,
+                        totalPrice: 450
+                    },
+        
+                    {
+                        orderItemId: 9,
+                        product:    productRes[9]._id,
+                        addOns: [],
+                        quantity: 1,
+                        totalPrice: 880
+                    },
+                ];
+        
+                OrderItem.insertMany(orderItems)
 
-        .then(function(){
-            var bag = [
-                {
-                    userId: 
-                    orderItems: 
-                    subtotal: 
-                    deliveryFee: 
-                    total: 
-                }
-            ]
+                .then(function(){
+                    db.findMany(OrderItem, {}, "", function(itemRes)   {
+                        
+                        var bags = [
+                            {
+                                userId: 1, 
+                                orderItems: [itemRes[0]._id, itemRes[1]._id],
+                                subtotal: 1980,
+                                deliveryFee: 50,
+                                total: 2030
+                            },
+        
+                            {
+                                userId: 2,
+                                orderItems:  [],
+                                subtotal: 0,
+                                deliveryFee: 50,
+                                total: 0
+                            },
+        
+                            {
+                                userId: 3,
+                                orderItems:  [],
+                                subtotal: 0,
+                                deliveryFee: 50,
+                                total: 0
+                            },
+        
+                            {
+                                userId: 4,
+                                orderItems: [itemRes[2]._id],
+                                subtotal: 2900,
+                                deliveryFee: 50,
+                                total: 2950
+                            },
+        
+                            {
+                                userId: 5,
+                                orderItems: [itemRes[3]._id],
+                                subtotal: 2580,
+                                deliveryFee: 50,
+                                total: 2630
+                            }
+                        ]
+        
+                        Bag.insertMany(bags)
+
+                        .then(function ()   {
+                            db.findMany(Account, {}, "", function(accounts) {
+                                db.findMany(OrderItem, {}, "", function (orderItems)    {
+                                    var orders = [
+                                        {
+                                            orderId:  0,
+                                            account:  accounts[0]._id,   //
+                                            orderItems: [orderItems[4]._id, orderItems[5]._id],   //
+                                            total:  9515,
+                                            subtotal:  9465 ,
+                                            deliveryFee:   50,
+                                            discount:  undefined,
+                                            orderDate:  new Date(),
+                                            ETAMin: new Date(),
+                                            ETAMax: new Date(),
+                                            firstName:  accounts[0].firstName,
+                                            lastName:   accounts[0].lastName,
+                                            contactNumber:  accounts[0].contactNumber[0],
+                                            completeAddress:    accounts[0].completeAddress[0],
+                                            notes:  "",
+                                            paymentMethod:  "Cash on Delivery",
+                                            changeFor:  10000,
+                                            cardNo: undefined,
+                                            CVV:  undefined,
+                                        },
+                    
+                                        {
+                                            orderId:  1,
+                                            account:  accounts[1]._id,   //
+                                            orderItems: [orderItems[6]._id],   //
+                                            total:  1345,
+                                            subtotal:  1295 ,
+                                            deliveryFee:   50,
+                                            discount:  undefined,
+                                            orderDate:  new Date(),
+                                            ETAMin: new Date(),
+                                            ETAMax: new Date(),
+                                            firstName:  accounts[1].firstName,
+                                            lastName:   accounts[1].lastName,
+                                            contactNumber:  accounts[1].contactNumber[0],
+                                            completeAddress:    accounts[1].completeAddress[0],
+                                            notes:  "",
+                                            paymentMethod:  "Cash on Delivery",
+                                            changeFor:  2000,
+                                            cardNo: undefined,
+                                            CVV:  undefined,
+                                        },
+                    
+                                        {
+                                            orderId:  2,
+                                            account:  accounts[2]._id,   //
+                                            orderItems: [orderItems[7]._id],   //
+                                            total:  2545,
+                                            subtotal:  2495,
+                                            deliveryFee:   50,
+                                            discount:  undefined,
+                                            orderDate:  new Date(),
+                                            ETAMin: new Date(),
+                                            ETAMax: new Date(),
+                                            firstName:  accounts[2].firstName,
+                                            lastName:   accounts[2].lastName,
+                                            contactNumber:  accounts[2].contactNumber[0],
+                                            completeAddress:    accounts[2].completeAddress[0],
+                                            notes:  "",
+                                            paymentMethod:  "Cash on Delivery",
+                                            changeFor:  3000,
+                                            cardNo: undefined,
+                                            CVV:  undefined,
+                                        },
+                    
+                                        {
+                                            orderId:  3,
+                                            account:  accounts[3]._id,   //
+                                            orderItems: [orderItems[8]._id],   //
+                                            total:  500,
+                                            subtotal:  450,
+                                            deliveryFee:   50,
+                                            discount:  undefined,
+                                            orderDate:  new Date(),
+                                            ETAMin: new Date(),
+                                            ETAMax: new Date(),
+                                            firstName:  accounts[3].firstName,
+                                            lastName:   accounts[3].lastName,
+                                            contactNumber:  accounts[3].contactNumber[0],
+                                            completeAddress:    accounts[3].completeAddress[0],
+                                            notes:  "",
+                                            paymentMethod:  "Cash on Delivery",
+                                            changeFor:  500,
+                                            cardNo: undefined,
+                                            CVV:  undefined,
+                                        },
+                    
+                                        {
+                                            orderId:  4,
+                                            account:  accounts[4]._id,   //
+                                            orderItems: [orderItems[9]._id],   //
+                                            total:  930,
+                                            subtotal:  880 ,
+                                            deliveryFee:   50,
+                                            discount:  undefined,
+                                            orderDate:  new Date(),
+                                            ETAMin: new Date(),
+                                            ETAMax: new Date(),
+                                            firstName:  accounts[4].firstName,
+                                            lastName:   accounts[4].lastName,
+                                            contactNumber:  accounts[4].contactNumber[0],
+                                            completeAddress:    accounts[4].completeAddress[0],
+                                            notes:  "",
+                                            paymentMethod:  "Cash on Delivery",
+                                            changeFor:  1000,
+                                            cardNo: undefined,
+                                            CVV:  undefined,
+                                        }
+                                    ]
+
+                                    Order.insertMany(orders);
+                                })
+                            })
+                            
+                        });
+        
+                    });
+                    
+                })
+            });
         })
+
+        
+        
     })
 }
 

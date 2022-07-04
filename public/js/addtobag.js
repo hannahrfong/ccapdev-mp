@@ -243,7 +243,7 @@ $(document).ready(function(){
 
                   $.get('/getAllOrderItems', function(allOrderItems)  {
 
-                    var orderItemId = allOrderItems.length + 1;
+                    var orderItemId = allOrderItems.length;
                     var addOns = addOnsList;
                     var quantity = itemQuantity;
                     var totalPrice = tPrice;
@@ -294,7 +294,7 @@ $(document).ready(function(){
 
           $.get('/getAllOrderItems', function(allOrderItems)  {
 
-            var orderItemId = allOrderItems.length + 1;
+            var orderItemId = allOrderItems.length;
             var addOns = addOnsList;
             var quantity = itemQuantity;
             var totalPrice = tPrice;
