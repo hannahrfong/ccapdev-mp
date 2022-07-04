@@ -22,22 +22,8 @@ $(document).ready(function(){
             if (q == "")
                 window.location.href = "http://localhost:3000/menu";  
 
-            else if(window.location.href.indexOf("search") == -1)
+            else
                 window.location.href = "http://localhost:3000/search?q=" + q;
-
-            else 
-            {
-                getSearchResults(q);
-            }
         }, 1500);
     })
-
-    function getSearchResults(q){
-        $.get("/searchresults", {q: q}, function(html){
-            $("#results-container").html(html);
-            history.pushState(null, "", "?q=" + q);
-        }); 
-    }
-
-
 });

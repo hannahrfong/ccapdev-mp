@@ -47,7 +47,6 @@ app.get('/getOrderItem', controller.isPrivate, controller.getOrderItem);
 app.post('/updateBagItems', controller.isPrivate, controller.postUpdateBagItems);
 app.post('/checkout', controller.isPrivate, controller.postCheckout);
 app.get('/search', controller.isPrivate, controller.getSearch);
-app.get('/searchresults', controller.isPrivate, controller.getSearchResults);
 app.post('/addfeedback', controller.isPrivate, controller.postAddFeedback);
 app.post('/addaccount', controller.postAddAccount);
 app.post('/checkaccount', controller.postCheckAccount);
