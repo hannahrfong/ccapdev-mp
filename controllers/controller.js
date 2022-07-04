@@ -293,22 +293,35 @@ const controller = {
     },
 
     getOrderHistoryInd: function (req, res) {
-        db.findOne(Account, {userID: req.session.user}, {}, function(user) {
-            if (user != null)
-            {
-                var userObjectID = user._id;
+        let p = new Promise((resolve, reject) =>{
+            return getBagContents(req.session.user, resolve, reject);
+        })
 
-                Order.find({account: userObjectID}).lean().then((orderList) => {
-                    var startInd = orderList.length;
-
-                    res.redirect('/orderhistory/' + startInd);
-                });
-            }
+        p.then((bag) => {
+            db.findOne(Account, {userID: req.session.user}, {}, function(user) {
+                if (user != null)
+                {
+                    db.findMany(Order, {account: user._id}, {}, function (result) {
+                        if (result.length > 0)
+                            res.redirect('/orderhistory/0');
+                        else
+                        {
+                            const data = {
+                                style: ["navbar", "orderhistory"],
+                                partialName: ["withoutorders"],
+                                orders: [],
+                                bag: bag
+                            }
+                            res.render("orderhistory", data);
+                        }
+                    });
+                }
+            });
         });
     },
 
     getOrderHistory: function (req, res) {
-        var orderNum = req.params.ordernum - 1;
+        var orderNum = req.params.ordernum;
         
         let p = new Promise((resolve, reject) =>{
             return getBagContents(req.session.user, resolve, reject);
@@ -318,11 +331,10 @@ const controller = {
             db.findOne(Account, {userID: req.session.user}, {}, function(user) {
                 if (user != null)
                 {
-                    var userObjectID = user._id;
-
-                    Order.find({account: userObjectID}).lean().then((orderList) => {
+                    Order.find({account: user._id}).lean().then((orderList) => {
                         var particulars = [];
-                        var curr = orderList[orderNum];
+                        var reversed = orderList.reverse();
+                        var curr = reversed[orderNum];
 
                         for (var i = 0; i < curr.orderItems.length; i++)
                         {
@@ -357,7 +369,8 @@ const controller = {
                         
                         const data = {
                             style: ["navbar", "orderhistory"],
-                            orders: orderList.reverse(),
+                            partialName: ["withorders"],
+                            orders: reversed,
                             currOrder: curr,
                             date: curr.orderDate.toLocaleString('en-us', {month: "long", day: "numeric", year: "numeric", hour: "2-digit", minute: "2-digit"}),
                             particulars: particulars,
