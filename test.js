@@ -3,6 +3,9 @@ const Product = require("./models/ProductModel.js");
 const AddOn = require("./models/AddOnModel.js");
 const BestSeller = require("./models/BestSellerModel.js");
 const Bag = require("./models/BagModel.js");
+const Account = require("./models/AccountModel.js");
+const Feedback = require("./models/FeedbackModel.js");
+const bcrypt = require("bcrypt");
 
 db.connect();
 AddOn.deleteMany()
@@ -505,6 +508,82 @@ function insertProducts(garlicBread, parmesanGarlicBread, cornCarrots, bacon, ch
     .then(function(result){
         salmonMed = result._id;
         return BestSeller.insertMany([{productId: nachoSmall}, {productId: lasagnaMed}, {productId: ribsSingle}, {productId: salmonMed}]);
+    })
+    .then(function(result){
+        var first = ["Aless", "Hannah", "Ibz", "John", "Jane"];
+        var last = ["Gomez", "Fong", "Kahil", "Smith", "Smith"];
+        var email = ["aless@gmail.com", "hannah@gmail.com", "ibz@gmail.com", "johnsmith@gmail.com", "jane.smith@gmail.com"];
+        var pw = ["Aless12!", "Hannah1@3", "Ibz@45KH", "JOHN123@", "JaneS!!3"];
+        var number = ["09260716958", "09123456789", "09987654321", "09456276833", "09125367283"];
+        var address = ["159-C", "Paco, Manila", "Angeles, Pampanga", "Pasig", "Pasay"];
+        var senior = ["", "", "", "ABC123", "1234-ABC"];
+        var pwd = ["", "", "PWD001", "", "8910F"];
+        const saltRounds = 10;
+        var accounts = [];
+
+        for (var i = 0; i < 5; i++)
+        {
+            var accountObj = {
+                userID: i + 1,
+                firstName: first[i],
+                lastName: last[i],
+                email: email[i],
+                password: pw[i],
+                contactNumber: number[i],
+                completeAddress: address[i],
+                seniorID: senior[i],
+                pwdID: pwd[i]
+            }
+            accounts.push(accountObj);
+        }
+
+       
+        bcrypt.hash(accounts[0].password, saltRounds, (err, hashed) => {
+            if (!err)
+            {
+                accounts[0].password = hashed;
+                Account.create(accounts[0], function(){
+                    bcrypt.hash(accounts[1].password, saltRounds, (err, hashed) => {
+                        if (!err)
+                        {
+                            accounts[1].password = hashed;
+                            Account.create(accounts[1], function(){
+                                bcrypt.hash(accounts[2].password, saltRounds, (err, hashed) => {
+                                    if (!err)
+                                    {
+                                        accounts[2].password = hashed;
+                                        Account.create(accounts[2], function(){
+                                            bcrypt.hash(accounts[3].password, saltRounds, (err, hashed) => {
+                                                if (!err)
+                                                {
+                                                    accounts[3].password = hashed;
+                                                    Account.create(accounts[3], function(){
+                                                        bcrypt.hash(accounts[4].password, saltRounds, (err, hashed) => {
+                                                            if (!err)
+                                                            {
+                                                                accounts[4].password = hashed;
+                                                                Account.create(accounts[4]);
+                                                                return (true);
+                                                            }
+                                                        });
+                                                    });
+                                                }
+                                            });
+                                        });
+                                    }
+                                });
+                            });
+                        }
+                    });
+                });
+            }
+        });
+    })
+    .then(function(flag){
+        db.findMany(Account, {}, "", function(result){
+
+            console.log(result);
+        })
     });
 }
 
