@@ -6,56 +6,11 @@
         <ul class="list-proper">
             {{#each orders}}
             <li>
-                <a class="order-history-nav" href="/orderhistory/{{this.orderId}}">Order # {{this.orderId}}</a>
+                <a class="order-history-nav" href="/orderhistory/{{@index}}">Order # {{this.orderId}}</a>
             </li>
             {{/each}}
         </ul>
     </div>
 
-    <div class="details-content">
-        <p id="order-header">Order # {{currOrder.orderId}}</p>
-        <p class="order-text delivery-details" id="delivery-date">{{date}}</p>
-        <p class="order-text delivery-details" id="delivery-address">{{currOrder.completeAddress}}</p>
-        <p class="order-text delivery-details" id="mop"><strong>Mode of Payment: </strong>{{currOrder.paymentMethod}}</p>
-        <div class="break2"></div>
-        <hr class="line-break">
-        <div class="break2"></div>
-        <div id="orders">
-            {{#particulars}}
-                <div class="order-summary">
-                    <div class="order-proper">
-                        <p class="order-text" id="quantity-and-name">x{{quantity}} {{name}}</p>
-                        {{#this.addOnsList}}
-                            <div class="break3"></div>
-                            <p class="order-text inclusions">{{name}}</p>
-                        {{/this.addOnsList}}
-                    </div>
-                    <p class="order-text" id="price">₱ {{price}}</p>
-                </div>
-                <div class="break2"></div>
-            {{/particulars}}
-        </div>
-        <div class="break2"></div>
-        <hr class="line-break">
-        <div class="break2"></div>
-        <div class="order-summary">
-            <p class="order-text">Subtotal</p>
-            <p class="order-text" id="subtotal">₱ {{currOrder.subtotal}}</p>
-        </div>
-        <div class="order-summary">
-            <p class="order-text">Delivery Fee</p>
-            <p class="order-text" id="delivery-fee">₱ {{currOrder.deliveryFee}}</p>
-        </div>
-        {{#if discount}}
-            <div class="order-summary">
-                <p class="order-text">Discount</p>
-                <p class="order-text" id="discount">- ₱ {{currOrder.discount}}</p>
-            </div>
-        {{/if}}
-        <div class="break3"></div>
-        <div class="order-summary">
-            <p class="total-price">Total</p>
-            <p class="total-price" id="total">₱ {{currOrder.total}}</p>
-        </div>
-    </div>
+    {{> (lookup . 'partialName')}}
 </div>

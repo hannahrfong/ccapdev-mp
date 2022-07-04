@@ -98,6 +98,18 @@
     white-space: nowrap;
 }
 
+#no-order {
+    min-width: 50%;
+    height: 48px;
+    font-family: poppinsbold;
+    font-size: 30px;
+    margin-top: 15px;
+    line-height: 40px;
+    color: black;
+    white-space: nowrap;
+    text-align: center;
+}
+
 .order-summary {
     display: flex;
     justify-content: space-between;
