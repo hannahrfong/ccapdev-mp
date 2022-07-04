@@ -585,48 +585,60 @@ function insertProducts(garlicBread, parmesanGarlicBread, cornCarrots, bacon, ch
 
 function insertFeedback()
 {
-    db.findMany(Account, {}, "", function(result){
+    db.findMany(Account, {}, "", function(accounts){
+
         var feedback = [
             {
                 id: 0,
-                userid: result[0]._id,
+                userid: accounts[0]._id,
                 subject: "Food Spilled",
                 message: "Hello! The cheese on top of the lasagna spilled upon receiving the order. Maybe you can improve your packaging to avoid this in the future. Nonetheless, my family loved the food. Thank you!"
             },
 
             {
                 id: 1,
-                userid: result[1]._id,
+                userid: accounts[1]._id,
                 subject: "Five-stars!",
                 message: "Hi! Just wanted to tell you that my son's birthday celebration became extra special because of your food. All of our guests loved it and are asking for your contact details. Thank you and keep up the good work!"
             },
 
             {
                 id: 2,
-                userid: result[2]._id,
+                userid: accounts[2]._id,
                 subject: "Collaboration Proposal",
                 message: "To whom it may concern, I am a food photographer and I believe that, if granted the opportunity to collaborate, I will be able to capture the great flavors of your food in photos which you can use to attract more customers. Let me know if you're interested! 🙂"
             },
 
             {
                 id: 3,
-                userid: result[3]._id,
+                userid: accounts[3]._id,
                 subject: "Late Delivery",
                 message: "Hi, I ordered from you today for our family gathering but received the food 30 minutes late. My relatives were already very hungry so the late delivery really caused us inconveniene. Hope you can improve on this. Thanks."
             },
 
             {
                 id: 4,
-                userid: result[4]._id,
+                userid: accounts[4]._id,
                 subject: "I'm A Huge Fan",
                 message: "Hello The Hungry Sibs! I really love your food as seen in my frequent orders and my friends also loved your food. They're hoping you can open a store in Bohol for our hometown friends to try your food as well! ❤"
             }
     ]
-        Feedback.insertMany(feedback);
-    })
-    .then();
-}
+        Feedback.insertMany(feedback)
 
+
+        .then(function(){
+            var bag = [
+                {
+                    userId: 
+                    orderItems: 
+                    subtotal: 
+                    deliveryFee: 
+                    total: 
+                }
+            ]
+        })
+    })
+}
 
 
 /*
