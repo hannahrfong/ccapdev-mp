@@ -101,6 +101,11 @@
             
         }
 
+        #searchbar-input{
+            font-family: arial;
+            font-size: 0.82rem;
+          }
+
         @media all and (max-width: 924px){
             .navbar{
                 flex-direction: column;

@@ -3,7 +3,8 @@
     position: relative;
     padding-top: 20px;
     display: flex;
-    flex-direction: column;               
+    flex-direction: column;  
+    min-height: 85vh;             
  }
  
  .product-container .order-button{

@@ -878,7 +878,7 @@ const controller = {
             {
                 var productObj = {
                     name: results[i].name,
-                    price: results[i].price,
+                    price: results[i].price.toFixed(2),
                     image: results[i].image,
                     id: results[i].id
                 };
@@ -887,38 +887,6 @@ const controller = {
             
             res.render("search", data);})
         });
-    },
-
-    getSearchResults: function(req, res){
-        let p = new Promise((resolve, reject) =>{
-            return getBagContents(req.session.user, resolve, reject);
-        })
-
-        p.then((bag) => {
-        db.findMany(Product, {name: {$regex: req.query.q, $options: 'i'}}, "", function (results) {
-            const data = {
-                q: req.query.q, 
-                nResults: results.length,
-                layout: false,
-                results: [],
-                bag: bag
-            }
-
-            for (var i = 0; i < results.length; i++)
-            {
-                var productObj = {
-                    name: results[i].name,
-                    price: results[i].price,
-                    image: results[i].image
-                };
-                data.results.push(productObj);
-            }
-            
-            res.render("partials\\result", data, function(err, html){
-                if (err) throw err;
-                res.send(html);
-            });
-        }); })       
     },
 
     postAddFeedback: function(req, res){
@@ -1194,17 +1162,6 @@ const controller = {
                 });
         });
     },
-
-    /*
-    db.updateOne(Bag, {orderItems: id}, {$pull: { orderItems: id}, subtotal: newSubtotal, total: newTotal}, function(flag){
-                    if (flag){
-                        db.deleteOne(OrderItem, {_id: id}, function(flag){
-                            if (flag)
-                                res.send(newValues);
-                        });
-                    }
-                });
-    */
 
     postUpdateDetails: function (req, res) {
         if (req.body.newpsw == undefined && req.body.email == undefined)
