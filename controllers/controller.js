@@ -1107,6 +1107,9 @@ const controller = {
                         req.session.user = user.userID;
                         req.session.name = user.firstName + " " + user.lastName;
 
+                        if (req.body.remember)
+                            req.session.cookie.maxAge = 1000*60*60*24*21;
+
                         console.log(req.session);
                         res.redirect('/');
                     }
@@ -1398,7 +1401,18 @@ const controller = {
             var itemQuantity = result.orderItems.length;
             res.send(itemQuantity.toString());
         })
-    }
+    },
+
+    destroyOnClose: function (req, res) {
+        if (req.session.cookie.maxAge == null)
+        {
+            req.session.destroy(() => {
+                res.clearCookie('connect.sid');
+                console.log("Session successfully destroyed.");
+                res.redirect('/signin');
+            });
+        }
+    }    
 }
 
 module.exports = controller;
