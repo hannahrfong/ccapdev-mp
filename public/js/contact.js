@@ -25,7 +25,7 @@ $(document).ready(function(){
                 $("#contact-error").text("Please fill up all fields.");
             }
 
-            else //both are filled up
+            else
             {
                 $.post("/addfeedback", {subject: subject, message: message}, function(flag){
                     if (flag){

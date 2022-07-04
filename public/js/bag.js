@@ -93,7 +93,6 @@ $(document).ready(function(){
             $(orderContainer).remove();  
             if (result.newTotal == 0)
                 disableProceed();        
-            console.log("RESULT PRODUCT ID: " + result.productId);
             window.location.href = "http://localhost:3000/addtobag/" + result.productId;
 
         })

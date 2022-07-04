@@ -196,7 +196,6 @@ const controller = {
 
         p.then((bag) => {
             data.bag = bag;
-            console.log(data.bag.orderItems);
             BestSeller.find().populate("productId").exec(function(err, results){
                 if (err) return handleError(err);
     
@@ -214,7 +213,7 @@ const controller = {
             });
             res.render("index", data);
         }).catch((message) => {
-            console.log("This is in catch" + message);
+            console.log("This is in catch: " + message);
         })
     
     },
@@ -393,7 +392,7 @@ const controller = {
         p.then((bag) => {
             const data = {
                 style: ["navbar", "about"],
-                libraries: ["express", "bcrypt", "connect-mongo", "express-session", "connect-flash"],
+                libraries: ["express", "express-handlebars", "hbs", "mongoose", "bcrypt", "connect-mongo", "express-session", "connect-flash"],
                 bag: bag
             }
             res.render("about", data);
@@ -648,7 +647,7 @@ const controller = {
                 data.bag = bag;
                 res.render("checkout", data);
             }).catch((message) => {
-                console.log("This is in catch" + message);
+                console.log("This is in catch: " + message);
             })
         });
 
@@ -715,20 +714,16 @@ const controller = {
                                             CVV: hashedCVV       
                                         };
 
-                                        
-                                        
                                         // insert new order
                                         db.insertOne(Order, orderObj, function(flag)    {
                                             
                                         });
                                         
-
                                         // empty bag contents
                                         db.updateOne(Bag, {userId: userID}, {orderItems: [], subtotal: 0, total: 0}, function()  {
                                            
                                         });
                                         
-
                                         var url = '/confirmation/' + newOrderId;
                                         res.redirect(url);
                                     }
@@ -791,8 +786,6 @@ const controller = {
     getConfirmation: function (req, res) {
         var orderId = req.params.orderId;
 
-        console.log('orderId: ' + orderId);
-
         var query = {orderId: orderId};
         var projection = 'total subtotal deliveryFee discount ETAMin ETAMax contactNumber completeAddress paymentMethod changeFor';
 
@@ -839,19 +832,15 @@ const controller = {
                 order: {}
             };
 
-            // get list of orderitem object(names, add ons, inclusions, etc), refer to getCheckout
             let p = new Promise((resolve, reject) =>{
                 return getOrderContents(orderId, resolve, reject);
             })
     
             p.then((order) => {
                 data.order = order;
-
-                console.log('data');
-                console.log(data);
                 res.render("confirmation", data);
             }).catch((message) => {
-                console.log("This is in catch" + message);
+                console.log("This is in catch: " + message);
             })
            
         });
@@ -982,9 +971,7 @@ const controller = {
                     var newSubtotal = subtotal + result2.totalPrice;
                     var newTotal = newSubtotal + deliveryFee;
 
-                    db.updateOne(Bag, {_id: _id}, {subtotal: newSubtotal, total: newTotal}, function(flag){
-                        console.log(flag);
-                    });
+                    db.updateOne(Bag, {_id: _id}, {subtotal: newSubtotal, total: newTotal}, function(flag){});
                 });
             });
         });
@@ -1131,14 +1118,10 @@ const controller = {
                             orderItemsList.forEach(myFunction);
 
                             function myFunction(item) {
-                                console.log('item: ' + item);
                                 db.updateMany(OrderItem, {_id:{$gt:item}}, {$inc: {orderItemId: -1}}, function(flag){
                                     if (flag)
                                     {
-                                        console.log('update');
-                                        db.deleteOne(OrderItem, {_id: item}, function() {
-                                            console.log('delete one');
-                                        });
+                                        db.deleteOne(OrderItem, {_id: item}, function() {});
                                     }
                                 });
                             }

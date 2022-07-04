@@ -767,8 +767,8 @@ function insertFeedback()
                                     var orders = [
                                         {
                                             orderId:  0,
-                                            account:  accounts[0]._id,   //
-                                            orderItems: [orderItems[4]._id, orderItems[5]._id],   //
+                                            account:  accounts[0]._id,
+                                            orderItems: [orderItems[4]._id, orderItems[5]._id],
                                             total:  9515,
                                             subtotal:  9465 ,
                                             deliveryFee:   50,
@@ -789,8 +789,8 @@ function insertFeedback()
                     
                                         {
                                             orderId:  1,
-                                            account:  accounts[1]._id,   //
-                                            orderItems: [orderItems[6]._id],   //
+                                            account:  accounts[1]._id,
+                                            orderItems: [orderItems[6]._id],
                                             total:  1345,
                                             subtotal:  1295 ,
                                             deliveryFee:   50,
@@ -811,8 +811,8 @@ function insertFeedback()
                     
                                         {
                                             orderId:  2,
-                                            account:  accounts[2]._id,   //
-                                            orderItems: [orderItems[7]._id],   //
+                                            account:  accounts[2]._id,
+                                            orderItems: [orderItems[7]._id],
                                             total:  2545,
                                             subtotal:  2495,
                                             deliveryFee:   50,
@@ -833,8 +833,8 @@ function insertFeedback()
                     
                                         {
                                             orderId:  3,
-                                            account:  accounts[3]._id,   //
-                                            orderItems: [orderItems[8]._id],   //
+                                            account:  accounts[3]._id,
+                                            orderItems: [orderItems[8]._id],
                                             total:  500,
                                             subtotal:  450,
                                             deliveryFee:   50,
@@ -855,8 +855,8 @@ function insertFeedback()
                     
                                         {
                                             orderId:  4,
-                                            account:  accounts[4]._id,   //
-                                            orderItems: [orderItems[9]._id],   //
+                                            account:  accounts[4]._id,
+                                            orderItems: [orderItems[9]._id],
                                             total:  930,
                                             subtotal:  880 ,
                                             deliveryFee:   50,
@@ -891,43 +891,5 @@ function insertFeedback()
             });
         })
         
-    })
-   
+    })  
 }
-
-
-
-/*
-
-// just for testing
-function deleteBags(){
-    db.deleteMany(Bag, {}, function()   {
-
-    });
-}
-
-function createBag(){
-    var userId = 0;
-    var orderId  = 0;   // has to not yet exist in orderModel
-    var orderItems = [];
-
-    var bag = {
-        userId: userId,
-        orderId: orderId,
-        orderItems: orderItems
-    }
-
-    db.insertOne(Bag, bag, function()   {
-    });
-}
-
-deleteBags();
-createBag();
-
-*/
-        
-/*
-db.deleteMany(AddOn, {}, function(){});
-db.deleteMany(Product, {}, function(){});
-*/ 
-//add best sellers 

@@ -100,6 +100,10 @@
     color: #FFC700;
 }
 
+.bag-container .detail-container .edit:hover{
+    cursor: pointer;
+}
+
 .bag-container .detail-container .delete{
     border: none;
     color: #FFC700;

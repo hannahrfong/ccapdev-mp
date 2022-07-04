@@ -18,7 +18,6 @@ $(document).ready(function(){
 
   $("#addtobag").text("Add to Bag - ₱" + itemPrice);
 
-  // price = 395;
   $("#addbtn").click(function(){
     count = parseInt($("#quantity").text());
     count++;
