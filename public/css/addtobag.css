@@ -48,3 +48,8 @@
 .break {
     height: 5.5rem;
 }
+
+#searchbar-input{
+  font-family: arial;
+  font-size: 0.82rem;
+}
